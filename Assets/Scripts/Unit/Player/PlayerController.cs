@@ -3,6 +3,11 @@ using System.Collections;
 
 public class PlayerController : IController
 {
+    Player player;
+    public PlayerController(Player player)
+    {
+        this.player = player;
+    }
 	public bool NeedAttack ()
 	{
 		return Input.GetButton("Attack");
@@ -10,7 +15,7 @@ public class PlayerController : IController
 
 	public bool NeedJump ()
 	{
-		return Input.GetButton("Jump");
+		return Input.GetButtonDown("Jump");
 	}
 
 	public bool NeedDash ()
@@ -30,6 +35,9 @@ public class PlayerController : IController
 
 	public void Update ()
 	{
-
+        if (Input.GetButtonDown("Jump"))
+            player.eventManager.InvokeHandlers("jumpButtonDown");
+        if (Input.GetButtonUp("Jump"))
+            player.eventManager.InvokeHandlers("jumpButtonUp");
 	}
 }
