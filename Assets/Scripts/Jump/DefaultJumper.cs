@@ -9,16 +9,6 @@ class DefaultJumper : Jumper
         this.force = force;
         this.maxHeight = maxHeight;
     }
-    class JumpTransistor : EventHandler
-    {
-        public bool Handle(Unit u)
-        {
-            if (!(u.state is AirborneState))
-                return true;
-            u.state.Transit(new WalkingState(u).Enter());
-            return true;
-        }
-    }
     class JumpUp : EventHandler
     {
         public bool Handle(Unit u)
@@ -37,7 +27,6 @@ class DefaultJumper : Jumper
             return;
         unit.state.Transit(new AirborneState(unit).Enter());
         unit.eventManager.InvokeHandlers("jump");
-        unit.eventManager.SubscribeHandler("land", new JumpTransistor());
         unit.rb.velocity = new Vector2(unit.rb.velocity.x, force);
         unit.rb.gravityScale = 0;
         unit.eventManager.SubscribeHandlerWithTimeTrigger("jumpButtonUp", new JumpUp(), maxHeight);
