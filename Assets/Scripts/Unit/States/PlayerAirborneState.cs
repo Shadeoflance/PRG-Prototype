@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 
-class WalkingState : UnitState
+class PlayerAirborneState : PlayerState
 {
-    public WalkingState(Unit unit) : base(unit) { }
+    public PlayerAirborneState(Unit unit) : base(unit) 
+    {
+    }
 
     public override void Update()
     {
@@ -17,5 +19,12 @@ class WalkingState : UnitState
         {
             unit.transform.localScale = Vector3.Scale(unit.transform.localScale, new Vector3(-1, 1, 1));
         }
+    }
+
+    public override void Transit(UnitState state)
+    {
+        if (state is PlayerAirborneState)
+            return;
+        base.Transit(state);
     }
 }

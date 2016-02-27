@@ -23,7 +23,7 @@ class MultipleJumper : DefaultJumper
         currentJumps = extraJumps;
     }
 
-    public override bool CanJump()
+    protected override bool CanJump()
     {
         if (currentJumps > 0)
         {

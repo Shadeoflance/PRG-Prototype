@@ -8,6 +8,20 @@ public class UnitState
         this.unit = unit;
     }
 
+    public virtual void Jump()
+    {
+        unit.jumper.Jump();
+    }
+
+    public virtual void Attack()
+    {
+    }
+
+    public virtual void Move(Vector2 dir)
+    {
+        unit.mover.Move(dir);
+    }
+
     /// <summary>
     /// Do initialization and set unit to this state.
     /// </summary>

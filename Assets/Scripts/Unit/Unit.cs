@@ -8,6 +8,7 @@ public class Unit : MonoBehaviour
     public float speed;
     public EventManager eventManager;
     public Jumper jumper;
+    public Mover mover;
     public UnitState state;
 
     protected void Awake()
