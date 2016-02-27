@@ -19,7 +19,7 @@ class DefaultJumper : Jumper
     }
     public override void Jump()
     {
-        if (unit.state is AirborneState)
+        if (!CanJump())
             return;
         ActionParams ep = new ActionParams();
         unit.eventManager.InvokeInterceptors("jump", ep);
@@ -30,5 +30,9 @@ class DefaultJumper : Jumper
         unit.rb.velocity = new Vector2(unit.rb.velocity.x, force);
         unit.rb.gravityScale = 0;
         unit.eventManager.SubscribeHandlerWithTimeTrigger("jumpButtonUp", new JumpUp(), maxHeight);
+    }
+    public override bool CanJump()
+    {
+        return !(unit.state is AirborneState);
     }
 }

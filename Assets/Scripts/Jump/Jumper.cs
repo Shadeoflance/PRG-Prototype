@@ -9,4 +9,6 @@ public abstract class Jumper
     }
 
     public abstract void Jump();
+
+    public abstract bool CanJump();
 }

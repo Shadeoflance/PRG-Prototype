@@ -6,10 +6,6 @@ class WalkingState : UnitState
 
     public override void Update()
     {
-        if (unit.controller.NeedJump())
-        {
-            unit.jumper.Jump();
-        }
         unit.rb.velocity = VectorUtils.TrimX(unit.rb.velocity);
         Vector2 needVel = unit.controller.NeedVel();
         unit.rb.velocity += VectorUtils.TrimY(needVel) * unit.speed;

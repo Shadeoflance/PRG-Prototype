@@ -8,9 +8,10 @@ public class Player : Unit
 	void Start()
 	{
 		controller = new PlayerController(this);
-        jumper = new DefaultJumper(this, jumpForce, jumpHeight);
+        jumper = new MultipleJumper(this, jumpForce, jumpHeight, 2);
         state = new WalkingState(this);
         eventManager.SubscribeHandler("land", new WalkOnLand());
+        eventManager.SubscribeHandler("jumpButtonDown", new JumpInvoker());
 	}
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -27,6 +28,15 @@ public class Player : Unit
         }
     }
 
+    protected override void Update()
+    {
+        base.Update();
+        if (!bot.IsTouchingLayers(1 << LayerMask.NameToLayer("Level")) && !(state is AirborneState))
+        {
+            state.Transit(new AirborneState(this).Enter());
+        }
+    }
+
     class WalkOnLand : EventHandler
     {
         public bool Handle(Unit u)
@@ -35,13 +45,12 @@ public class Player : Unit
             return false;
         }
     }
-
-    protected override void Update()
+    class JumpInvoker : EventHandler
     {
-        base.Update();
-        if (!bot.IsTouchingLayers(1 << LayerMask.NameToLayer("Level")) && !(state is AirborneState))
+        public bool Handle(Unit u)
         {
-            state.Transit(new AirborneState(this).Enter());
+            u.jumper.Jump();
+            return false;
         }
     }
 }
