@@ -42,10 +42,15 @@ public class EventManager
             if (time > 0)
                 time -= Time.deltaTime;
             else
-            {
                 manager.InvokeSingleHandler(eventName, handler);
-                manager.timedHandlers.Remove(this);
-            }
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj is TimedHandler)
+                return (obj as TimedHandler).handler.Equals(handler);
+            else if (obj is EventHandler)
+                return obj.Equals(handler);
+            else return false;
         }
     }
 
@@ -103,6 +108,7 @@ public class EventManager
         }
         handlers[eventName].Refresh();
     }
+
     public void InvokeInterceptors(string eventName, ActionParams ep)
     {
         if (!interceptors.ContainsKey(eventName))
@@ -119,7 +125,20 @@ public class EventManager
     {
         Debug.Log("Single handler invoke. Event: " + eventName + ", handler: " + handler.GetType().ToString());
         if (handler.Handle(unit))
+        {
             handlers[eventName].Remove(handler);
+            ClearTimedEvent(handler);
+        }
+    }
+    private void ClearTimedEvent(EventHandler handler)
+    {
+        foreach (var a in timedHandlers)
+        {
+            if (a.Equals(handler))
+            {
+                timedHandlers.Remove(a);
+            }
+        }
     }
     public void InvokeSingleInterceptor(string eventName, ActionParams ep, ActionInterceptor interceptor)
     {
