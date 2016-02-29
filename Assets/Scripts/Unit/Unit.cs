@@ -10,6 +10,8 @@ public class Unit : MonoBehaviour
     public Jumper jumper;
     public Mover mover;
     public UnitState state;
+    public Attack attack;
+    public int direction = 1;
 
     protected void Awake()
     {

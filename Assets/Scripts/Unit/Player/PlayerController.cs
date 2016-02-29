@@ -39,5 +39,9 @@ public class PlayerController : IController
             player.eventManager.InvokeHandlers("jumpButtonDown");
         if (Input.GetButtonUp("Jump"))
             player.eventManager.InvokeHandlers("jumpButtonUp");
+        if(Input.GetButtonDown("Attack"))
+            player.eventManager.InvokeHandlers("attackButtonDown");
+        if (Input.GetButtonUp("Attack"))
+            player.eventManager.InvokeHandlers("attackButtonUp");
 	}
 }

@@ -10,28 +10,25 @@ public class UnitState
 
     public virtual void Jump()
     {
-        unit.jumper.Jump();
+        if(unit.jumper != null)
+            unit.jumper.Jump();
     }
 
     public virtual void Attack()
     {
+        if (unit.attack != null)
+            unit.attack.DoAttack();
     }
 
     public virtual void Move(Vector2 dir)
     {
-        unit.mover.Move(dir);
+        if(unit.mover != null)
+            unit.mover.Move(dir);
     }
 
-    /// <summary>
-    /// Do initialization and set unit to this state.
-    /// </summary>
-    /// <returns>this instance of UnitState</returns>
-    public virtual UnitState Enter()
+    public virtual void Update() 
     {
-        return this;
     }
-
-    public virtual void Update() { }
 
     /// <summary>
     /// Change state to a new one.
@@ -39,6 +36,6 @@ public class UnitState
     /// <param name="state">New state.</param>
     public virtual void Transit(UnitState state)
     {
-        unit.state = state.Enter();
+        unit.state = state;
     }
 }

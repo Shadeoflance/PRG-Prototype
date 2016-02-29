@@ -52,6 +52,10 @@ public class EventManager
                 return obj.Equals(handler);
             else return false;
         }
+        public override int GetHashCode()
+        {
+            return handler.GetHashCode();
+        }
     }
 
     Dictionary<string, Group<ActionInterceptor>> interceptors = new Dictionary<string, Group<ActionInterceptor>>();

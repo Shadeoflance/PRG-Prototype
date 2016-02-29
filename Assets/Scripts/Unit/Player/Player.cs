@@ -8,11 +8,13 @@ public class Player : Unit
 	void Start()
 	{
 		controller = new PlayerController(this);
-        jumper = new MultipleJumper(this, jumpForce, jumpHeight, 2);
+        jumper = new MultipleJumper(this, jumpForce, jumpHeight, 1);
         mover = new DefaultMover(this, speed);
+        attack = new Weapon(this);
         state = new PlayerWalkingState(this);
         eventManager.SubscribeHandler("land", new WalkOnLand());
         eventManager.SubscribeHandler("jumpButtonDown", new JumpInvoker());
+        eventManager.SubscribeHandler("attackButtonDown", new AttackInvoker());
 	}
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -34,7 +36,7 @@ public class Player : Unit
         base.Update();
         if (!bot.IsTouchingLayers(1 << LayerMask.NameToLayer("Level")) && !(state is PlayerAirborneState))
         {
-            state.Transit(new PlayerAirborneState(this).Enter());
+            state.Transit(new PlayerAirborneState(this));
         }
         Vector2 needVel = controller.NeedVel();
         if (needVel.magnitude > 0)
@@ -47,7 +49,7 @@ public class Player : Unit
     {
         public bool Handle(Unit u)
         {
-            u.state.Transit(new PlayerWalkingState(u).Enter());
+            u.state.Transit(new PlayerWalkingState(u));
             return false;
         }
     }
@@ -56,6 +58,14 @@ public class Player : Unit
         public bool Handle(Unit u)
         {
             u.state.Jump();
+            return false;
+        }
+    }
+    class AttackInvoker : EventHandler
+    {
+        public bool Handle(Unit u)
+        {
+            u.state.Attack();
             return false;
         }
     }
