@@ -36,6 +36,6 @@ public class UnitState
     /// <param name="state">New state.</param>
     public virtual void Transit(UnitState state)
     {
-        unit.state = state;
+        unit.currentState = state;
     }
 }

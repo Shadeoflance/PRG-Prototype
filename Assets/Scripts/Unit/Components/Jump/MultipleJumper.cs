@@ -25,7 +25,7 @@ class MultipleJumper : DefaultJumper
 
     protected override bool CanJump()
     {
-        if (!(unit.state is PlayerAirborneState))
+        if (!(unit.currentState == unit.airborne))
             return true;
         if (currentJumps > 0)
         {

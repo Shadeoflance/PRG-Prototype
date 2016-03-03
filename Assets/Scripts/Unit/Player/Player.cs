@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Player : Unit
 {
-    public BoxCollider2D top, bot, left, right;
     public float jumpForce, jumpHeight;
 	void Start()
 	{
@@ -11,53 +10,28 @@ public class Player : Unit
         jumper = new MultipleJumper(this, jumpForce, jumpHeight, 1);
         mover = new DefaultMover(this, speed);
         attack = new Weapon(this);
-        state = new PlayerWalkingState(this);
-        eventManager.SubscribeHandler("land", new WalkOnLand());
+        currentState = new PlayerWalkingState(this);
+        walking = new PlayerWalkingState(this);
+        airborne = new PlayerAirborneState(this);
         eventManager.SubscribeHandler("jumpButtonDown", new JumpInvoker());
         eventManager.SubscribeHandler("attackButtonDown", new AttackInvoker());
 	}
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Player")
-            return;
-        foreach (var a in collision.contacts)
-        {
-            if (a.otherCollider == bot)
-            {
-                eventManager.InvokeHandlers("land");
-                break;
-            }
-        }
-    }
-
     protected override void Update()
     {
         base.Update();
-        if (!bot.IsTouchingLayers(1 << LayerMask.NameToLayer("Level")) && !(state is PlayerAirborneState))
-        {
-            state.Transit(new PlayerAirborneState(this));
-        }
         Vector2 needVel = controller.NeedVel();
         if (needVel.magnitude > 0)
         {
-            state.Move(needVel);
+            currentState.Move(needVel);
         }
     }
 
-    class WalkOnLand : EventHandler
-    {
-        public bool Handle(Unit u)
-        {
-            u.state.Transit(new PlayerWalkingState(u));
-            return false;
-        }
-    }
     class JumpInvoker : EventHandler
     {
         public bool Handle(Unit u)
         {
-            u.state.Jump();
+            u.currentState.Jump();
             return false;
         }
     }
@@ -65,7 +39,7 @@ public class Player : Unit
     {
         public bool Handle(Unit u)
         {
-            u.state.Attack();
+            u.currentState.Attack();
             return false;
         }
     }

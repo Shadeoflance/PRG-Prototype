@@ -1,4 +1,4 @@
-﻿class PlayerState : UnitState
+﻿public class PlayerState : UnitState
 {
     public PlayerState(Unit unit) : base(unit) { }
     public virtual void Dash() { }

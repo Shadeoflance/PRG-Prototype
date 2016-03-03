@@ -25,7 +25,7 @@ class DefaultJumper : Jumper
         unit.eventManager.InvokeInterceptors("jump", ep);
         if (ep.forbid)
             return;
-        unit.state.Transit(new PlayerAirborneState(unit));
+        unit.currentState.Transit(unit.airborne);
         unit.eventManager.InvokeHandlers("jump");
         unit.rb.velocity = new Vector2(unit.rb.velocity.x, force);
         unit.rb.gravityScale = 0;
@@ -33,6 +33,6 @@ class DefaultJumper : Jumper
     }
     protected override bool CanJump()
     {
-        return !(unit.state is PlayerAirborneState);
+        return !(unit.currentState == unit.airborne);
     }
 }

@@ -5,6 +5,7 @@ public class BulletFactory
     Bullet bullet;
     Vector2 direction, position;
     float speed;
+    float? life;
 
     public BulletFactory SetBullet(Bullet bullet)
     {
@@ -31,13 +32,20 @@ public class BulletFactory
         return this;
     }
 
+    public BulletFactory SetLife(float life)
+    {
+        this.life = life;
+        return this;
+    }
+
     public Bullet Build()
     {
         Bullet newBullet = GameObject.Instantiate<Bullet>(bullet);
-        newBullet.gameObject.SetActive(true);
         newBullet.speed = speed;
         newBullet.transform.position = position;
         newBullet.needVel = direction.normalized;
+        newBullet.life = life;
+        newBullet.gameObject.SetActive(true);
         return newBullet;
     }
 }

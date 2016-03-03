@@ -4,12 +4,13 @@ public class Weapon : Attack
 {
     BulletFactory factory;
 
-    public Weapon(Unit unit, float speed = 10)
+    public Weapon(Unit unit, float speed = 10, float life = 1)
         : base(unit)
     {
         factory = new BulletFactory()
-        .SetBullet((Bullet)GameObject.Instantiate((GameObject)Resources.Load("bullet")).GetComponent<Bullet>())
-        .SetSpeed(speed);
+            .SetBullet((Bullet)GameObject.Instantiate((GameObject)Resources.Load("bullet")).GetComponent<Bullet>())
+            .SetLife(life)
+            .SetSpeed(speed);
     }
 
     public override void DoAttack()
