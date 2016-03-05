@@ -7,6 +7,10 @@ public class ActionParams
     public float floatParam;
     public int intParam;
     public bool forbid = false;
+    public Bullet bullet;
+    public GameObject other;
+    public GameObject me;
+    public Unit unit;
 }
 public interface ActionInterceptor
 {
@@ -102,7 +106,7 @@ public class EventManager
 
     public void InvokeHandlers(string eventName)
     {
-        Debug.Log("Event invoke: " + eventName);
+        Debug.Log("Event invoke by " + unit.name + ": " + eventName);
         if (!handlers.ContainsKey(eventName))
             return;
         handlers[eventName].Refresh();
@@ -115,6 +119,7 @@ public class EventManager
 
     public void InvokeInterceptors(string eventName, ActionParams ep)
     {
+        Debug.Log("Action invoke by " + unit.name + ": " + eventName);
         if (!interceptors.ContainsKey(eventName))
             return;
         interceptors[eventName].Refresh();
@@ -127,7 +132,7 @@ public class EventManager
 
     public void InvokeSingleHandler(string eventName, EventHandler handler)
     {
-        Debug.Log("Single handler invoke. Event: " + eventName + ", handler: " + handler.GetType().ToString());
+        Debug.Log("Single handler invoke by " + unit.name + ". Event: " + eventName + ", handler: " + handler.GetType().ToString());
         if (handler.Handle(unit))
         {
             handlers[eventName].Remove(handler);
@@ -146,6 +151,7 @@ public class EventManager
     }
     public void InvokeSingleInterceptor(string eventName, ActionParams ep, ActionInterceptor interceptor)
     {
+        Debug.Log("Single interceptor invoke by " + unit.name + ". Event: " + eventName + ", interceptor: " + interceptor.GetType().ToString());
         if (interceptor.Intercept(unit, ep))
             interceptors[eventName].Remove(interceptor);
     }

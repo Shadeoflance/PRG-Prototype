@@ -26,6 +26,11 @@ public class UnitState
             unit.mover.Move(dir);
     }
 
+    public virtual void Damage(int amount)
+    {
+        unit.health.TakeDamage(amount);
+    }
+
     public virtual void Update() 
     {
     }

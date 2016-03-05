@@ -10,6 +10,7 @@ public class Player : Unit
         jumper = new MultipleJumper(this, jumpForce, jumpHeight, 1);
         mover = new DefaultMover(this, speed);
         attack = new Weapon(this);
+        health = new Health(this, 1);
         currentState = new PlayerWalkingState(this);
         walking = new PlayerWalkingState(this);
         airborne = new PlayerAirborneState(this);

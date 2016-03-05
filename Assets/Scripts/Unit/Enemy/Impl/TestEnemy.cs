@@ -6,6 +6,7 @@ public class TestEnemy : Enemy
     {
         controller = new TestEnemyController(this);
         mover = new DefaultMover(this, speed);
+        health = new Health(this, 2);
         walking = new WalkingState(this);
         airborne = new AirborneState(this);
     }

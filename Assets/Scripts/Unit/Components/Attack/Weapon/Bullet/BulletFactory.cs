@@ -4,8 +4,15 @@ public class BulletFactory
 {
     Bullet bullet;
     Vector2 direction, position;
+    Unit player;
     float speed;
     float? life;
+    int dmg;
+
+    public BulletFactory(Unit player)
+    {
+        this.player = player;
+    }
 
     public BulletFactory SetBullet(Bullet bullet)
     {
@@ -38,6 +45,12 @@ public class BulletFactory
         return this;
     }
 
+    public BulletFactory SetDmg(int dmg)
+    {
+        this.dmg = dmg;
+        return this;
+    }
+
     public Bullet Build()
     {
         Bullet newBullet = GameObject.Instantiate<Bullet>(bullet);
@@ -45,6 +58,8 @@ public class BulletFactory
         newBullet.transform.position = position;
         newBullet.needVel = direction.normalized;
         newBullet.life = life;
+        newBullet.dmg = dmg;
+        newBullet.player = player;
         newBullet.gameObject.SetActive(true);
         return newBullet;
     }

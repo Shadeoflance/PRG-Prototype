@@ -13,6 +13,7 @@ public class Unit : MonoBehaviour
     public Mover mover;
     public UnitState currentState, walking, airborne;
     public Attack attack;
+    public Health health;
     public int direction = 1;
 
     protected void Awake()
