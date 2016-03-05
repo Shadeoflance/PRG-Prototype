@@ -18,16 +18,6 @@ public class PlayerController : IController
 		return Input.GetButtonDown("Jump");
 	}
 
-	public bool NeedDash ()
-	{
-		return Input.GetButton("Dash");
-	}
-
-	public bool NeedItem ()
-	{
-		return Input.GetButton("Item");
-	}
-
 	public Vector2 NeedVel ()
 	{
 		return new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
@@ -43,5 +33,9 @@ public class PlayerController : IController
             player.eventManager.InvokeHandlers("attackButtonDown");
         if (Input.GetButtonUp("Attack"))
             player.eventManager.InvokeHandlers("attackButtonUp");
+        if (Input.GetButtonDown("Item"))
+            player.eventManager.InvokeHandlers("itemButtonDown");
+        if (Input.GetButtonDown("Dash"))
+            player.eventManager.InvokeHandlers("dashButtonDown");
 	}
 }

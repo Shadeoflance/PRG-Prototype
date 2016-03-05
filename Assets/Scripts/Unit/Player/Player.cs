@@ -20,11 +20,6 @@ public class Player : Unit
     protected override void Update()
     {
         base.Update();
-        Vector2 needVel = controller.NeedVel();
-        if (needVel.magnitude > 0)
-        {
-            currentState.Move(needVel);
-        }
     }
 
     class JumpInvoker : EventHandler

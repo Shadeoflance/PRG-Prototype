@@ -17,7 +17,6 @@ public class Bullet : MonoBehaviour
         rb.velocity = needVel * speed;
         if (life != null)
         {
-            Debug.Log("Life = " + life);
             life -= Time.deltaTime;
             if (life < 0)
                 Destroy(gameObject);

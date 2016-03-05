@@ -25,6 +25,13 @@ public class Unit : MonoBehaviour
     protected virtual void Update()
 	{
         controller.Update();
+        Vector2 needVel = controller.NeedVel();
+        if (currentState == null)
+            currentState = airborne;
+        if (needVel.magnitude > 0)
+        {
+            currentState.Move(needVel);
+        }
         currentState.Update();
         eventManager.Update();
         if (!bot.IsTouchingLayers(1 << LayerMask.NameToLayer("Level")))
