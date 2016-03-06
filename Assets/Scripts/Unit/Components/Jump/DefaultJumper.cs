@@ -2,8 +2,8 @@
 
 class DefaultJumper : Jumper
 {
-    float force;
-    float maxHeight;
+    public float force;
+    public float maxHeight;
     public DefaultJumper(Unit unit, float force, float maxHeight) : base(unit) 
     {
         this.force = force;

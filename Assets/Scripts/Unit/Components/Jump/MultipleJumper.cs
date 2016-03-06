@@ -2,7 +2,8 @@
 
 class MultipleJumper : DefaultJumper
 {
-    int extraJumps, currentJumps;
+    public int extraJumps;
+    int currentJumps;
     class JumpsRefresher : EventHandler
     {
         public bool Handle(Unit u)

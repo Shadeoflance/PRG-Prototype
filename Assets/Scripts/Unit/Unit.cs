@@ -35,9 +35,11 @@ public class Unit : MonoBehaviour
         }
         currentState.Update();
         eventManager.Update();
-        if (!bot.IsTouchingLayers(1 << LayerMask.NameToLayer("Level")))
+        if (!bot.IsTouchingLayers(1 << LayerMask.NameToLayer("Level")) && currentState != airborne)
         {
-            currentState.Transit(airborne);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(0, -1), 0.6f, 1 << LayerMask.NameToLayer("Level"));
+            if(hit.collider == null)
+                currentState.Transit(airborne);
         }
     }
 
@@ -49,7 +51,7 @@ public class Unit : MonoBehaviour
         }
         foreach (var a in collision.contacts)
         {
-            if (a.otherCollider == bot)
+            if (a.otherCollider == bot && currentState != walking)
             {
                 eventManager.InvokeHandlers("land");
                 break;
