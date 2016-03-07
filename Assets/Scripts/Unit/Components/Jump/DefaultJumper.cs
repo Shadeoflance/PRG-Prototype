@@ -13,7 +13,7 @@ class DefaultJumper : Jumper
     {
         public bool Handle(ActionParams ap)
         {
-            ap.unit.rb.gravityScale = 5;
+            ap.unit.rb.gravityScale = ap.unit.gravityScale;
             return true;
         }
     }

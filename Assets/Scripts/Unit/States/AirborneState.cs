@@ -7,11 +7,11 @@ public class PlayerAirborneState : PlayerState
     {
     }
 
-    public override void Transit(UnitState state)
+    public override bool Transit(UnitState state)
     {
         if (state is PlayerAirborneState)
-            return;
-        base.Transit(state);
+            return false;
+        return base.Transit(state);
     }
 }
 
@@ -22,10 +22,10 @@ public class AirborneState : UnitState
     {
     }
 
-    public override void Transit(UnitState state)
+    public override bool Transit(UnitState state)
     {
         if (state == unit.airborne)
-            return;
-        base.Transit(state);
+            return false;
+        return base.Transit(state);
     }
 }

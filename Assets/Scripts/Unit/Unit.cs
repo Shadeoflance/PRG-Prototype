@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Unit : MonoBehaviour 
+public class Unit : MonoBehaviour
 {
+    public float jumpForce, jumpHeight, gravityScale = 5;
     public IController controller;
     public Rigidbody2D rb;
     public CircleCollider2D bot, top;
@@ -62,11 +63,6 @@ public class Unit : MonoBehaviour
                 eventManager.InvokeHandlers("levelSideHit", null);
             }
         }
-    }
-
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        
     }
 
     void OnGUI()

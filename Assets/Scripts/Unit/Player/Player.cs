@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Player : Unit
 {
-    public float jumpForce, jumpHeight;
     public Dasher dasher;
 	void Start()
 	{
@@ -24,6 +23,16 @@ public class Player : Unit
     protected override void Update()
     {
         base.Update();
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Enemy")
+        {
+            ActionParams ap = new ActionParams();
+            ap["enemy"] = collision.GetComponent<Enemy>();
+            eventManager.InvokeHandlers("triggerEnterEnemy", ap);
+        }
     }
 
     class JumpInvoker : ActionListener
