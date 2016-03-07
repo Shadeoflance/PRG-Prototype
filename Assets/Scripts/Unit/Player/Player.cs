@@ -4,6 +4,7 @@ using System.Collections;
 public class Player : Unit
 {
     public float jumpForce, jumpHeight;
+    public Dasher dasher;
 	void Start()
 	{
 		controller = new PlayerController(this);
@@ -11,11 +12,13 @@ public class Player : Unit
         mover = new DefaultMover(this, speed);
         attack = new Weapon(this);
         health = new Health(this, 1);
+        dasher = new DefaultDasher(this);
         currentState = new PlayerWalkingState(this);
         walking = new PlayerWalkingState(this);
         airborne = new PlayerAirborneState(this);
         eventManager.SubscribeHandler("jumpButtonDown", new JumpInvoker());
         eventManager.SubscribeHandler("attackButtonDown", new AttackInvoker());
+        eventManager.SubscribeHandler("dashButtonDown", new DashInvoker());
 	}
 
     protected override void Update()
@@ -23,19 +26,27 @@ public class Player : Unit
         base.Update();
     }
 
-    class JumpInvoker : EventHandler
+    class JumpInvoker : ActionListener
     {
-        public bool Handle(Unit u)
+        public bool Handle(ActionParams ap)
         {
-            u.currentState.Jump();
+            ap.unit.currentState.Jump();
             return false;
         }
     }
-    class AttackInvoker : EventHandler
+    class AttackInvoker : ActionListener
     {
-        public bool Handle(Unit u)
+        public bool Handle(ActionParams ap)
         {
-            u.currentState.Attack();
+            ap.unit.currentState.Attack();
+            return false;
+        }
+    }
+    class DashInvoker : ActionListener
+    {
+        public bool Handle(ActionParams ap)
+        {
+            (ap.unit.currentState as PlayerState).Dash();
             return false;
         }
     }

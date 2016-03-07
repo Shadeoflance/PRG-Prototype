@@ -9,11 +9,11 @@ class DefaultJumper : Jumper
         this.force = force;
         this.maxHeight = maxHeight;
     }
-    class JumpUp : EventHandler
+    class JumpUp : ActionListener
     {
-        public bool Handle(Unit u)
+        public bool Handle(ActionParams ap)
         {
-            u.rb.gravityScale = 5;
+            ap.unit.rb.gravityScale = 5;
             return true;
         }
     }
@@ -21,12 +21,12 @@ class DefaultJumper : Jumper
     {
         if (!CanJump())
             return;
-        ActionParams ep = new ActionParams();
-        unit.eventManager.InvokeInterceptors("jump", ep);
-        if (ep.forbid)
+        ActionParams ap = new ActionParams();
+        unit.eventManager.InvokeInterceptors("jump", ap);
+        if (ap.forbid)
             return;
         unit.currentState.Transit(unit.airborne);
-        unit.eventManager.InvokeHandlers("jump");
+        unit.eventManager.InvokeHandlers("jump", null);
         unit.rb.velocity = new Vector2(unit.rb.velocity.x, force);
         unit.rb.gravityScale = 0;
         unit.eventManager.SubscribeHandlerWithTimeTrigger("jumpButtonUp", new JumpUp(), maxHeight);

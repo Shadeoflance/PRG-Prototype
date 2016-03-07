@@ -14,13 +14,12 @@ public class Health
     public void TakeDamage(int amount)
     {
         ActionParams ap = new ActionParams();
-        ap.intParam = amount;
-        ap.unit = unit;
+        ap.parameters.Add("amount", amount);
         unit.eventManager.InvokeInterceptors("takeDmg", ap);
         if (ap.forbid)
             return;
-        currentHealth -= ap.intParam;
-        unit.eventManager.InvokeHandlers("takeDmg");
+        currentHealth -= (int)ap.parameters["amount"];
+        unit.eventManager.InvokeHandlers("takeDmg", null);
         if (currentHealth <= 0)
             Die();
     }
@@ -32,7 +31,7 @@ public class Health
         unit.eventManager.InvokeInterceptors("die", ap);
         if (ap.forbid)
             return;
-        unit.eventManager.InvokeHandlers("die");
+        unit.eventManager.InvokeHandlers("die", null);
         MonoBehaviour.Destroy(unit.gameObject);
     }
 }

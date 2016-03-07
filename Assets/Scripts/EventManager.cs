@@ -1,40 +1,55 @@
 ﻿using UnityEngine;
+using Object = System.Object;
 using System.Collections;
 using System.Collections.Generic;
 
 public class ActionParams
 {
-    public float floatParam;
-    public int intParam;
+    public Dictionary<string, object> parameters;
     public bool forbid = false;
-    public Bullet bullet;
-    public GameObject other;
-    public GameObject me;
     public Unit unit;
+
+    public ActionParams()
+    {
+        parameters = new Dictionary<string, Object>();
+    }
+    public ActionParams(Unit unit)
+    {
+        this.unit = unit;
+    }
+
+    public object this[string index]
+    {
+        get
+        {
+            if (parameters.ContainsKey(index))
+                return parameters[index];
+            else return null;
+        }
+        set
+        {
+            if (parameters.ContainsKey(index))
+                parameters[index] = value;
+            else parameters.Add(index, value);
+        }
+    }
 }
-public interface ActionInterceptor
+public interface ActionListener
 {
     /// <summary>
     /// Intercept event, return true if interceptor should be removed from subscribers.
     /// </summary>
-    bool Intercept(Unit u, ActionParams ep);
-}
-public interface EventHandler
-{
-    /// <summary>
-    /// Handle event, return true if handler should be removed from subscribers.
-    /// </summary>
-    bool Handle(Unit u);
+    bool Handle(ActionParams ap);
 }
 public class EventManager
 {
     class TimedHandler : IUpdatable
     {
         string eventName;
-        EventHandler handler;
+        ActionListener handler;
         float time;
         EventManager manager;
-        public TimedHandler(string eventName, EventHandler handler, float time, EventManager manager)
+        public TimedHandler(string eventName, ActionListener handler, float time, EventManager manager)
         {
             this.eventName = eventName;
             this.handler = handler;
@@ -46,13 +61,16 @@ public class EventManager
             if (time > 0)
                 time -= Time.deltaTime;
             else
-                manager.InvokeSingleHandler(eventName, handler);
+            {
+                ActionParams ap = new ActionParams(manager.unit);
+                manager.InvokeSingleHandler(eventName, handler, ap);
+            }
         }
         public override bool Equals(object obj)
         {
             if (obj is TimedHandler)
                 return (obj as TimedHandler).handler.Equals(handler);
-            else if (obj is EventHandler)
+            else if (obj is ActionListener)
                 return obj.Equals(handler);
             else return false;
         }
@@ -62,8 +80,8 @@ public class EventManager
         }
     }
 
-    Dictionary<string, Group<ActionInterceptor>> interceptors = new Dictionary<string, Group<ActionInterceptor>>();
-    Dictionary<string, Group<EventHandler>> handlers = new Dictionary<string, Group<EventHandler>>();
+    Dictionary<string, Group<ActionListener>> interceptors = new Dictionary<string, Group<ActionListener>>();
+    Dictionary<string, Group<ActionListener>> handlers = new Dictionary<string, Group<ActionListener>>();
 
     Group<TimedHandler> timedHandlers = new Group<TimedHandler>();
 
@@ -81,65 +99,71 @@ public class EventManager
             a.Update();
     }
 
-    public void SubscribeHandler(string eventName, EventHandler handler)
+    public void SubscribeHandler(string eventName, ActionListener handler)
     {
         if (!handlers.ContainsKey(eventName))
         {
-            handlers.Add(eventName, new Group<EventHandler>());
+            handlers.Add(eventName, new Group<ActionListener>());
         }
         handlers[eventName].Add(handler);
     }
-    public void SubscribeInterceptor(string eventName, ActionInterceptor interceptor)
+    public void SubscribeInterceptor(string eventName, ActionListener interceptor)
     {
         if (!interceptors.ContainsKey(eventName))
         {
-            interceptors.Add(eventName, new Group<ActionInterceptor>());
+            interceptors.Add(eventName, new Group<ActionListener>());
         }
         interceptors[eventName].Add(interceptor);
     }
 
-    public void SubscribeHandlerWithTimeTrigger(string eventName, EventHandler handler, float time)
+    public void SubscribeHandlerWithTimeTrigger(string eventName, ActionListener handler, float time)
     {
         SubscribeHandler(eventName, handler);
         timedHandlers.Add(new TimedHandler(eventName, handler, time, this));
     }
 
-    public void InvokeHandlers(string eventName)
+    public void InvokeHandlers(string eventName, ActionParams ap)
     {
         Debug.Log("Event invoke by " + unit.name + ": " + eventName);
         if (!handlers.ContainsKey(eventName))
             return;
         handlers[eventName].Refresh();
+        if(ap == null)
+            ap = new ActionParams();
+        ap.unit = unit;
         foreach (var a in handlers[eventName])
         {
-            InvokeSingleHandler(eventName, a);
+            InvokeSingleHandler(eventName, a, ap);
         }
         handlers[eventName].Refresh();
     }
 
-    public void InvokeInterceptors(string eventName, ActionParams ep)
+    public void InvokeInterceptors(string eventName, ActionParams ap)
     {
         Debug.Log("Action invoke by " + unit.name + ": " + eventName);
         if (!interceptors.ContainsKey(eventName))
             return;
         interceptors[eventName].Refresh();
+        if(ap == null)
+            ap = new ActionParams();
+        ap.unit = unit;
         foreach (var a in interceptors[eventName])
         {
-            InvokeSingleInterceptor(eventName, ep, a);
+            InvokeSingleInterceptor(eventName, ap, a);
         }
         interceptors[eventName].Refresh();
     }
 
-    public void InvokeSingleHandler(string eventName, EventHandler handler)
+    public void InvokeSingleHandler(string eventName, ActionListener handler, ActionParams ap)
     {
         Debug.Log("Single handler invoke by " + unit.name + ". Event: " + eventName + ", handler: " + handler.GetType().ToString());
-        if (handler.Handle(unit))
+        if (handler.Handle(ap))
         {
             handlers[eventName].Remove(handler);
             ClearTimedEvent(handler);
         }
     }
-    private void ClearTimedEvent(EventHandler handler)
+    private void ClearTimedEvent(ActionListener handler)
     {
         foreach (var a in timedHandlers)
         {
@@ -149,27 +173,27 @@ public class EventManager
             }
         }
     }
-    public void InvokeSingleInterceptor(string eventName, ActionParams ep, ActionInterceptor interceptor)
+    public void InvokeSingleInterceptor(string eventName, ActionParams ap, ActionListener interceptor)
     {
         Debug.Log("Single interceptor invoke by " + unit.name + ". Event: " + eventName + ", interceptor: " + interceptor.GetType().ToString());
-        if (interceptor.Intercept(unit, ep))
+        if (interceptor.Handle(ap))
             interceptors[eventName].Remove(interceptor);
     }
 
-    public void UnsubscribeHandlerCompletely(EventHandler handler)
+    public void UnsubscribeHandlerCompletely(ActionListener handler)
     {
         foreach (var a in handlers)
             if (a.Value.Contains(handler))
                 a.Value.Remove(handler);
     }
-    public void UnsubscribeInterceptorCompletely(ActionInterceptor interceptor)
+    public void UnsubscribeInterceptorCompletely(ActionListener interceptor)
     {
         foreach (var a in interceptors)
             if (a.Value.Contains(interceptor))
                 a.Value.Remove(interceptor);
     }
 
-    public void UnsubscribeHandler(string eventName, EventHandler handler)
+    public void UnsubscribeHandler(string eventName, ActionListener handler)
     {
         if (!handlers.ContainsKey(eventName))
             return;
@@ -178,7 +202,7 @@ public class EventManager
             if (a.Value.Contains(handler))
                 a.Value.Remove(handler);
     }
-    public void UnsubscribeInterceptor(string eventName, ActionInterceptor interceptor)
+    public void UnsubscribeInterceptor(string eventName, ActionListener interceptor)
     {
         if (!interceptors.ContainsKey(eventName))
             return;

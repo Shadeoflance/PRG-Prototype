@@ -26,17 +26,17 @@ public class PlayerController : IController
 	public void Update ()
 	{
         if (Input.GetButtonDown("Jump"))
-            player.eventManager.InvokeHandlers("jumpButtonDown");
+            player.eventManager.InvokeHandlers("jumpButtonDown", null);
         if (Input.GetButtonUp("Jump"))
-            player.eventManager.InvokeHandlers("jumpButtonUp");
+            player.eventManager.InvokeHandlers("jumpButtonUp", null);
         if(Input.GetButtonDown("Attack"))
-            player.eventManager.InvokeHandlers("attackButtonDown");
+            player.eventManager.InvokeHandlers("attackButtonDown", null);
         if (Input.GetButtonUp("Attack"))
-            player.eventManager.InvokeHandlers("attackButtonUp");
+            player.eventManager.InvokeHandlers("attackButtonUp", null);
         if (Input.GetButtonDown("Item"))
-            player.eventManager.InvokeHandlers("itemButtonDown");
+            player.eventManager.InvokeHandlers("itemButtonDown", null);
         if (Input.GetButtonDown("Dash"))
-            player.eventManager.InvokeHandlers("dashButtonDown");
+            player.eventManager.InvokeHandlers("dashButtonDown", null);
         if (Input.GetKeyDown(KeyCode.R))
             player.transform.position = new Vector3(0, 0, 0);
 	}

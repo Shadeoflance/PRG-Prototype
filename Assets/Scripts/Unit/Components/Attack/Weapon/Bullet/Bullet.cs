@@ -30,29 +30,31 @@ public class Bullet : MonoBehaviour
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             ActionParams ap = new ActionParams();
-            ap.me = player.gameObject;
-            ap.other = enemy.gameObject;
-            ap.bullet = this;
-            ap.intParam = dmg;
+            ap["other"] = enemy.gameObject;
+            ap["bullet"] = this;
+            ap["dmg"] = dmg;
             player.eventManager.InvokeInterceptors("enemyHit", ap);
             if (!ap.forbid)
             {
-                player.eventManager.InvokeHandlers("bulletDestroy");
+                player.eventManager.InvokeHandlers("bulletDestroy", null);
                 Destroy(gameObject);
             }
-            enemy.currentState.Damage(ap.intParam);
-            player.eventManager.InvokeHandlers("enemyHit");
+            enemy.currentState.Damage((int)ap.parameters["dmg"]);
+            ap = new ActionParams();
+            ap["enemy"] = enemy;
+            player.eventManager.InvokeHandlers("enemyHit", ap);
         }
         if (collision.tag.Equals("Level"))
         {
             ActionParams ap = new ActionParams();
-            ap.me = player.gameObject;
-            ap.other = collision.gameObject;
-            ap.bullet = this;
+            ap["other"] = collision.gameObject;
+            ap["bullet"] = this;
             player.eventManager.InvokeInterceptors("levelHit", ap);
             if (!ap.forbid)
             {
-                player.eventManager.InvokeHandlers("bulletDestroy");
+                ap = new ActionParams();
+                ap["bullet"] = this;
+                player.eventManager.InvokeHandlers("bulletDestroy", ap);
                 Destroy(gameObject);
             }
         }

@@ -4,11 +4,11 @@ class MultipleJumper : DefaultJumper
 {
     public int extraJumps;
     int currentJumps;
-    class JumpsRefresher : EventHandler
+    class JumpsRefresher : ActionListener
     {
-        public bool Handle(Unit u)
+        public bool Handle(ActionParams ap)
         {
-            (u.jumper as MultipleJumper).RefreshJumps();
+            (ap.unit.jumper as MultipleJumper).RefreshJumps();
             return false;
         }
     }

@@ -6,7 +6,7 @@ public class Unit : MonoBehaviour
     public IController controller;
     public Rigidbody2D rb;
     public CircleCollider2D bot, top;
-    public BoxCollider2D sides;
+    public CircleCollider2D sides;
     public float speed;
     public EventManager eventManager;
     public Jumper jumper;
@@ -37,9 +37,9 @@ public class Unit : MonoBehaviour
         eventManager.Update();
         if (!bot.IsTouchingLayers(1 << LayerMask.NameToLayer("Level")) && currentState != airborne)
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(0, -1), 0.6f, 1 << LayerMask.NameToLayer("Level"));
-            if(hit.collider == null)
-                currentState.Transit(airborne);
+            //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(0, -1), 0.6f, 1 << LayerMask.NameToLayer("Level"));
+            //if(hit.collider == null)
+            currentState.Transit(airborne);
         }
     }
 
@@ -51,13 +51,22 @@ public class Unit : MonoBehaviour
         }
         foreach (var a in collision.contacts)
         {
-            Debug.Log(name + " Collided with: " + a.collider.name);
+            //Debug.Log(name + " Collided with: " + a.collider.name);
             if (a.otherCollider == bot && currentState != walking)
             {
-                eventManager.InvokeHandlers("land");
+                eventManager.InvokeHandlers("land", null);
                 break;
             }
+            if (a.otherCollider == sides && a.collider.gameObject.layer == LayerMask.NameToLayer("Level"))
+            {
+                eventManager.InvokeHandlers("levelSideHit", null);
+            }
         }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        
     }
 
     void OnGUI()
@@ -69,11 +78,11 @@ public class Unit : MonoBehaviour
         GUI.Label(rect, new GUIContent(currentState.GetType().ToString()));
     }
 
-    class WalkOnLand : EventHandler
+    class WalkOnLand : ActionListener
     {
-        public bool Handle(Unit u)
+        public bool Handle(ActionParams ap)
         {
-            u.currentState.Transit(u.walking);
+            ap.unit.currentState.Transit(ap.unit.walking);
             return false;
         }
     }

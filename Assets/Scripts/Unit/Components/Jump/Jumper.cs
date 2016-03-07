@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public abstract class Jumper
+﻿public abstract class Jumper
 {
     protected Unit unit;
     public Jumper(Unit unit)
