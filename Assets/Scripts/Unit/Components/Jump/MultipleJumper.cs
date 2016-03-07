@@ -24,6 +24,13 @@ class MultipleJumper : DefaultJumper
         currentJumps = extraJumps;
     }
 
+    public void AddExtraJumps(int amount)
+    {
+        extraJumps += amount;
+        if (unit.currentState != unit.airborne)
+            currentJumps = extraJumps;
+    }
+
     protected override bool CanJump()
     {
         if (!(unit.currentState == unit.airborne))
