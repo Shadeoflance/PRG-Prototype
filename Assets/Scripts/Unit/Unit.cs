@@ -51,12 +51,22 @@ public class Unit : MonoBehaviour
         }
         foreach (var a in collision.contacts)
         {
+            Debug.Log(name + " Collided with: " + a.collider.name);
             if (a.otherCollider == bot && currentState != walking)
             {
                 eventManager.InvokeHandlers("land");
                 break;
             }
         }
+    }
+
+    void OnGUI()
+    {
+        Vector2 pos = VectorUtils.V3ToV2(Camera.main.WorldToScreenPoint(transform.position));
+        Rect rect = new Rect(0, 0, 150, 50);
+        rect.x = pos.x - 30;
+        rect.y = Screen.height - pos.y - rect.height;
+        GUI.Label(rect, new GUIContent(currentState.GetType().ToString()));
     }
 
     class WalkOnLand : EventHandler
