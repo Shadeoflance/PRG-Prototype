@@ -106,6 +106,7 @@ public class EventManager
             handlers.Add(eventName, new Group<ActionListener>());
         }
         handlers[eventName].Add(handler);
+        handlers[eventName].Refresh();
     }
     public void SubscribeInterceptor(string eventName, ActionListener interceptor)
     {
@@ -114,6 +115,7 @@ public class EventManager
             interceptors.Add(eventName, new Group<ActionListener>());
         }
         interceptors[eventName].Add(interceptor);
+        interceptors[eventName].Refresh();
     }
 
     public void SubscribeHandlerWithTimeTrigger(string eventName, ActionListener handler, float time)

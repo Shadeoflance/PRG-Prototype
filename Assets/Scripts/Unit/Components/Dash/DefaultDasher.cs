@@ -15,7 +15,7 @@ public class DefaultDasher : Dasher
         if (player.currentState.Transit(new DashState(player, speed, distance)))
         {
             EnemyPenetrate ep = new EnemyPenetrate();
-            player.eventManager.SubscribeHandler("triggerEnterEnemy", ep);
+            player.eventManager.SubscribeHandler("dashPenetrateEnemy", ep);
             player.eventManager.SubscribeHandler("dashFinish", new EPUnsubscriber(ep));
         }
     }

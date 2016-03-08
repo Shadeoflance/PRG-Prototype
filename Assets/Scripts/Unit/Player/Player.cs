@@ -4,6 +4,7 @@ using System.Collections;
 public class Player : Unit
 {
     public Dasher dasher;
+    public BoxCollider2D main;
 	void Start()
 	{
 		controller = new PlayerController(this);
@@ -25,15 +26,24 @@ public class Player : Unit
         base.Update();
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "Enemy")
-        {
-            ActionParams ap = new ActionParams();
-            ap["enemy"] = collision.GetComponent<Enemy>();
-            eventManager.InvokeHandlers("triggerEnterEnemy", ap);
-        }
-    }
+    //void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (currentState is DashState)
+    //    {
+    //        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+    //        {
+    //            ActionParams ap = new ActionParams();
+    //            ap["enemy"] = collision.GetComponent<Enemy>();
+    //            eventManager.InvokeHandlers("dashPenetrateEnemy", ap);
+    //        }
+    //        if (collision.gameObject.layer == LayerMask.NameToLayer("Level"))
+    //        {
+    //            ActionParams ap = new ActionParams();
+    //            ap["level"] = collision.gameObject;
+    //            eventManager.InvokeHandlers("dashPenetrateLevel", ap);
+    //        }
+    //    }
+    //}
 
     class JumpInvoker : ActionListener
     {

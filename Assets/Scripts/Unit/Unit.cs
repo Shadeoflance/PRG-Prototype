@@ -44,6 +44,13 @@ public class Unit : MonoBehaviour
         }
     }
 
+    protected virtual void FixedUpdate()
+    {
+        if (currentState == null)
+            currentState = airborne;
+        currentState.FixedUpdate();
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == tag)

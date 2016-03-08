@@ -35,6 +35,10 @@ public class UnitState
     {
     }
 
+    public virtual void FixedUpdate()
+    {
+    }
+
     /// <summary>
     /// Change state to a new one.
     /// </summary>
