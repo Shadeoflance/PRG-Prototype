@@ -13,6 +13,7 @@ public class DashState : PlayerState
         foreach (var a in player.GetComponents<Collider2D>())
             a.enabled = false;
         unit.rb.gravityScale = 0;
+        unit.rb.velocity = Vector2.zero;
     }
 
     public override void Attack() { }

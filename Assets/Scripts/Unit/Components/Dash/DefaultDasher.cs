@@ -44,7 +44,7 @@ public class DefaultDasher : Dasher
         }
         public bool Handle(ActionParams ap)
         {
-            ap.unit.eventManager.UnsubscribeHandler("triggerEnterEnemy", ep);
+            ap.unit.eventManager.UnsubscribeHandler("dashPenetrateEnemy", ep);
             return true;
         }
     }

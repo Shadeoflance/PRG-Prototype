@@ -4,6 +4,7 @@ using System.Collections;
 public class Player : Unit
 {
     public Dasher dasher;
+    public Slamer slamer;
     public BoxCollider2D main;
 	void Start()
 	{
@@ -13,6 +14,7 @@ public class Player : Unit
         attack = new Weapon(this);
         health = new Health(this, 1);
         dasher = new DefaultDasher(this);
+        slamer = new DefaultSlamer(this);
         currentState = new PlayerWalkingState(this);
         walking = new PlayerWalkingState(this);
         airborne = new PlayerAirborneState(this);

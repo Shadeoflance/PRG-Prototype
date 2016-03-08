@@ -7,6 +7,11 @@ public class PlayerAirborneState : PlayerState
     {
     }
 
+    public override void Dash()
+    {
+        player.slamer.Slam();
+    }
+
     public override bool Transit(UnitState state)
     {
         if (state is PlayerAirborneState)
