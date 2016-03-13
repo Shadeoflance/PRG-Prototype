@@ -17,7 +17,7 @@ public class DashState : PlayerState
     }
 
     public override void Attack() { }
-    public override void Damage(int amount) { }
+    public override void DealDamage(int amount, GameObject source) { }
     public override void Dash() { }
     public override void Jump() { }
     public override void Move(Vector2 dir) { }
@@ -41,7 +41,7 @@ public class DashState : PlayerState
             }
             else
             {
-                player.transform.position = player.transform.position + new Vector3(a.distance, 0, 0);
+                player.transform.position = player.transform.position + new Vector3(a.distance * player.direction, 0, 0);
                 Finish();
                 return;
             }

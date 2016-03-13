@@ -11,7 +11,7 @@ public class Health
         currentHealth = maxHealth;
     }
 
-    public void TakeDamage(int amount)
+    public void DealDamage(int amount, GameObject source)
     {
         ActionParams ap = new ActionParams();
         ap.parameters.Add("amount", amount);

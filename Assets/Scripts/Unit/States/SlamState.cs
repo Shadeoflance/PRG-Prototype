@@ -17,7 +17,7 @@ public class SlamState : PlayerState
     }
 
     public override void Attack() { }
-    public override void Damage(int amount) { }
+    public override void DealDamage(int amount, GameObject source) { }
     public override void Dash() { }
     public override void Jump() { }
     public override void Move(Vector2 dir) { }
@@ -49,9 +49,9 @@ public class SlamState : PlayerState
         player.rb.gravityScale = player.gravityScale;
         Vector2 pointA = VectorUtils.V3ToV2(player.transform.position) - player.main.size / 2 - new Vector2(range, 0),
             pointB = VectorUtils.V3ToV2(player.transform.position) + player.main.size / 2 + new Vector2(range, 0);
-        Debug.DrawLine(pointA, pointB, Color.red, 2);
+        //Debug.DrawLine(pointA, pointB, Color.red, 2);
         Collider2D[] hits = Physics2D.OverlapAreaAll(pointA, pointB, LayerMask.GetMask("Enemy"));
-        List<Enemy> enemies = new List<Enemy>();
+        HashSet<Enemy> enemies = new HashSet<Enemy>();
         foreach (var a in hits)
             enemies.Add(a.GetComponent<Enemy>());
         ActionParams ap = new ActionParams();

@@ -53,7 +53,7 @@ public static class ItemPool
 
         items.Add(2, new Bundle(Resources.Load<Sprite>("extradmg"), (player) =>
         {
-            (player.attack as Weapon).dmg++;
+            player.damage++;
         }));
     }
 }

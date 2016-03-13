@@ -26,9 +26,9 @@ public class UnitState
             unit.mover.Move(dir);
     }
 
-    public virtual void Damage(int amount)
+    public virtual void DealDamage(int amount, GameObject source)
     {
-        unit.health.TakeDamage(amount);
+        unit.health.DealDamage(amount, source);
     }
 
     public virtual void Update() 

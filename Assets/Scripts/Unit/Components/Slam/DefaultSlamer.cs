@@ -14,18 +14,23 @@ public class DefaultSlamer : Slamer
     public override void Slam()
     {
         player.currentState.Transit(new SlamState(player, speed, range));
-        player.eventManager.SubscribeHandler("slamFinish", new SlamDmg());
+        player.eventManager.SubscribeHandler("slamFinish", new SlamDmg(player));
     }
 
     class SlamDmg : ActionListener
     {
+        Player player;
+        public SlamDmg(Player p)
+        {
+            player = p;
+        }
         public bool Handle(ActionParams ap)
         {
-            foreach (var a in (List<Enemy>)ap["enemies"])
+            foreach (var a in (IEnumerable<Enemy>)ap["enemies"])
             {
                 if (a == null)
                     continue;
-                a.health.TakeDamage(2);
+                a.health.DealDamage(player.damage, player.gameObject);
             }
             return true;
         }

@@ -1,0 +1,26 @@
+﻿# Collisions
+land
+levelSideHit
+
+# Dash/Slam
+dashPenetrateEnemy
+dashFinish
+slamFinish
+
+# Weapon/Attack
+bulletEnemyHit
+bulletDestroy
+bulletLevelHit
+takeDmg
+die
+
+# Jump
+jump
+
+# Controller
+jumpButtonDown
+jumpButtonUp
+attackButtonDown
+attackButtonUp
+itemButtonDown
+dashButtonDown

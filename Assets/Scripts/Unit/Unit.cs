@@ -6,8 +6,8 @@ public class Unit : MonoBehaviour
     public float jumpForce, jumpHeight, gravityScale = 5;
     public IController controller;
     public Rigidbody2D rb;
-    public CircleCollider2D bot, top;
-    public CircleCollider2D sides;
+    public Collider2D bot, top;
+    public Collider2D sides;
     public float speed;
     public EventManager eventManager;
     public Jumper jumper;
@@ -16,6 +16,7 @@ public class Unit : MonoBehaviour
     public Attack attack;
     public Health health;
     public int direction = 1;
+    public int damage = 1;
 
     protected void Awake()
     {
@@ -51,15 +52,10 @@ public class Unit : MonoBehaviour
         currentState.FixedUpdate();
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == tag)
-        {
-            return;
-        }
         foreach (var a in collision.contacts)
         {
-            //Debug.Log(name + " Collided with: " + a.collider.name);
             if (a.otherCollider == bot && currentState != walking)
             {
                 eventManager.InvokeHandlers("land", null);

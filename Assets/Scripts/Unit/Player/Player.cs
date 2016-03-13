@@ -12,7 +12,7 @@ public class Player : Unit
         jumper = new MultipleJumper(this, jumpForce, jumpHeight, 1);
         mover = new DefaultMover(this, speed);
         attack = new Weapon(this);
-        health = new Health(this, 1);
+        health = new Health(this, 2);
         dasher = new DefaultDasher(this);
         slamer = new DefaultSlamer(this);
         currentState = new PlayerWalkingState(this);
@@ -21,7 +21,16 @@ public class Player : Unit
         eventManager.SubscribeHandler("jumpButtonDown", new JumpInvoker());
         eventManager.SubscribeHandler("attackButtonDown", new AttackInvoker());
         eventManager.SubscribeHandler("dashButtonDown", new DashInvoker());
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+        {
+            Destroy(instance.gameObject);
+            instance = this;
+        }
 	}
+
+    public static Player instance;
 
     protected override void Update()
     {

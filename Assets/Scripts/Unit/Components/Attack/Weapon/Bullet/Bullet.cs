@@ -26,30 +26,30 @@ public class Bullet : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag.Equals("Enemy"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             ActionParams ap = new ActionParams();
             ap["other"] = enemy.gameObject;
             ap["bullet"] = this;
             ap["dmg"] = dmg;
-            player.eventManager.InvokeInterceptors("enemyHit", ap);
+            player.eventManager.InvokeInterceptors("bulletEnemyHit", ap);
             if (!ap.forbid)
             {
                 player.eventManager.InvokeHandlers("bulletDestroy", null);
                 Destroy(gameObject);
             }
-            enemy.currentState.Damage((int)ap.parameters["dmg"]);
+            enemy.currentState.DealDamage((int)ap.parameters["dmg"], gameObject);
             ap = new ActionParams();
             ap["enemy"] = enemy;
-            player.eventManager.InvokeHandlers("enemyHit", ap);
+            player.eventManager.InvokeHandlers("bulletEnemyHit", ap);
         }
         if (collision.tag.Equals("Level"))
         {
             ActionParams ap = new ActionParams();
             ap["other"] = collision.gameObject;
             ap["bullet"] = this;
-            player.eventManager.InvokeInterceptors("levelHit", ap);
+            player.eventManager.InvokeInterceptors("bulletLevelHit", ap);
             if (!ap.forbid)
             {
                 ap = new ActionParams();

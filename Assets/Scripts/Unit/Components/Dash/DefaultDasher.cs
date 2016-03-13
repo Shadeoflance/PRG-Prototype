@@ -14,7 +14,7 @@ public class DefaultDasher : Dasher
     {
         if (player.currentState.Transit(new DashState(player, speed, distance)))
         {
-            EnemyPenetrate ep = new EnemyPenetrate();
+            EnemyPenetrate ep = new EnemyPenetrate(player);
             player.eventManager.SubscribeHandler("dashPenetrateEnemy", ep);
             player.eventManager.SubscribeHandler("dashFinish", new EPUnsubscriber(ep));
         }
@@ -23,12 +23,18 @@ public class DefaultDasher : Dasher
     class EnemyPenetrate : ActionListener
     {
         HashSet<Enemy> alreadyPenetrated = new HashSet<Enemy>();
+        Player player;
+        public EnemyPenetrate(Player p)
+        {
+            player = p;
+        }
+
         public bool Handle(ActionParams ap)
         {
             Enemy enemy = (Enemy)ap["enemy"];
             if (!alreadyPenetrated.Contains(enemy))
             {
-                enemy.currentState.Damage(1);
+                enemy.currentState.DealDamage(player.damage, player.gameObject);
                 alreadyPenetrated.Add(enemy);
             }
             return false;
