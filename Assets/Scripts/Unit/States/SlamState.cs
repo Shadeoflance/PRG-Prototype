@@ -57,5 +57,6 @@ public class SlamState : PlayerState
         ActionParams ap = new ActionParams();
         ap["enemies"] = enemies;
         player.eventManager.InvokeHandlers("slamFinish", ap);
+        player.eventManager.InvokeHandlers("land", null);
     }
 }

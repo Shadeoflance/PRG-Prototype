@@ -15,7 +15,7 @@ public class PlayerController : IController
 
 	public bool NeedJump ()
 	{
-		return Input.GetButtonDown("Jump");
+		return Input.GetButton("Jump");
 	}
 
 	public Vector2 NeedVel ()

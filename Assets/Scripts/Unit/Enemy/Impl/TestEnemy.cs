@@ -16,6 +16,7 @@ class TestEnemyController : IController
 {
     float timer = 1;
     Unit unit;
+    Vector2 needPoint;
 
     public TestEnemyController(Unit unit)
     {
@@ -34,16 +35,25 @@ class TestEnemyController : IController
 
     public Vector2 NeedVel()
     {
-        return new Vector2(unit.direction, 0);
+        Vector2 dir = VectorUtils.TrimY(needPoint - VectorUtils.V3ToV2(unit.transform.position));
+        if (dir.magnitude < 0.05)
+            return Vector2.zero;
+        return dir.normalized;
     }
 
     public void Update()
     {
+        Vector2 toPlayer = VectorUtils.V3ToV2(Player.instance.transform.position - unit.transform.position);
+        if (toPlayer.magnitude < 5)
+        {
+            needPoint = Player.instance.transform.position;
+            return;
+        }
         timer -= Time.deltaTime;
         if (timer < 0)
         {
-            unit.direction *= -1;
-            timer = 1;
+            timer = 5;
+            needPoint = VectorUtils.V3ToV2(unit.transform.position) + new Vector2((Random.Range(0, 2) == 1 ? -1 : 1) * 3, 0);
         }
     }
 }

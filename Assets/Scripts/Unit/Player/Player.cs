@@ -19,7 +19,6 @@ public class Player : Unit
         walking = new PlayerWalkingState(this);
         airborne = new PlayerAirborneState(this);
         eventManager.SubscribeHandler("jumpButtonDown", new JumpInvoker());
-        eventManager.SubscribeHandler("attackButtonDown", new AttackInvoker());
         eventManager.SubscribeHandler("dashButtonDown", new DashInvoker());
         if (instance == null)
             instance = this;
@@ -35,6 +34,7 @@ public class Player : Unit
     protected override void Update()
     {
         base.Update();
+        (attack as Weapon).Update();
     }
 
     //void OnTriggerEnter2D(Collider2D collision)
@@ -64,14 +64,14 @@ public class Player : Unit
             return false;
         }
     }
-    class AttackInvoker : ActionListener
-    {
-        public bool Handle(ActionParams ap)
-        {
-            ap.unit.currentState.Attack();
-            return false;
-        }
-    }
+    //class AttackInvoker : ActionListener
+    //{
+    //    public bool Handle(ActionParams ap)
+    //    {
+    //        ap.unit.currentState.Attack();
+    //        return false;
+    //    }
+    //}
     class DashInvoker : ActionListener
     {
         public bool Handle(ActionParams ap)

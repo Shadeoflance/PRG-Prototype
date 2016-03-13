@@ -14,7 +14,6 @@ class TestFlyingEnemy : Enemy
 
 class TFEController : IController
 {
-    float timer = 1;
     Unit unit;
 
     public TFEController(Unit unit)
@@ -36,7 +35,10 @@ class TFEController : IController
     {
         if (Player.instance == null)
             return Vector2.zero;
-        return VectorUtils.V3ToV2(Player.instance.transform.position - unit.transform.position).normalized;
+        Vector2 toPlayer = VectorUtils.V3ToV2(Player.instance.transform.position - unit.transform.position);
+        if (toPlayer.magnitude < 4)
+            return toPlayer.normalized;
+        else return Vector2.zero;
     }
 
     public void Update()
