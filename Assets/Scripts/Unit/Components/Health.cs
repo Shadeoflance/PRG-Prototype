@@ -3,7 +3,7 @@
 public class Health
 {
     Unit unit;
-    int currentHealth, maxHealth;
+    public int currentHealth, maxHealth;
     public Health(Unit unit, int maxHealth)
     {
         this.unit = unit;

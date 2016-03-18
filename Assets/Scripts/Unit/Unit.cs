@@ -16,13 +16,18 @@ public class Unit : MonoBehaviour
     public Attack attack;
     public Health health;
     public int direction = 1;
+    private int spriteDirection = 1;
     public int damage = 1;
+    private Transform sprite;
+    private Material healthBar;
 
     protected void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         eventManager = new EventManager(this);
         eventManager.SubscribeHandler("land", new WalkOnLand());
+        sprite = transform.FindChild("Sprite");
+        healthBar = transform.FindChild("HealthBar").GetComponent<SpriteRenderer>().material;
     }
 
     protected virtual void Update()
@@ -37,11 +42,17 @@ public class Unit : MonoBehaviour
         }
         currentState.Update();
         eventManager.Update();
+        healthBar.SetFloat("_HealthPercentage", 1f * health.currentHealth / health.maxHealth);
         if (!bot.IsTouchingLayers(1 << LayerMask.NameToLayer("Level")) && currentState != airborne)
         {
             //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(0, -1), 0.6f, 1 << LayerMask.NameToLayer("Level"));
             //if(hit.collider == null)
             currentState.Transit(airborne);
+        }
+        if (spriteDirection != direction)
+        {
+            sprite.localScale = Vector3.Scale(sprite.localScale, new Vector3(-1, 1, 1));
+            spriteDirection *= -1;
         }
     }
 
