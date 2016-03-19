@@ -2,7 +2,7 @@
 
 public class Buff : IUpdatable
 {
-    Unit unit;
+    protected Unit unit;
     float duration;
 
     public Buff(Unit unit, float duration)

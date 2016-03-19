@@ -12,7 +12,7 @@ public class Player : Unit
         jumper = new MultipleJumper(this, jumpForce, jumpHeight, 1);
         mover = new DefaultMover(this, speed);
         attack = new Weapon(this);
-        health = new Health(this, 2);
+        health = new Health(this, hp);
         dasher = new DefaultDasher(this);
         slamer = new DefaultSlamer(this);
         currentState = new PlayerWalkingState(this);
@@ -20,6 +20,7 @@ public class Player : Unit
         airborne = new PlayerAirborneState(this);
         eventManager.SubscribeHandler("jumpButtonDown", new JumpInvoker());
         eventManager.SubscribeHandler("dashButtonDown", new DashInvoker());
+        eventManager.SubscribeHandler("takeDmg", new DamageBoost());
         if (instance == null)
             instance = this;
         else if (instance != this)
@@ -39,25 +40,6 @@ public class Player : Unit
         slamer.Update();
     }
 
-    //void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (currentState is DashState)
-    //    {
-    //        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-    //        {
-    //            ActionParams ap = new ActionParams();
-    //            ap["enemy"] = collision.GetComponent<Enemy>();
-    //            eventManager.InvokeHandlers("dashPenetrateEnemy", ap);
-    //        }
-    //        if (collision.gameObject.layer == LayerMask.NameToLayer("Level"))
-    //        {
-    //            ActionParams ap = new ActionParams();
-    //            ap["level"] = collision.gameObject;
-    //            eventManager.InvokeHandlers("dashPenetrateLevel", ap);
-    //        }
-    //    }
-    //}
-
     class JumpInvoker : ActionListener
     {
         public bool Handle(ActionParams ap)
@@ -66,19 +48,21 @@ public class Player : Unit
             return false;
         }
     }
-    //class AttackInvoker : ActionListener
-    //{
-    //    public bool Handle(ActionParams ap)
-    //    {
-    //        ap.unit.currentState.Attack();
-    //        return false;
-    //    }
-    //}
+
     class DashInvoker : ActionListener
     {
         public bool Handle(ActionParams ap)
         {
             (ap.unit.currentState as PlayerState).Dash();
+            return false;
+        }
+    }
+
+    class DamageBoost : ActionListener
+    {
+        public bool Handle(ActionParams ap)
+        {
+            ap.unit.buffs.Add(new Invulnerability(ap.unit, 1));
             return false;
         }
     }
