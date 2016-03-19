@@ -34,7 +34,7 @@ public class Weapon : Attack, IUpdatable
     }
 
 
-    public Weapon(Unit unit, float speed = 10, float life = 1, float bps = 2f)
+    public Weapon(Unit unit, float speed = 10, float life = 1, float bps = 4f)
         : base(unit)
     {
         this.bps = bps;

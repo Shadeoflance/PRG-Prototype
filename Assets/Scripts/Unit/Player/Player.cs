@@ -35,6 +35,8 @@ public class Player : Unit
     {
         base.Update();
         (attack as Weapon).Update();
+        dasher.Update();
+        slamer.Update();
     }
 
     //void OnTriggerEnter2D(Collider2D collision)

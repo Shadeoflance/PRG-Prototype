@@ -44,10 +44,12 @@
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
-				fixed4 col = fixed4(0,0,0,0);
+				fixed4 col = fixed4(1 - i.uv.x, i.uv.x, 0, 0);
 				if(i.uv.x > _HealthPercentage)
-					col.x = 1;
-				else col.y = 1;	
+				{
+					col.x = 0;
+					col.y = 0;
+				}
 				return col;
 			}
 			ENDCG

@@ -12,6 +12,9 @@ public class DefaultDasher : Dasher
 
     public override void Dash()
     {
+        if (!CanDash())
+            return;
+        base.Dash();
         if (player.currentState.Transit(new DashState(player, speed, distance)))
         {
             EnemyPenetrate ep = new EnemyPenetrate(player);

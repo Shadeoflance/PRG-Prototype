@@ -13,6 +13,9 @@ public class DefaultSlamer : Slamer
 
     public override void Slam()
     {
+        if (!CanSlam())
+            return;
+        base.Slam();
         player.currentState.Transit(new SlamState(player, speed, range));
         player.eventManager.SubscribeHandler("slamFinish", new SlamDmg(player));
     }
