@@ -1,4 +1,4 @@
-﻿Shader "TestShader"
+﻿Shader "HP Bar"
 {
 	Properties
 	{
@@ -47,8 +47,7 @@
 				fixed4 col = fixed4(1 - i.uv.x, i.uv.x, 0, 0);
 				if(i.uv.x > _HealthPercentage)
 				{
-					col.x = 0;
-					col.y = 0;
+					discard;
 				}
 				return col;
 			}
