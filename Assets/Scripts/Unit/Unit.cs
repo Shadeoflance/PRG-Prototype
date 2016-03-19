@@ -20,6 +20,7 @@ public class Unit : MonoBehaviour
     public int damage = 1;
     private Transform sprite;
     private Material healthBar;
+    public Group<Buff> buffs;
 
     protected void Awake()
     {
@@ -32,6 +33,9 @@ public class Unit : MonoBehaviour
 
     protected virtual void Update()
 	{
+        buffs.Refresh();
+        foreach (var a in buffs)
+            a.Update();
         controller.Update();
         Vector2 needVel = controller.NeedVel();
         if (currentState == null)
