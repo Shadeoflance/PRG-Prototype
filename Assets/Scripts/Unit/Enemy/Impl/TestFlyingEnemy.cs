@@ -2,8 +2,9 @@
 
 class TestFlyingEnemy : Enemy
 {
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         controller = new TFEController(this);
         mover = new Flyer(this, speed);
         health = new Health(this, 2);

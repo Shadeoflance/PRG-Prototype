@@ -14,12 +14,12 @@ public class Health
     public void DealDamage(int amount, GameObject source)
     {
         ActionParams ap = new ActionParams();
-        ap.parameters.Add("amount", amount);
+        ap["amount"] = amount;
         unit.eventManager.InvokeInterceptors("takeDmg", ap);
         if (ap.forbid)
-            return;
-        currentHealth -= (int)ap.parameters["amount"];
-        unit.eventManager.InvokeHandlers("takeDmg", null);
+            return; 
+        currentHealth -= (int)ap["amount"];
+        unit.eventManager.InvokeHandlers("takeDmg", ap);
         if (currentHealth <= 0)
             Die();
     }

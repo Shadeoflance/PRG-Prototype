@@ -2,8 +2,10 @@
 
 public class TestEnemy : Enemy
 {
-    void Start()
+    public bool stationary = false;
+    protected override void Start()
     {
+        base.Start();
         controller = new TestEnemyController(this);
         mover = new DefaultMover(this, speed);
         health = new Health(this, 7);
@@ -15,10 +17,10 @@ public class TestEnemy : Enemy
 class TestEnemyController : IController
 {
     float timer = 1;
-    Unit unit;
+    TestEnemy unit;
     Vector2 needPoint;
 
-    public TestEnemyController(Unit unit)
+    public TestEnemyController(TestEnemy unit)
     {
         this.unit = unit;
     }
@@ -35,6 +37,8 @@ class TestEnemyController : IController
 
     public Vector2 NeedVel()
     {
+        if (unit.stationary)
+            return Vector2.zero;
         Vector2 dir = VectorUtils.TrimY(needPoint - VectorUtils.V3ToV2(unit.transform.position));
         if (dir.magnitude < 0.05)
             return Vector2.zero;

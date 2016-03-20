@@ -30,7 +30,7 @@ public class Bullet : MonoBehaviour
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             ActionParams ap = new ActionParams();
-            ap["other"] = enemy.gameObject;
+            ap["enemy"] = enemy;
             ap["bullet"] = this;
             ap["dmg"] = dmg;
             player.eventManager.InvokeInterceptors("bulletEnemyHit", ap);
@@ -40,8 +40,6 @@ public class Bullet : MonoBehaviour
                 Destroy(gameObject);
             }
             enemy.currentState.DealDamage((int)ap.parameters["dmg"], gameObject);
-            ap = new ActionParams();
-            ap["enemy"] = enemy;
             player.eventManager.InvokeHandlers("bulletEnemyHit", ap);
         }
         if (collision.tag.Equals("Level"))
