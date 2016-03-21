@@ -3,11 +3,11 @@ using System.Collections;
 
 public static class VectorUtils 
 {
-	public static Vector2 V3ToV2(this Vector3 vec)
+	public static Vector2 ToV2(this Vector3 vec)
 	{
 		return new Vector2(vec.x, vec.y);
 	}
-	public static Vector3 V2ToV3(this Vector2 vec)
+	public static Vector3 ToV3(this Vector2 vec)
 	{
 		return new Vector3(vec.x, vec.y, 0);
     }

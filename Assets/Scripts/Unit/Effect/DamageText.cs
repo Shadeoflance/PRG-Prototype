@@ -36,7 +36,7 @@ class DamageText : MonoBehaviour
 
     void OnGUI()
     {
-        Vector2 pos = VectorUtils.V3ToV2(Camera.main.WorldToScreenPoint(transform.position + Vector3.up * 0.5f));
+        Vector2 pos = VectorUtils.ToV2(Camera.main.WorldToScreenPoint(transform.position + Vector3.up * 0.5f));
         Rect rect = new Rect(0, 0, 1, 1);
         rect.x = pos.x;
         rect.y = Screen.height - pos.y - rect.height;

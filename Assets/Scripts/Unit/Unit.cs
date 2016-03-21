@@ -40,10 +40,7 @@ public class Unit : MonoBehaviour
         Vector2 needVel = controller.NeedVel();
         if (currentState == null)
             currentState = airborne;
-        if (needVel.magnitude > 0)
-        {
-            currentState.Move(needVel);
-        }
+        currentState.Move(needVel);
         currentState.Update();
         eventManager.Update();
         healthBar.SetFloat("_HealthPercentage", 1f * health.currentHealth / health.maxHealth);
@@ -85,7 +82,7 @@ public class Unit : MonoBehaviour
 
     void OnGUI()
     {
-        Vector2 pos = VectorUtils.V3ToV2(Camera.main.WorldToScreenPoint(transform.position));
+        Vector2 pos = VectorUtils.ToV2(Camera.main.WorldToScreenPoint(transform.position));
         Rect rect = new Rect(0, 0, 150, 50);
         rect.x = pos.x - 30;
         rect.y = Screen.height - pos.y - rect.height;

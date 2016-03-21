@@ -49,7 +49,7 @@ public class Weapon : Attack, IUpdatable
 
     public override void DoAttack()
     {
-        factory.SetPosition(VectorUtils.V3ToV2(unit.transform.position + new Vector3(unit.direction * 0.5f, 0, 0)))
+        factory.SetPosition(VectorUtils.ToV2(unit.transform.position + new Vector3(unit.direction * 0.5f, 0, 0)))
             .SetDmg(unit.damage)
             .SetDir(new Vector2(unit.direction, 0))
             .Build();

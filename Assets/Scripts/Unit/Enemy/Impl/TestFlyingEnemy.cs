@@ -36,7 +36,7 @@ class TFEController : IController
     {
         if (Player.instance == null)
             return Vector2.zero;
-        Vector2 toPlayer = VectorUtils.V3ToV2(Player.instance.transform.position - unit.transform.position);
+        Vector2 toPlayer = (Player.instance.transform.position - unit.transform.position).ToV2();
         if (toPlayer.magnitude < 4)
             return toPlayer.normalized;
         else return Vector2.zero;
