@@ -37,23 +37,41 @@ public static class ItemPool
     static void Init()
     {
         items = new Dictionary<int, Bundle>();
-        items.Add(1, new Bundle(Resources.Load<Sprite>("extrajump"), (player) =>
-        {
-            if (player.jumper is MultipleJumper)
+        items.Add(1, new Bundle(Resources.Load<Sprite>("Items/extrajump"), (player) =>
             {
-                MultipleJumper jumper = (MultipleJumper)player.jumper;
-                jumper.AddExtraJumps(1);
+                if (player.jumper is MultipleJumper)
+                {
+                    MultipleJumper jumper = (MultipleJumper)player.jumper;
+                    jumper.AddExtraJumps(1);
+                }
+                else if (player.jumper is DefaultJumper)
+                {
+                    DefaultJumper jumper = (DefaultJumper)player.jumper;
+                    player.jumper = new MultipleJumper(player, jumper.force, jumper.maxHeight, 1);
+                }
             }
-            else if (player.jumper is DefaultJumper)
-            {
-                DefaultJumper jumper = (DefaultJumper)player.jumper;
-                player.jumper = new MultipleJumper(player, jumper.force, jumper.maxHeight, 1);
-            }
-        }));
+        ));
 
-        items.Add(2, new Bundle(Resources.Load<Sprite>("extradmg"), (player) =>
-        {
-            player.damage++;
-        }));
+        items.Add(2, new Bundle(Resources.Load<Sprite>("Items/extradmg"), (player) =>
+            {
+                player.damage++;
+            }
+        ));
+
+        items.Add(3, new Bundle(Resources.Load<Sprite>("Items/dmgafterdash"), (player) =>
+            {
+                player.eventManager.SubscribeHandler("dashFinish", new DmgAfterDash());
+            }
+        ));
     }
+
+    class DmgAfterDash : ActionListener
+    {
+        public bool Handle(ActionParams ap)
+        {
+            ap.unit.AddBuff(new DoubleDamageBuff(ap.unit, 3));
+            return false;
+        }
+    }
+
 }

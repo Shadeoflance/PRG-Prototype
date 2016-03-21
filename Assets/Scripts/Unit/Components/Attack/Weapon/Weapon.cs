@@ -42,17 +42,23 @@ public class Weapon : Attack, IUpdatable
         this._life = life;
         player = (Player)unit;
         factory = new BulletFactory(unit)
-            .SetBullet((Bullet)GameObject.Instantiate((GameObject)Resources.Load("bullet")).GetComponent<Bullet>())
+            .SetBullet(((GameObject)Resources.Load("bullet")).GetComponent<Bullet>())
             .SetLife(life)
             .SetSpeed(speed);
     }
 
     public override void DoAttack()
     {
-        factory.SetPosition(VectorUtils.ToV2(unit.transform.position + new Vector3(unit.direction * 0.5f, 0, 0)))
+        var b = factory.SetPosition(VectorUtils.ToV2(unit.transform.position + new Vector3(unit.direction * 0.5f, 0, 0)))
             .SetDmg(unit.damage)
             .SetDir(new Vector2(unit.direction, 0))
             .Build();
+        ActionParams ap = new ActionParams();
+        ap["bullet"] = b;
+        unit.eventManager.InvokeInterceptors("shoot", ap);
+        if (ap.forbid)
+            GameObject.Destroy(b.gameObject);
+        unit.eventManager.InvokeHandlers("shoot", ap);
         cd = 1f / bps;
     }
 

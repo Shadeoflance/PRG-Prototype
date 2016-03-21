@@ -20,7 +20,7 @@ public class Unit : MonoBehaviour
     public int damage = 1, hp = 3;
     private Transform sprite;
     private Material healthBar;
-    public Group<Buff> buffs = new Group<Buff>();
+    private Group<Buff> buffs = new Group<Buff>();
 
     protected void Awake()
     {
@@ -55,6 +55,16 @@ public class Unit : MonoBehaviour
             sprite.localScale = Vector3.Scale(sprite.localScale, new Vector3(-1, 1, 1));
             spriteDirection *= -1;
         }
+    }
+
+    public virtual void AddBuff(Buff b)
+    {
+        buffs.Add(b);
+    }
+
+    public virtual void RemoveBuff(Buff b)
+    {
+        buffs.Remove(b);
     }
 
     protected virtual void FixedUpdate()

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Player : Unit
@@ -40,6 +41,12 @@ public class Player : Unit
         slamer.Update();
     }
 
+    public override void AddBuff(Buff b)
+    {
+        base.AddBuff(b);
+        b.ChangeToPlayerBuff();
+    }
+
     class JumpInvoker : ActionListener
     {
         public bool Handle(ActionParams ap)
@@ -62,7 +69,7 @@ public class Player : Unit
     {
         public bool Handle(ActionParams ap)
         {
-            ap.unit.buffs.Add(new Invulnerability(ap.unit, 1));
+            ap.unit.AddBuff(new Invulnerability(ap.unit, 1));
             return false;
         }
     }
