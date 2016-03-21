@@ -7,9 +7,10 @@ class TestFlyingEnemy : Enemy
         base.Start();
         controller = new TFEController(this);
         mover = new Flyer(this, speed);
-        health = new Health(this, 2);
+        health = new Health(this, 2f);
         walking = new WalkingState(this);
         airborne = new AirborneState(this);
+        attack = new Attack(this);
     }
 }
 

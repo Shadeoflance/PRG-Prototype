@@ -3,12 +3,13 @@ using System.Collections.Generic;
 
 public class DefaultSlamer : Slamer
 {
-    public float speed, range;
-    public DefaultSlamer(Player p, float speed = 50, float range = 2)
+    public float speed, range, dmgMultiplier;
+    public DefaultSlamer(Player p, float dmgMultiplier = 3f, float speed = 50, float range = 3)
         : base(p)
     {
         this.speed = speed;
         this.range = range;
+        this.dmgMultiplier = dmgMultiplier;
     }
 
     public override void Slam()
@@ -17,15 +18,17 @@ public class DefaultSlamer : Slamer
             return;
         base.Slam();
         player.currentState.Transit(new SlamState(player, speed, range));
-        player.eventManager.SubscribeHandler("slamFinish", new SlamDmg(player));
+        player.eventManager.SubscribeHandler("slamFinish", new SlamDmg(player, dmgMultiplier));
     }
 
     class SlamDmg : ActionListener
     {
         Player player;
-        public SlamDmg(Player p)
+        float dmgMult;
+        public SlamDmg(Player p, float dmgMult)
         {
             player = p;
+            this.dmgMult = dmgMult;
         }
         public bool Handle(ActionParams ap)
         {
@@ -33,7 +36,7 @@ public class DefaultSlamer : Slamer
             {
                 if (a == null)
                     continue;
-                a.health.DealDamage(player.damage, player.gameObject);
+                ap.unit.attack.DealDamage(a, dmgMult);
             }
             return true;
         }

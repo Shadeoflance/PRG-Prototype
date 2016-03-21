@@ -8,9 +8,10 @@ public class TestEnemy : Enemy
         base.Start();
         controller = new TestEnemyController(this);
         mover = new DefaultMover(this, speed);
-        health = new Health(this, 7);
+        health = new Health(this, hp);
         walking = new WalkingState(this);
         airborne = new AirborneState(this);
+        attack = new Attack(this);
     }
 }
 

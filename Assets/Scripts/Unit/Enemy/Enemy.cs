@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Enemy : Unit
 {
@@ -10,7 +11,7 @@ public class Enemy : Unit
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            collision.gameObject.GetComponent<Player>().currentState.DealDamage(damage, gameObject);
+            attack.DealDamage(collision.gameObject.GetComponent<Player>());
         }
     }
 
@@ -18,7 +19,9 @@ public class Enemy : Unit
     {
         public bool Handle(ActionParams ap)
         {
-            DamageText.Create(ap.unit.transform.position, ap["amount"].ToString());
+            float amount = (float)ap["amount"];
+            amount = (float)Math.Round(amount, 1);
+            DamageText.Create(ap.unit.transform.position, amount.ToString());
             return false;
         }
     }

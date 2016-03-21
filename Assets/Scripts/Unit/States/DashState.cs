@@ -17,7 +17,7 @@ public class DashState : PlayerState
     }
 
     public override void Attack() { }
-    public override void DealDamage(int amount, GameObject source) { }
+    public override void TakeDamage(float amount, GameObject source) { }
     public override void Dash() { }
     public override void Jump() { }
     public override void Move(Vector2 dir) { }

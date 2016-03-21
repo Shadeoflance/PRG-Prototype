@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
     public float speed;
     public float? life = null;
     public Unit player;
-    public int dmg;
+    public float dmgMult;
 
     void Awake()
     {
@@ -32,14 +32,14 @@ public class Bullet : MonoBehaviour
             ActionParams ap = new ActionParams();
             ap["enemy"] = enemy;
             ap["bullet"] = this;
-            ap["dmg"] = dmg;
+            ap["dmgMult"] = dmgMult;
             player.eventManager.InvokeInterceptors("bulletEnemyHit", ap);
             if (!ap.forbid)
             {
                 player.eventManager.InvokeHandlers("bulletDestroy", null);
                 Destroy(gameObject);
             }
-            enemy.currentState.DealDamage((int)ap.parameters["dmg"], gameObject);
+            player.attack.DealDamage(enemy, (float)ap.parameters["dmgMult"]);
             player.eventManager.InvokeHandlers("bulletEnemyHit", ap);
         }
         if (collision.tag.Equals("Level"))

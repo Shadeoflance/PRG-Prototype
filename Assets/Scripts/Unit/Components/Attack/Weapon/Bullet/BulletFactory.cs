@@ -7,7 +7,7 @@ public class BulletFactory
     Unit player;
     float speed;
     float? life;
-    int dmg;
+    float dmg;
 
     public BulletFactory(Unit player)
     {
@@ -45,7 +45,7 @@ public class BulletFactory
         return this;
     }
 
-    public BulletFactory SetDmg(int dmg)
+    public BulletFactory SetDmg(float dmg)
     {
         this.dmg = dmg;
         return this;
@@ -58,7 +58,7 @@ public class BulletFactory
         newBullet.transform.position = position;
         newBullet.needVel = direction.normalized;
         newBullet.life = life;
-        newBullet.dmg = dmg;
+        newBullet.dmgMult = dmg;
         newBullet.player = player;
         newBullet.gameObject.SetActive(true);
         return newBullet;

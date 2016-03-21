@@ -17,7 +17,7 @@ public class Unit : MonoBehaviour
     public Health health;
     public int direction = 1;
     private int spriteDirection = 1;
-    public int damage = 1, hp = 3;
+    public float damage = 1f, hp = 3;
     private Transform sprite;
     private Material healthBar;
     private Group<Buff> buffs = new Group<Buff>();
