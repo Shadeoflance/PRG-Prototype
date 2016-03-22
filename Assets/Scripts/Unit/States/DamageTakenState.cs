@@ -2,13 +2,11 @@
 
 public class PlayerDamageTakenState : PlayerState
 {
-    private int direction;
     private static float speed = 700, duration = 0.25f;
     private float currentDuration;
     public PlayerDamageTakenState(Unit unit, int direction)
         : base(unit)
     {
-        this.direction = direction;
         currentDuration = duration;
         unit.rb.AddForce(Vector2.up.Rotate(-direction * Mathf.PI / 5) * speed);
     }
@@ -29,13 +27,11 @@ public class PlayerDamageTakenState : PlayerState
 }
 public class DamageTakenState : UnitState
 {
-    private int direction;
     private float speed = 500, duration = 0.25f;
     private float currentDuration;
     public DamageTakenState(Unit unit, int direction)
         : base(unit)
     {
-        this.direction = direction;
         currentDuration = duration;
         unit.rb.AddForce(Vector2.up.Rotate(-direction * Mathf.PI / 5) * speed);
     }

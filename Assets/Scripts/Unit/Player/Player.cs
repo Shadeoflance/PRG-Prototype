@@ -31,6 +31,11 @@ public class Player : Unit
         }
 	}
 
+    public static void IgnoreEnemyCollisions(bool value)
+    {
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), value);
+    }
+
     public static Player instance;
 
     protected override void Update()
