@@ -20,7 +20,6 @@ public class Attack
         unit.eventManager.InvokeInterceptors("dealDamage", ap);
         if (ap.forbid)
             return;
-        Debug.Log(ap["dmg"].GetType());
         victim.currentState.TakeDamage((float) ap["dmg"], unit.gameObject);
         unit.eventManager.InvokeHandlers("dealDamage", ap);
     }

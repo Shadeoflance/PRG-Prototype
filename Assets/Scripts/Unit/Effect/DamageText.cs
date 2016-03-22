@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-class DamageText : MonoBehaviour
+public class DamageText : MonoBehaviour
 {
     public string amount;
     GUIStyle style = new GUIStyle();
@@ -13,7 +13,7 @@ class DamageText : MonoBehaviour
         dmgText.amount = amount;
         newInstance.transform.position = position;
         var rb = newInstance.AddComponent<Rigidbody2D>();
-        var forceVec = Vector2.up.Rotate(Random.Range(-Mathf.PI / 2, Mathf.PI / 2));
+        var forceVec = Vector2.up.Rotate(Random.Range(-Mathf.PI / 3, Mathf.PI / 3));
         rb.AddForce(forceVec * 300);
     }
     void Start()
@@ -28,7 +28,7 @@ class DamageText : MonoBehaviour
         Color c = style.normal.textColor;
         c = new Color(c.r, c.g, c.b, c.a - Time.deltaTime);
         if (c.a < 0)
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         style.normal.textColor = c;
         currentSize -= initialSize * Time.deltaTime;
         style.fontSize = (int)currentSize;

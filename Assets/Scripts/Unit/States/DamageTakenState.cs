@@ -1,0 +1,56 @@
+﻿using UnityEngine;
+
+public class PlayerDamageTakenState : PlayerState
+{
+    private int direction;
+    private static float speed = 700, duration = 0.25f;
+    private float currentDuration;
+    public PlayerDamageTakenState(Unit unit, int direction)
+        : base(unit)
+    {
+        this.direction = direction;
+        currentDuration = duration;
+        unit.rb.AddForce(Vector2.up.Rotate(-direction * Mathf.PI / 5) * speed);
+    }
+    public override void FixedUpdate()
+    {
+        currentDuration -= Time.deltaTime;
+        if (currentDuration < 0)
+            unit.currentState = unit.walking;
+    }
+    public override void Jump() { }
+    public override void Attack() { }
+    public override void Move(Vector2 dir) { }
+
+    public override bool Transit(UnitState state)
+    {
+        return false;
+    }
+}
+public class DamageTakenState : UnitState
+{
+    private int direction;
+    private float speed = 500, duration = 0.25f;
+    private float currentDuration;
+    public DamageTakenState(Unit unit, int direction)
+        : base(unit)
+    {
+        this.direction = direction;
+        currentDuration = duration;
+        unit.rb.AddForce(Vector2.up.Rotate(-direction * Mathf.PI / 5) * speed);
+    }
+    public override void FixedUpdate()
+    {
+        currentDuration -= Time.deltaTime;
+        if (currentDuration < 0)
+            unit.currentState = unit.walking;
+    }
+    public override void Jump() { }
+    public override void Attack() { }
+    public override void Move(Vector2 dir) { }
+
+    public override bool Transit(UnitState state)
+    {
+        return false;
+    }
+}

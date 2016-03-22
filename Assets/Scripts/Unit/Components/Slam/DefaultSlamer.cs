@@ -18,16 +18,14 @@ public class DefaultSlamer : Slamer
             return;
         base.Slam();
         player.currentState.Transit(new SlamState(player, speed, range));
-        player.eventManager.SubscribeHandler("slamFinish", new SlamDmg(player, dmgMultiplier));
+        player.eventManager.SubscribeHandler("slamFinish", new SlamDmg(dmgMultiplier));
     }
 
     class SlamDmg : ActionListener
     {
-        Player player;
         float dmgMult;
-        public SlamDmg(Player p, float dmgMult)
+        public SlamDmg(float dmgMult)
         {
-            player = p;
             this.dmgMult = dmgMult;
         }
         public bool Handle(ActionParams ap)

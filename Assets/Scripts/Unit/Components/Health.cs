@@ -21,7 +21,19 @@ public class Health
         currentHealth -= (float)ap["amount"];
         unit.eventManager.InvokeHandlers("takeDmg", ap);
         if (currentHealth <= 0)
+        {
             Die();
+            return;
+        }
+        int direction = source.transform.position.x < unit.transform.position.x ? 1 : -1;
+        if (unit is Player)
+        {
+            unit.currentState.Transit(new PlayerDamageTakenState(unit, direction));
+        }
+        else
+        {
+            unit.currentState.Transit(new DamageTakenState(unit, direction));
+        }
     }
 
     public void Die()
