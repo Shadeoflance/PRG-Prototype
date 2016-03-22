@@ -39,15 +39,10 @@ public static class ItemPool
         items = new Dictionary<int, Bundle>();
         items.Add(1, new Bundle(Resources.Load<Sprite>("Items/extrajump"), (player) =>
             {
-                if (player.jumper is MultipleJumper)
+                if (player.jumper is DefaultJumper)
                 {
-                    MultipleJumper jumper = (MultipleJumper)player.jumper;
+                    var jumper = (DefaultJumper)player.jumper;
                     jumper.AddExtraJumps(1);
-                }
-                else if (player.jumper is DefaultJumper)
-                {
-                    DefaultJumper jumper = (DefaultJumper)player.jumper;
-                    player.jumper = new MultipleJumper(player, jumper.force, jumper.maxHeight, 1);
                 }
             }
         ));

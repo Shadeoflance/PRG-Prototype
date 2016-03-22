@@ -16,6 +16,7 @@ die
 
 # Jump
 jump
+extraJump
 
 # Controller
 jumpButtonDown
