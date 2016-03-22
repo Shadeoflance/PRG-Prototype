@@ -49,9 +49,15 @@ public class Weapon : Attack, IUpdatable
 
     public override void DoAttack()
     {
-        var b = factory.SetPosition(VectorUtils.ToV2(unit.transform.position + new Vector3(unit.direction * 0.5f, 0, 0)))
+        Vector2 dir, vel = player.controller.NeedVel();
+        if (vel.y > 0)
+            dir = Vector2.up;
+        else if (player.currentState == player.airborne && vel.y < 0)
+            dir = Vector2.down;
+        else dir = new Vector2(player.direction, 0);
+        var b = factory.SetPosition(unit.transform.position.ToV2() + dir * 0.5f)
             .SetDmg(unit.damage)
-            .SetDir(new Vector2(unit.direction, 0))
+            .SetDir(dir)
             .Build();
         ActionParams ap = new ActionParams();
         ap["bullet"] = b;
