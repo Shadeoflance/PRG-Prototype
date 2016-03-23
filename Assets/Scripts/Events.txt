@@ -8,6 +8,7 @@ dashFinish
 slamFinish
 
 # Weapon/Attack
+shoot
 bulletEnemyHit
 bulletDestroy
 bulletLevelHit

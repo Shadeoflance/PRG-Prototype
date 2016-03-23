@@ -10,6 +10,9 @@ struct Bundle
         this.sprite = sprite;
         this.action = action;
     }
+    public Bundle(string path, Action<Player> action)
+        : this(Resources.Load<Sprite>("Items/" + path), action)
+    { }
     public Sprite sprite;
     public Action<Player> action;
 }
@@ -37,7 +40,7 @@ public static class ItemPool
     static void Init()
     {
         items = new Dictionary<int, Bundle>();
-        items.Add(1, new Bundle(Resources.Load<Sprite>("Items/extrajump"), (player) =>
+        items.Add(1, new Bundle("extrajump", (player) =>
             {
                 if (player.jumper is DefaultJumper)
                 {
@@ -47,24 +50,42 @@ public static class ItemPool
             }
         ));
 
-        items.Add(2, new Bundle(Resources.Load<Sprite>("Items/extradmg"), (player) =>
+        items.Add(2, new Bundle("extradmg", (player) =>
             {
                 player.attack.dmgUps++;
             }
         ));
 
-        items.Add(3, new Bundle(Resources.Load<Sprite>("Items/dmgafterdash"), (player) =>
+        items.Add(3, new Bundle("dmgafterdash", (player) =>
             {
                 player.eventManager.SubscribeHandler("dashFinish", new DmgAfterDash());
             }
         ));
-    }
 
+        items.Add(4, new Bundle("crit", (player) =>
+            {
+                player.eventManager.SubscribeInterceptor("shoot", new Crit());
+            }
+        ));
+    }
     class DmgAfterDash : ActionListener
     {
         public bool Handle(ActionParams ap)
         {
             ap.unit.AddBuff(new DoubleDamageBuff(ap.unit, 3));
+            return false;
+        }
+    }
+
+    class Crit : ActionListener
+    {
+        public bool Handle(ActionParams ap)
+        {
+            if (Random.Range(0f, 1f) > 0.3f)
+                return false;
+            var b = ap["bullet"] as Bullet;
+            b.GetComponent<SpriteRenderer>().color = Color.red;
+            b.dmgMult += 2;
             return false;
         }
     }
