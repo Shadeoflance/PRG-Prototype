@@ -2,7 +2,7 @@
 
 public class Weapon : Attack, IUpdatable
 {
-    BulletFactory factory;
+    public BulletFactory factory;
     float _speed, _life;
     public float bps;
     float cd = 0;

@@ -8,6 +8,7 @@ public class BulletFactory
     float speed;
     float? life;
     float dmg;
+    Group<BulletProcessingModifier> modifiers = new Group<BulletProcessingModifier>();
 
     public BulletFactory(Unit player)
     {
@@ -51,8 +52,15 @@ public class BulletFactory
         return this;
     }
 
+    public BulletFactory AddModifier(BulletProcessingModifier mod)
+    {
+        modifiers.Add(mod);
+        return this;
+    }
+
     public Bullet Build()
     {
+        modifiers.Refresh();
         Bullet newBullet = GameObject.Instantiate<Bullet>(bullet);
         newBullet.speed = speed;
         newBullet.transform.position = position;
@@ -61,6 +69,8 @@ public class BulletFactory
         newBullet.dmgMult = dmg;
         newBullet.player = player;
         newBullet.gameObject.SetActive(true);
+        foreach (var a in modifiers)
+            newBullet.modifiers.Add(a.Instantiate());
         return newBullet;
     }
 }

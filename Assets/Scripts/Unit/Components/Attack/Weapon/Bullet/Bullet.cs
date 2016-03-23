@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     public float? life = null;
     public Unit player;
     public float dmgMult;
+    public Group<BulletProcessingModifier> modifiers = new Group<BulletProcessingModifier>();
 
     void Awake()
     {
@@ -16,6 +17,9 @@ public class Bullet : MonoBehaviour
 
     void Update()
     {
+        modifiers.Refresh();
+        foreach (var a in modifiers)
+            a.Modify(this);
         rb.velocity = needVel * speed;
         if (life != null)
         {

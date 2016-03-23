@@ -67,6 +67,12 @@ public static class ItemPool
                 player.eventManager.SubscribeInterceptor("shoot", new Crit());
             }
         ));
+
+        items.Add(5, new Bundle("distancedmg", (player) =>
+            {
+                (player.attack as Weapon).factory.AddModifier(new DistanceDmg());
+            }
+        ));
     }
     class DmgAfterDash : ActionListener
     {
@@ -87,6 +93,28 @@ public static class ItemPool
             b.GetComponent<SpriteRenderer>().color = Color.red;
             b.dmgMult += 2;
             return false;
+        }
+    }
+
+    class DistanceDmg : BulletProcessingModifier
+    {
+        Vector2? prev;
+        public void Modify(Bullet bullet)
+        {
+            if (prev == null)
+            {
+                prev = bullet.transform.position.ToV2();
+                return;
+            }
+            float dist = (prev.Value - bullet.transform.position.ToV2()).magnitude;
+            bullet.dmgMult += dist / 5;
+            bullet.transform.localScale += new Vector3(dist / 5, dist / 5, 0);
+            prev = bullet.transform.position.ToV2();
+        }
+
+        public BulletProcessingModifier Instantiate()
+        {
+            return new DistanceDmg();
         }
     }
 
