@@ -18,7 +18,6 @@ public class BulletFactory
     public BulletFactory SetBullet(Bullet bullet)
     {
         this.bullet = bullet;
-        bullet.gameObject.SetActive(false);
         return this;
     }
 
@@ -68,7 +67,6 @@ public class BulletFactory
         newBullet.life = life;
         newBullet.dmgMult = dmg;
         newBullet.player = player;
-        newBullet.gameObject.SetActive(true);
         foreach (var a in modifiers)
             newBullet.modifiers.Add(a.Instantiate());
         return newBullet;

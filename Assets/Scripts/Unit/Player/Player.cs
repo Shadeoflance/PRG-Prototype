@@ -11,7 +11,6 @@ public class Player : Unit
 	void Start()
 	{
         size = sprite.gameObject.GetComponent<SpriteRenderer>().bounds.extents.ToV2();
-        Debug.Log(size);
 		controller = new PlayerController(this);
         jumper = new DefaultJumper(this, jumpForce, jumpHeight, 1);
         mover = new DefaultMover(this, speed);

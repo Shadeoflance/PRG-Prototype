@@ -90,7 +90,7 @@ public static class ItemPool
             if (Random.Range(0f, 1f) > 0.3f)
                 return false;
             var b = ap["bullet"] as Bullet;
-            b.GetComponent<SpriteRenderer>().color = Color.red;
+            b.transform.FindChild("Sprite").GetComponent<SpriteRenderer>().color = Color.red;
             b.dmgMult += 2;
             return false;
         }
@@ -107,8 +107,8 @@ public static class ItemPool
                 return;
             }
             float dist = (prev.Value - bullet.transform.position.ToV2()).magnitude;
-            bullet.dmgMult += dist / 5;
-            bullet.transform.localScale += new Vector3(dist / 5, dist / 5, 0);
+            bullet.dmgMult += dist / 7;
+            bullet.transform.FindChild("Sprite").transform.localScale += new Vector3(dist / 7, dist / 7, 0);
             prev = bullet.transform.position.ToV2();
         }
 
