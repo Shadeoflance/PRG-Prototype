@@ -21,7 +21,9 @@ public class Enemy : Unit
         {
             float amount = (float)ap["amount"];
             amount = (float)Math.Round(amount, 1);
-            DamageText.Create(ap.unit.transform.position, amount.ToString());
+            Color inColor = new Color(1f, 0.9f, 0f);
+            Color outColor = new Color(1f, 0.4f, 0.3f);
+            DamageText.Create(ap.unit.transform.position, amount.ToString(), inColor, outColor);
             return false;
         }
     }

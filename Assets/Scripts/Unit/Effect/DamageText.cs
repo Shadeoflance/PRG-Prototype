@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class DamageText : MonoBehaviour
 {
@@ -6,11 +7,14 @@ public class DamageText : MonoBehaviour
     GUIStyle style = new GUIStyle();
     static int initialSize = 50;
     float currentSize;
-    public static void Create(Vector2 position, string amount)
+    public Color inColor, outColor;
+    public static void Create(Vector2 position, string amount, Color inColor, Color outColor)
     {
         GameObject newInstance = new GameObject("Damage Text");
         var dmgText = newInstance.AddComponent<DamageText>();
         dmgText.amount = amount;
+        dmgText.inColor = inColor;
+        dmgText.outColor = outColor;
         newInstance.transform.position = position;
         var rb = newInstance.AddComponent<Rigidbody2D>();
         var forceVec = Vector2.up.Rotate(Random.Range(-Mathf.PI / 3, Mathf.PI / 3));
@@ -18,18 +22,19 @@ public class DamageText : MonoBehaviour
     }
     void Start()
     {
-        style.normal.textColor = new Color(1f, 0.5f, 0f);
         style.fontSize = initialSize;
+        style.font = Resources.Load<Font>("font");
+        
         currentSize = (float)initialSize;
     }
 
     void Update()
     {
-        Color c = style.normal.textColor;
-        c = new Color(c.r, c.g, c.b, c.a - Time.deltaTime);
-        if (c.a < 0)
+        inColor = new Color(inColor.r, inColor.g, inColor.b, inColor.a - Time.deltaTime);
+        outColor = new Color(outColor.r, outColor.g, outColor.b, inColor.a);
+        if (inColor.a < 0.1f)
             Destroy(gameObject);
-        style.normal.textColor = c;
+        style.normal.textColor = inColor;
         currentSize -= initialSize * Time.deltaTime;
         style.fontSize = (int)currentSize;
     }
@@ -40,6 +45,6 @@ public class DamageText : MonoBehaviour
         Rect rect = new Rect(0, 0, 1, 1);
         rect.x = pos.x;
         rect.y = Screen.height - pos.y - rect.height;
-        GUI.Label(rect, amount, style);
+        ShadowAndOutline.DrawOutline(rect, amount, style, outColor, inColor, 5f);
     }
 }
