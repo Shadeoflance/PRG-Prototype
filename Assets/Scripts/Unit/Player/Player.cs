@@ -7,10 +7,8 @@ public class Player : Unit
     public Dasher dasher;
     public Slamer slamer;
     public BoxCollider2D main;
-    public static Vector2 size;
 	void Start()
 	{
-        size = sprite.gameObject.GetComponent<SpriteRenderer>().bounds.extents.ToV2();
 		controller = new PlayerController(this);
         jumper = new DefaultJumper(this, jumpForce, jumpHeight, 1);
         mover = new DefaultMover(this, speed);

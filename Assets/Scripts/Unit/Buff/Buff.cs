@@ -17,7 +17,7 @@ public class Buff : IUpdatable
     }
 
     private Sprite sprite = null;
-    public virtual Sprite GetSprite()
+    private Sprite GetSprite()
     {
         if (imagePath == null)
             return null;

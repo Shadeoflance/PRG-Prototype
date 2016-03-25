@@ -22,6 +22,8 @@ public class PlayerDamageTakenState : PlayerState
 
     public override bool Transit(UnitState state)
     {
+        if (state is PlayerStunnedState)
+            return base.Transit(state);
         return false;
     }
 }
@@ -47,6 +49,8 @@ public class DamageTakenState : UnitState
 
     public override bool Transit(UnitState state)
     {
+        if (state is StunnedState)
+            return base.Transit(state);
         return false;
     }
 }

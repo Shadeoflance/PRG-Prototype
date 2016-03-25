@@ -14,7 +14,7 @@ class DefaultJumper : Jumper
         this.extraJumps = extraJumps;
         currentJumps = extraJumps;
         unit.eventManager.SubscribeHandler("land", new JumpsRefresher());
-        unit.eventManager.SubscribeHandler("extraJump", new ExtraJumpEffect());
+        unit.eventManager.SubscribeHandler("extraJump", new ExtraJumpEffect(unit));
     }
     class JumpUp : ActionListener
     {
@@ -38,9 +38,14 @@ class DefaultJumper : Jumper
     }
     class ExtraJumpEffect : ActionListener
     {
+        Unit unit;
+        public ExtraJumpEffect(Unit u)
+        {
+            unit = u;
+        }
         public bool Handle(ActionParams ap)
         {
-            DoubleJumpClouds.Create(ap.unit.transform.position.ToV2() - new Vector2(0, Player.size.y));
+            DoubleJumpClouds.Create(ap.unit.transform.position.ToV2() - new Vector2(0, unit.size.y));
             return false;
         }
     }

@@ -21,6 +21,7 @@ public class Unit : MonoBehaviour
     protected Transform sprite;
     private Material healthBar;
     private Group<Buff> buffs = new Group<Buff>();
+    public Vector2 size;
 
     protected void Awake()
     {
@@ -28,6 +29,7 @@ public class Unit : MonoBehaviour
         eventManager = new EventManager(this);
         eventManager.SubscribeHandler("land", new WalkOnLand());
         sprite = transform.FindChild("Sprite");
+        size = sprite.gameObject.GetComponent<SpriteRenderer>().bounds.extents.ToV2();
         healthBar = transform.FindChild("HealthBar").GetComponent<SpriteRenderer>().material;
     }
 
