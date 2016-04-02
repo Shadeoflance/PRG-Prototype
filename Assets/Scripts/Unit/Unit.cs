@@ -94,7 +94,7 @@ public class Unit : MonoBehaviour
 
     void OnGUI()
     {
-        Vector2 pos = VectorUtils.ToV2(Camera.main.WorldToScreenPoint(transform.position));
+        Vector2 pos = Utils.ToV2(Camera.main.WorldToScreenPoint(transform.position));
         Rect rect = new Rect(0, 0, 150, 50);
         rect.x = pos.x - 30;
         rect.y = Screen.height - pos.y - rect.height;

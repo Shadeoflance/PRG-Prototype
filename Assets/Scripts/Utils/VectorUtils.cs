@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public static class VectorUtils 
+public static class Utils 
 {
 	public static Vector2 ToV2(this Vector3 vec)
 	{
@@ -28,5 +28,9 @@ public static class VectorUtils
         float ty = v.y;
 
         return new Vector2(cos * tx - sin * ty, sin * tx + cos * ty);
+    }
+    public static Color WithAlpha(this Color c, float value)
+    {
+        return new Color(c.r, c.g, c.b, value);
     }
 }

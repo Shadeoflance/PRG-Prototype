@@ -47,8 +47,8 @@ public class SlamState : PlayerState
         foreach (var a in player.GetComponents<Collider2D>())
             a.enabled = true;
         player.rb.gravityScale = player.gravityScale;
-        Vector2 pointA = VectorUtils.ToV2(player.transform.position) - player.main.size / 2 - new Vector2(range, 0),
-            pointB = VectorUtils.ToV2(player.transform.position) + player.main.size / 2 + new Vector2(range, 0);
+        Vector2 pointA = Utils.ToV2(player.transform.position) - player.main.size / 2 - new Vector2(range, 0),
+            pointB = Utils.ToV2(player.transform.position) + player.main.size / 2 + new Vector2(range, 0);
         //Debug.DrawLine(pointA, pointB, Color.red, 2);
         Collider2D[] hits = Physics2D.OverlapAreaAll(pointA, pointB, LayerMask.GetMask("Enemy"));
         HashSet<Enemy> enemies = new HashSet<Enemy>();

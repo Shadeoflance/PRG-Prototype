@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class Buff : IUpdatable
 {
@@ -28,16 +29,16 @@ public class Buff : IUpdatable
         return GameObject.Instantiate<Sprite>(sprite);
     }
 
-    GameObject icon;
+    Image icon;
     public void ChangeToPlayerBuff()
     {
         buffImage = Resources.Load<GameObject>("BuffImage");
-        icon = GameObject.Instantiate(buffImage);
+        icon = GameObject.Instantiate(buffImage).GetComponent<Image>();
         icon.transform.SetParent(buffs.transform);
         var image = GetSprite();
         if (image == null)
             return;
-        icon.GetComponent<Image>().sprite = image;
+        icon.sprite = image;
     }
 
     public virtual void Update()
@@ -45,12 +46,25 @@ public class Buff : IUpdatable
         duration -= Time.deltaTime;
         if (duration < 0)
             End();
+        if (icon != null)
+        {
+            float t = 1;
+            if (duration < 1)
+            {
+                t = (float)Math.Sin(duration * Math.PI * 12) / 3 + 0.66f;
+            }
+            else if (duration < 5)
+            {
+                t = (float)Math.Sin(duration * Math.PI * 4) / 3 + 0.66f;
+            }
+            icon.color = icon.color.WithAlpha(t);
+        }
     }
 
     public virtual void End()
     {
         unit.RemoveBuff(this);
         if (icon != null)
-            GameObject.Destroy(icon);
+            GameObject.Destroy(icon.gameObject);
     }
 }
