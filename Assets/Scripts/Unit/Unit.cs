@@ -39,6 +39,7 @@ public class Unit : MonoBehaviour
         foreach (var a in buffs)
             a.Update();
         controller.Update();
+        attack.Update();
         Vector2 needVel = controller.NeedVel();
         if (currentState == null)
             currentState = airborne;

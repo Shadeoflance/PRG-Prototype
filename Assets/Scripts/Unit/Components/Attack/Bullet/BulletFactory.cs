@@ -8,6 +8,7 @@ public class BulletFactory
     float speed;
     float? life;
     float dmg;
+    int dmgMask;
     Group<BulletProcessingModifier> modifiers = new Group<BulletProcessingModifier>();
 
     public BulletFactory(Unit player)
@@ -57,6 +58,12 @@ public class BulletFactory
         return this;
     }
 
+    public BulletFactory SetDmgMask(int mask)
+    {
+        dmgMask = mask;
+        return this;
+    }
+
     public Bullet Build()
     {
         modifiers.Refresh();
@@ -66,7 +73,8 @@ public class BulletFactory
         newBullet.needVel = direction.normalized;
         newBullet.life = life;
         newBullet.dmgMult = dmg;
-        newBullet.player = player;
+        newBullet.unit = player;
+        newBullet.dmgMask = dmgMask;
         foreach (var a in modifiers)
             newBullet.modifiers.Add(a.Instantiate());
         return newBullet;

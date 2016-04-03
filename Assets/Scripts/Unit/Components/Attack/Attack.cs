@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class Attack
+public class Attack : IUpdatable
 {
     protected Unit unit;
     public float baseDmg, dmgUps = 0, flatDmg = 0;
@@ -16,7 +16,8 @@ public class Attack
     {
         ActionParams ap = new ActionParams();
         ap["victim"] = victim;
-        ap["dmg"] = (baseDmg * (float)Math.Sqrt(dmgUps * 1.2f + 1) + flatDmg) * multiplier;
+        ap["dmg"] = (unit is Player) ? (baseDmg * (float)Math.Sqrt(dmgUps * 1.2f + 1) + flatDmg) * multiplier
+            : baseDmg;
         unit.eventManager.InvokeInterceptors("dealDamage", ap);
         if (ap.forbid)
             return;
@@ -26,5 +27,9 @@ public class Attack
     public virtual void DealDamage(Unit victim)
     {
         DealDamage(victim, 1);
+    }
+
+    public virtual void Update()
+    {
     }
 }

@@ -10,7 +10,7 @@ class TestFlyingEnemy : Enemy
         health = new Health(this, 2f);
         walking = new WalkingState(this);
         airborne = new AirborneState(this);
-        attack = new Attack(this);
+        attack = new HomingProjAttack(this);
     }
 }
 
@@ -25,7 +25,7 @@ class TFEController : IController
 
     public bool NeedAttack()
     {
-        return false;
+        return (unit.transform.position - Player.instance.transform.position).magnitude < 5;
     }
 
     public bool NeedJump()

@@ -33,4 +33,8 @@ public static class Utils
     {
         return new Color(c.r, c.g, c.b, value);
     }
+    public static Color Copy(this Color c)
+    {
+        return new Color(c.r, c.g, c.b, c.a);
+    }
 }

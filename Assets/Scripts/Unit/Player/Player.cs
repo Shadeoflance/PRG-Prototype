@@ -41,7 +41,6 @@ public class Player : Unit
     protected override void Update()
     {
         base.Update();
-        (attack as Weapon).Update();
         dasher.Update();
         slamer.Update();
     }

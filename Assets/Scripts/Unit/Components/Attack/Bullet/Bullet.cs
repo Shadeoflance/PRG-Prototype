@@ -6,8 +6,9 @@ public class Bullet : MonoBehaviour
     public Vector2 needVel;
     public float speed;
     public float? life = null;
-    public Unit player;
+    public Unit unit;
     public float dmgMult;
+    public int dmgMask;
     public Group<BulletProcessingModifier> modifiers = new Group<BulletProcessingModifier>();
 
     void Awake()
@@ -30,33 +31,33 @@ public class Bullet : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if ((1 << collision.gameObject.layer & dmgMask) != 0)
         {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            Unit victim = collision.gameObject.GetComponent<Unit>();
             ActionParams ap = new ActionParams();
-            ap["enemy"] = enemy;
+            ap["victim"] = victim;
             ap["bullet"] = this;
             ap["dmgMult"] = dmgMult;
-            player.eventManager.InvokeInterceptors("bulletEnemyHit", ap);
+            unit.eventManager.InvokeInterceptors("bulletUnitHit", ap);
             if (!ap.forbid)
             {
-                player.eventManager.InvokeHandlers("bulletDestroy", null);
+                unit.eventManager.InvokeHandlers("bulletDestroy", null);
                 Destroy(gameObject);
             }
-            player.attack.DealDamage(enemy, (float)ap.parameters["dmgMult"]);
-            player.eventManager.InvokeHandlers("bulletEnemyHit", ap);
+            unit.attack.DealDamage(victim, (float)ap.parameters["dmgMult"]);
+            unit.eventManager.InvokeHandlers("bulletUnitHit", ap);
         }
         if (collision.tag.Equals("Level"))
         {
             ActionParams ap = new ActionParams();
             ap["other"] = collision.gameObject;
             ap["bullet"] = this;
-            player.eventManager.InvokeInterceptors("bulletLevelHit", ap);
+            unit.eventManager.InvokeInterceptors("bulletLevelHit", ap);
             if (!ap.forbid)
             {
                 ap = new ActionParams();
                 ap["bullet"] = this;
-                player.eventManager.InvokeHandlers("bulletDestroy", ap);
+                unit.eventManager.InvokeHandlers("bulletDestroy", ap);
                 Destroy(gameObject);
             }
         }

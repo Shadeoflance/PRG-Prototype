@@ -6,6 +6,8 @@ public class Enemy : Unit
     protected virtual void Start()
     {
         eventManager.SubscribeHandler("takeDmg", new DmgTextCreate());
+        eventManager.SubscribeHandler("takeDmg", new DmgRedPaint());
+
     }
     protected void OnCollisionStay2D(Collision2D collision)
     {
@@ -24,6 +26,17 @@ public class Enemy : Unit
             Color inColor = new Color(1f, 0.9f, 0f);
             Color outColor = new Color(1f, 0.4f, 0.3f);
             DamageText.Create(ap.unit.transform.position, amount.ToString(), inColor, outColor);
+            return false;
+        }
+    }
+    class DmgRedPaint : ActionListener
+    {
+        SpritePainter painter;
+        public bool Handle(ActionParams ap)
+        {
+            if (painter == null)
+                painter = ap.unit.transform.FindChild("Sprite").GetComponent<SpritePainter>();
+            painter.Paint(Color.red, 0.5f, true);
             return false;
         }
     }
