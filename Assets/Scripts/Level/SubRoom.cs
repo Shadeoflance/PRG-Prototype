@@ -18,10 +18,10 @@ class SubRoom : MonoBehaviour
 
     public void Disable()
     {
-        right.open = false;
-        left.open = false;
-        top.open = false;
-        bot.open = false;
+        right.Close();
+        left.Close();
+        top.Close();
+        bot.Close();
         gameObject.SetActive(false);
     }
 

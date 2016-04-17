@@ -51,7 +51,7 @@ public class Bullet : MonoBehaviour
         {
             if (unit is Player && collision.gameObject.tag == "Door")
             {
-                collision.GetComponent<Door>().open = true;
+                collision.GetComponent<Door>().Open();
             }
             ActionParams ap = new ActionParams();
             ap["other"] = collision.gameObject;
