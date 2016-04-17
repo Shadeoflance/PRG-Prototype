@@ -7,7 +7,7 @@ public class BulletFactory
     Unit player;
     float speed;
     float? life;
-    float dmg;
+    float dmgMult = 1;
     int dmgMask;
     Group<BulletProcessingModifier> modifiers = new Group<BulletProcessingModifier>();
 
@@ -46,9 +46,9 @@ public class BulletFactory
         return this;
     }
 
-    public BulletFactory SetDmg(float dmg)
+    public BulletFactory SetDmgMult(float dmgMult)
     {
-        this.dmg = dmg;
+        this.dmgMult = dmgMult;
         return this;
     }
 
@@ -72,7 +72,7 @@ public class BulletFactory
         newBullet.transform.position = position;
         newBullet.needVel = direction.normalized;
         newBullet.life = life;
-        newBullet.dmgMult = dmg;
+        newBullet.dmgMult = dmgMult;
         newBullet.unit = player;
         newBullet.dmgMask = dmgMask;
         foreach (var a in modifiers)

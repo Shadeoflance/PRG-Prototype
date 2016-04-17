@@ -44,6 +44,7 @@ public class Health
         if (ap.forbid)
             return;
         unit.eventManager.InvokeHandlers("die", null);
-        MonoBehaviour.Destroy(unit.gameObject);
+        //GameObject.Destroy(unit.gameObject);
+        unit.gameObject.SetActive(false);
     }
 }

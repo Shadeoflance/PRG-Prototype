@@ -7,6 +7,17 @@ public class Player : Unit
     public Dasher dasher;
     public Slamer slamer;
     public BoxCollider2D main;
+    protected override void Awake()
+    {
+        base.Awake();
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+        {
+            Destroy(instance.gameObject);
+            instance = this;
+        }
+    }
 	void Start()
 	{
 		controller = new PlayerController(this);
@@ -22,13 +33,6 @@ public class Player : Unit
         eventManager.SubscribeHandler("jumpButtonDown", new JumpInvoker());
         eventManager.SubscribeHandler("dashButtonDown", new DashInvoker());
         eventManager.SubscribeHandler("takeDmg", new DamageBoost());
-        if (instance == null)
-            instance = this;
-        else if (instance != this)
-        {
-            Destroy(instance.gameObject);
-            instance = this;
-        }
 	}
 
     public static void IgnoreEnemyCollisions(bool value)

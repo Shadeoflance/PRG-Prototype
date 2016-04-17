@@ -23,7 +23,7 @@ public class Unit : MonoBehaviour
     private Group<Buff> buffs = new Group<Buff>();
     public Vector2 size;
 
-    protected void Awake()
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         eventManager = new EventManager(this);
