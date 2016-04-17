@@ -2,8 +2,10 @@
 
 class Door : MonoBehaviour
 {
-    void OnTriggerEnter2D(Collider2D collision)
+    public bool open = false;
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        transform.parent.GetComponent<SubRoom>().DoorTouch(this);
+        if(open && collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+            transform.parent.GetComponent<SubRoom>().DoorTouch(this);
     }
 }

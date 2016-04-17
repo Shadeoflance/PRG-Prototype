@@ -35,7 +35,6 @@ class Map
     {
         get 
         {
-            Debug.LogWarning("Room get " + x + " " + y);
             if (!CheckBounds(x, y))
                 return null;
             return rooms[x, y]; 
@@ -47,6 +46,27 @@ class Map
             rooms[x, y] = value;
             value.transform.position = new Vector3(Level.roomSize.x * x, Level.roomSize.y * y, 0);
             value.transform.SetParent(Level.instance.transform);
+        }
+    }
+
+    public void FixDoors()
+    {
+        for (int x = 0; x < size; x++)
+        {
+            for (int y = 0; y < size; y++)
+            {
+                SubRoom room = this[x,y];
+                if(room == null)
+                    continue;
+                if (this[x + 1, y] == null)
+                    room.right.gameObject.SetActive(false);
+                if (this[x - 1, y] == null)
+                    room.left.gameObject.SetActive(false);
+                if (this[x, y + 1] == null)
+                    room.top.gameObject.SetActive(false);
+                if (this[x, y - 1] == null)
+                    room.bot.gameObject.SetActive(false);
+            }
         }
     }
 

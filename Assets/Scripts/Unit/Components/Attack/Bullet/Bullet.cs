@@ -47,8 +47,12 @@ public class Bullet : MonoBehaviour
             unit.attack.DealDamage(victim, (float)ap.parameters["dmgMult"]);
             unit.eventManager.InvokeHandlers("bulletUnitHit", ap);
         }
-        if (collision.tag.Equals("Level"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Level"))
         {
+            if (unit is Player && collision.gameObject.tag == "Door")
+            {
+                collision.GetComponent<Door>().open = true;
+            }
             ActionParams ap = new ActionParams();
             ap["other"] = collision.gameObject;
             ap["bullet"] = this;
