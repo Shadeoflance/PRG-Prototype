@@ -46,6 +46,7 @@ class Map
             rooms[x, y] = value;
             value.transform.position = new Vector3(Level.roomSize.x * x, Level.roomSize.y * y, 0);
             value.transform.SetParent(Level.instance.transform);
+            value.WrapInRoom();
         }
     }
 
@@ -58,14 +59,14 @@ class Map
                 SubRoom room = this[x,y];
                 if(room == null)
                     continue;
-                if (this[x + 1, y] == null)
-                    room.right.gameObject.SetActive(false);
-                if (this[x - 1, y] == null)
-                    room.left.gameObject.SetActive(false);
-                if (this[x, y + 1] == null)
-                    room.top.gameObject.SetActive(false);
-                if (this[x, y - 1] == null)
-                    room.bot.gameObject.SetActive(false);
+                if (this[x + 1, y] == null || (room.room.subRooms.Contains(this[x + 1, y])))
+                    GameObject.Destroy(room.rightD.gameObject);
+                if (this[x - 1, y] == null || (room.room.subRooms.Contains(this[x - 1, y])))
+                    GameObject.Destroy(room.leftD.gameObject);
+                if (this[x, y + 1] == null || (room.room.subRooms.Contains(this[x, y + 1])))
+                    GameObject.Destroy(room.topD.gameObject);
+                if (this[x, y - 1] == null || (room.room.subRooms.Contains(this[x, y - 1])))
+                    GameObject.Destroy(room.botD.gameObject);
             }
         }
     }

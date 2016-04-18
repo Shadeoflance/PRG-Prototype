@@ -4,10 +4,12 @@ class Door : MonoBehaviour
 {
     public Sprite openSprite, closedSprite;
     bool open = false;
+    SubRoom subRoom;
 
     void Awake()
     {
         GetComponent<SpriteRenderer>().sprite = closedSprite;
+        subRoom = transform.parent.GetComponent<SubRoom>();
     }
 
     public void Open()
@@ -22,9 +24,9 @@ class Door : MonoBehaviour
         GetComponent<SpriteRenderer>().sprite = closedSprite;
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionStay2D(Collision2D collision)
     {
         if(open && collision.gameObject.layer == LayerMask.NameToLayer("Player"))
-            transform.parent.GetComponent<SubRoom>().DoorTouch(this);
+            subRoom.DoorTouch(this);
     }
 }
