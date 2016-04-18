@@ -30,6 +30,16 @@ class Room
         }
     }
 
+    public void EnemyDied(Enemy enemy)
+    {
+        foreach (var a in subRooms)
+            a.EnemyDied(enemy);
+        foreach (var a in subRooms)
+            if (a.enemiesAlive.Count > 0)
+                return;
+        EnableDoors();
+    }
+
     public void Enable()
     {
         foreach (var a in subRooms)
@@ -40,5 +50,17 @@ class Room
     {
         foreach (var a in subRooms)
             a.Disable();
+    }
+
+    public void EnableDoors()
+    {
+        foreach (var a in subRooms)
+            a.EnableDoors();
+    }
+
+    public void DisableDoors()
+    {
+        foreach (var a in subRooms)
+            a.DisableDoors();
     }
 }

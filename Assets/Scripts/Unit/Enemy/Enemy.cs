@@ -7,7 +7,7 @@ public class Enemy : Unit
     {
         eventManager.SubscribeHandler("takeDmg", new DmgTextCreate());
         eventManager.SubscribeHandler("takeDmg", new DmgRedPaint());
-
+        eventManager.SubscribeHandler("die", new RoomDieInfo());
     }
     protected void OnCollisionStay2D(Collision2D collision)
     {
@@ -40,4 +40,13 @@ public class Enemy : Unit
             return false;
         }
     }
+    class RoomDieInfo : ActionListener
+    {
+        public bool Handle(ActionParams ap)
+        {
+            Level.instance.current.EnemyDied((Enemy)ap.unit);
+            return true;
+        }
+    }
+
 }
