@@ -35,6 +35,7 @@ class Level : MonoBehaviour
         current = map[1, 1].room;
         current.Enable();
         Player.instance.transform.position = current.subRooms[0].transform.position;
+        map.UpdateUI();
     }
 
     public void ChangeRoom(Vector2 dir, SubRoom subRoom)
@@ -44,5 +45,6 @@ class Level : MonoBehaviour
         current = next.room;
         next.room.Enable();
         Player.instance.transform.position = next.transform.position + Vector2.Scale(-dir, new Vector2(8f, 5.5f)).ToV3();
+        map.UpdateUI();
     }
 }

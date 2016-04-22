@@ -3,6 +3,7 @@ using UnityEngine;
 
 class Map
 {
+    public static Vector2 roomUIDistance = new Vector2(40, 30);
     SubRoom[,] rooms;
     public int size;
 
@@ -47,6 +48,7 @@ class Map
             value.transform.position = new Vector3(Level.roomSize.x * x, Level.roomSize.y * y, 0);
             value.transform.SetParent(Level.instance.transform);
             value.WrapInRoom();
+            value.CreateSubRoomUI(x, y);
         }
     }
 
@@ -68,6 +70,15 @@ class Map
                 if (this[x, y - 1] == null || (room.room.subRooms.Contains(this[x, y - 1])))
                     GameObject.Destroy(room.botD.gameObject);
             }
+        }
+    }
+
+    public void UpdateUI()
+    {
+        foreach (var a in rooms)
+        {
+            if(a != null)
+                a.subRoomUI.Update();
         }
     }
 
