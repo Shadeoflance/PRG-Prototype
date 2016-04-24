@@ -41,11 +41,9 @@ class Level : MonoBehaviour
 
     public void ChangeRoom(Vector2 dir, SubRoom subRoom)
     {
-        current.Disable();
         SubRoom next = map.GetRelativeTo(subRoom, dir);
+        RoomChangeEffect.Create(subRoom, next);
         current = next.room;
-        next.room.Enable();
-        Player.instance.transform.position = next.transform.position + Vector2.Scale(-dir, new Vector2(8f, 5.5f)).ToV3();
         map.UpdateUI();
         CameraScript.instance.RefreshBorders();
     }

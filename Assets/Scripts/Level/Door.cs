@@ -47,10 +47,10 @@ class Door : MonoBehaviour
         DoorTouch(collision);
     }
 
-    void OnCollisionStay2D(Collision2D collision)
-    {
-        DoorTouch(collision);
-    }
+    //void OnCollisionStay2D(Collision2D collision)
+    //{
+    //    DoorTouch(collision);
+    //}
 
     void DoorTouch(Collision2D collision)
     {

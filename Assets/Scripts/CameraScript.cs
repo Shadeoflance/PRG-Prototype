@@ -46,7 +46,13 @@ class CameraScript : MonoBehaviour
             by1 = Math.Min(by1, a.transform.position.y - Level.roomSize.y / 2 + camera.orthographicSize);
             by2 = Math.Max(by2, a.transform.position.y + Level.roomSize.y / 2 - camera.orthographicSize);
         }
-        Debug.LogWarning(camera.orthographicSize);
-        Debug.LogWarning(bx1 + " " + by1 + " " + bx2 + " " + by2);
+    }
+    public static Vector3 GetPositionToSide(SubRoom subRoom, Vector2 dir)
+    {
+        Vector2 result = subRoom.transform.position;
+        result = result + Vector2.Scale(dir, 
+            new Vector2(Level.roomSize.x / 2 - instance.camera.orthographicSize * instance.camera.aspect, 
+            Level.roomSize.y / 2 - instance.camera.orthographicSize));
+        return result.ToV3() + new Vector3(0, 0, -1);
     }
 }
