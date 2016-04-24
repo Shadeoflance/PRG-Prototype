@@ -35,7 +35,6 @@ class SubRoom : MonoBehaviour
         RectTransform map = GameObject.Find("Map").GetComponent<RectTransform>();
         image.rectTransform.SetParent(map);
         image.rectTransform.position = map.position.ToV2() + Vector2.Scale(Map.roomUIDistance, new Vector2(x, -Level.instance.map.size + 1 + y));
-        Debug.LogWarning(Vector2.Scale(Map.roomUIDistance, new Vector2(x, -Level.instance.map.size + 1 + y)));
     }
 
     public void EnemyDied(Enemy enemy)

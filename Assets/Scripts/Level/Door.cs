@@ -42,7 +42,17 @@ class Door : MonoBehaviour
         painter.Paint(disabledColor, 0.5f, true);
     }
 
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        DoorTouch(collision);
+    }
+
     void OnCollisionStay2D(Collision2D collision)
+    {
+        DoorTouch(collision);
+    }
+
+    void DoorTouch(Collision2D collision)
     {
         if (disabled)
             return;
