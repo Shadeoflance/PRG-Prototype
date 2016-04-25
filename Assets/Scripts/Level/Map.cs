@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 class Map
 {
     public static Vector2 roomUIDistance = new Vector2(40, 30);
+    public static Vector2[] dirs = new Vector2[] { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
     SubRoom[,] rooms;
     public int size;
 
@@ -48,11 +51,10 @@ class Map
             value.transform.position = new Vector3(Level.roomSize.x * x, Level.roomSize.y * y, 0);
             value.transform.SetParent(Level.instance.transform);
             value.WrapInRoom();
-            value.CreateSubRoomUI(x, y);
         }
     }
 
-    public void FixDoors()
+    public void PostInitialize()
     {
         for (int x = 0; x < size; x++)
         {
@@ -71,14 +73,27 @@ class Map
                     GameObject.Destroy(room.botD.gameObject);
             }
         }
+        List<Room> processedRooms = new List<Room>();
+        foreach (var a in rooms)
+        {
+            if (a != null && !processedRooms.Contains(a.room))
+            {
+                a.room.InitUI();
+                processedRooms.Add(a.room);
+            }
+        }
     }
 
     public void UpdateUI()
     {
+        List<Room> processedRooms = new List<Room>();
         foreach (var a in rooms)
         {
-            if(a != null)
-                a.subRoomUI.Update();
+            if (a != null && !processedRooms.Contains(a.room))
+            {
+                a.room.roomUI.Update();
+                processedRooms.Add(a.room);
+            }
         }
     }
 

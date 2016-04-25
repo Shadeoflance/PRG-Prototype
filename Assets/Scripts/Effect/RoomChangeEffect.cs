@@ -11,6 +11,7 @@ class RoomChangeEffect : MonoBehaviour
         next.room.Enable();
         time = initialTime;
         Player.instance.enabled = false;
+        Player.instance.GetComponent<Rigidbody2D>().isKinematic = true;
         dir = (next.transform.position - current.transform.position).ToV2().normalized;
         from = CameraScript.instance.transform.position;
         to = CameraScript.GetPositionToSide(next, -dir);
@@ -19,6 +20,7 @@ class RoomChangeEffect : MonoBehaviour
     void End()
     {
         Player.instance.enabled = true;
+        Player.instance.GetComponent<Rigidbody2D>().isKinematic = false;
         current.room.Disable();
         Player.instance.transform.position = next.transform.position + 
             Vector2.Scale(-dir, new Vector2(8f, 5.5f)).ToV3();

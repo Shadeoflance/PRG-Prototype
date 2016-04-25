@@ -27,11 +27,11 @@ class Level : MonoBehaviour
             {
                 if (i == 1 && j == 0)
                     continue;
-                map[i, j] = Instantiate<GameObject>(roomPrefab).GetComponent<SubRoom>();
+                map[i, j] = Instantiate(roomPrefab).GetComponent<SubRoom>();
             }
         }
         map[1, 2].room.Unite(map[2, 2].room);
-        map.FixDoors();
+        map.PostInitialize();
         current = map[1, 1].room;
         current.Enable();
         Player.instance.transform.position = current.subRooms[0].transform.position;

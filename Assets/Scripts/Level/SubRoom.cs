@@ -7,7 +7,6 @@ class SubRoom : MonoBehaviour
     public Door rightD, leftD, topD, botD;
     public Room room;
     public GameObject rightW, leftW, topW, botW;
-    public SubRoomUI subRoomUI;
     Dictionary<Vector2, Door> doors = new Dictionary<Vector2,Door>();
     public List<Enemy> enemiesAlive = new List<Enemy>();
 
@@ -26,15 +25,6 @@ class SubRoom : MonoBehaviour
                 enemiesAlive.Add(a.GetComponent<Enemy>());
         if (enemiesAlive.Count > 0)
             DisableDoors();
-    }
-
-    public void CreateSubRoomUI(int x, int y)
-    {
-        Image image = Instantiate<GameObject>(Resources.Load<GameObject>("SubRoomUI")).GetComponent<Image>();
-        subRoomUI = new SubRoomUI(image, this);
-        RectTransform map = GameObject.Find("Map").GetComponent<RectTransform>();
-        image.rectTransform.SetParent(map);
-        image.rectTransform.position = map.position.ToV2() + Vector2.Scale(Map.roomUIDistance, new Vector2(x, -Level.instance.map.size + 1 + y));
     }
 
     public void EnemyDied(Enemy enemy)

@@ -4,6 +4,7 @@ using UnityEngine;
 class Room
 {
     public List<SubRoom> subRooms = new List<SubRoom>();
+    public RoomUI roomUI;
 
     public Room(SubRoom subRoom)
     {
@@ -38,6 +39,11 @@ class Room
             if (a.enemiesAlive.Count > 0)
                 return;
         EnableDoors();
+    }
+
+    public void InitUI()
+    {
+        roomUI = new RoomUI(this);
     }
 
     public void Enable()
