@@ -4,7 +4,7 @@ using System;
 class Level : MonoBehaviour
 {
     public static Vector2 roomSize = new Vector2(20, 15);
-    public Map map = new Map(3);
+    public Map map = new Map(4);
     public static Level instance;
     public Room current;
     void Awake()
@@ -21,16 +21,17 @@ class Level : MonoBehaviour
     void Start()
     {
         GameObject roomPrefab = Resources.Load<GameObject>("Level/SubRoom");
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
         {
-            for (int j = 0; j < 3; j++)
+            for (int j = 0; j < 4; j++)
             {
-                if (i == 1 && j == 0)
+                if (j == 0 && i != 1)
                     continue;
                 map[i, j] = Instantiate(roomPrefab).GetComponent<SubRoom>();
             }
         }
         map[1, 2].room.Unite(map[2, 2].room);
+        map[3, 3].room.Unite(map[3, 2].room);
         map.PostInitialize();
         current = map[1, 1].room;
         current.Enable();

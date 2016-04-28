@@ -8,10 +8,10 @@ class Door : MonoBehaviour
     bool open = false, disabled;
     SubRoom subRoom;
 
-    void Awake()
+    void Start()
     {
         GetComponent<SpriteRenderer>().sprite = closedSprite;
-        subRoom = transform.parent.GetComponent<SubRoom>();
+        subRoom = transform.parent.parent.GetComponent<SubRoom>();
         painter = GetComponent<SpritePainter>();
     }
 

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 class SubRoom : MonoBehaviour
 {
-    public Door rightD, leftD, topD, botD;
     public Room room;
     public GameObject rightW, leftW, topW, botW;
     Dictionary<Vector2, Door> doors = new Dictionary<Vector2,Door>();
@@ -12,10 +11,6 @@ class SubRoom : MonoBehaviour
 
     void Awake()
     {
-        doors.Add(Vector2.up, topD);
-        doors.Add(Vector2.down, botD);
-        doors.Add(Vector2.left, leftD);
-        doors.Add(Vector2.right, rightD);
     }
 
     void Start()
@@ -25,6 +20,35 @@ class SubRoom : MonoBehaviour
                 enemiesAlive.Add(a.GetComponent<Enemy>());
         if (enemiesAlive.Count > 0)
             DisableDoors();
+    }
+
+    public void CreateDoors()
+    {
+        foreach(var dir in Map.dirs)
+        {
+            SubRoom s = Level.instance.map.GetRelativeTo(this, dir);
+            if (s != null && !room.subRooms.Contains(s))
+            {
+                CreateSingleDoor(dir);
+            }
+        }
+    }
+    
+    private void CreateSingleDoor(Vector2 dir)
+    {
+        Transform doorsParent = transform.FindChild("Doors");
+        Vector2 doorDistance = new Vector2((Level.roomSize.x - 1) / 2, (Level.roomSize.y - 1) / 2);
+        GameObject doorInstance = Instantiate(Resources.Load<GameObject>("Level/Door"));
+        doorInstance.name = "Door" + dir;
+        doorInstance.transform.position = transform.position + Vector2.Scale(doorDistance, dir).ToV3();
+        if(dir == Vector2.down)
+            doorInstance.transform.Rotate(0, 0, 270);
+        else if(dir == Vector2.left)
+            doorInstance.transform.Rotate(0, 0, 180);
+        else if(dir == Vector2.up)
+            doorInstance.transform.Rotate(0, 0, 90);
+        doorInstance.transform.SetParent(doorsParent.transform);
+        doors.Add(dir, doorInstance.GetComponent<Door>());
     }
 
     public void EnemyDied(Enemy enemy)

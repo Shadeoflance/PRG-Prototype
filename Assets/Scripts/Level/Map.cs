@@ -51,35 +51,23 @@ class Map
             value.transform.position = new Vector3(Level.roomSize.x * x, Level.roomSize.y * y, 0);
             value.transform.SetParent(Level.instance.transform);
             value.WrapInRoom();
+            value.Disable();
         }
     }
 
     public void PostInitialize()
     {
-        for (int x = 0; x < size; x++)
-        {
-            for (int y = 0; y < size; y++)
-            {
-                SubRoom room = this[x,y];
-                if(room == null)
-                    continue;
-                if (this[x + 1, y] == null || (room.room.subRooms.Contains(this[x + 1, y])))
-                    GameObject.Destroy(room.rightD.gameObject);
-                if (this[x - 1, y] == null || (room.room.subRooms.Contains(this[x - 1, y])))
-                    GameObject.Destroy(room.leftD.gameObject);
-                if (this[x, y + 1] == null || (room.room.subRooms.Contains(this[x, y + 1])))
-                    GameObject.Destroy(room.topD.gameObject);
-                if (this[x, y - 1] == null || (room.room.subRooms.Contains(this[x, y - 1])))
-                    GameObject.Destroy(room.botD.gameObject);
-            }
-        }
         List<Room> processedRooms = new List<Room>();
         foreach (var a in rooms)
         {
-            if (a != null && !processedRooms.Contains(a.room))
+            if (a != null)
             {
-                a.room.InitUI();
-                processedRooms.Add(a.room);
+                a.CreateDoors();
+                if (!processedRooms.Contains(a.room))
+                {
+                    a.room.InitUI();
+                    processedRooms.Add(a.room);
+                }
             }
         }
     }
