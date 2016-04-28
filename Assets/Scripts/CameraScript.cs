@@ -5,7 +5,7 @@ class CameraScript : MonoBehaviour
 {
     Player p;
     public static CameraScript instance;
-    Camera camera;
+    Camera cam;
 
     void Awake()
     {
@@ -16,8 +16,8 @@ class CameraScript : MonoBehaviour
             Destroy(instance.gameObject);
             instance = this;
         }
-        camera = GetComponent<Camera>();
-        camera.orthographicSize = Level.roomSize.x / 2 / camera.aspect;
+        cam = GetComponent<Camera>();
+        cam.orthographicSize = Level.roomSize.x / 2 / cam.aspect;
     }
     void Start()
     {
@@ -41,18 +41,18 @@ class CameraScript : MonoBehaviour
         bx2 = by2 = -99999;
         foreach(var a in Level.instance.current.subRooms)
         {
-            bx1 = Math.Min(bx1, a.transform.position.x - Level.roomSize.x / 2 + camera.orthographicSize * camera.aspect);
-            bx2 = Math.Max(bx2, a.transform.position.x + Level.roomSize.x / 2 - camera.orthographicSize * camera.aspect);
-            by1 = Math.Min(by1, a.transform.position.y - Level.roomSize.y / 2 + camera.orthographicSize);
-            by2 = Math.Max(by2, a.transform.position.y + Level.roomSize.y / 2 - camera.orthographicSize);
+            bx1 = Math.Min(bx1, a.transform.position.x - Level.roomSize.x / 2 + cam.orthographicSize * cam.aspect);
+            bx2 = Math.Max(bx2, a.transform.position.x + Level.roomSize.x / 2 - cam.orthographicSize * cam.aspect);
+            by1 = Math.Min(by1, a.transform.position.y - Level.roomSize.y / 2 + cam.orthographicSize);
+            by2 = Math.Max(by2, a.transform.position.y + Level.roomSize.y / 2 - cam.orthographicSize);
         }
     }
     public static Vector3 GetPositionToSide(SubRoom subRoom, Vector2 dir)
     {
         Vector2 result = subRoom.transform.position;
         result = result + Vector2.Scale(dir, 
-            new Vector2(Level.roomSize.x / 2 - instance.camera.orthographicSize * instance.camera.aspect, 
-            Level.roomSize.y / 2 - instance.camera.orthographicSize));
+            new Vector2(Level.roomSize.x / 2 - instance.cam.orthographicSize * instance.cam.aspect, 
+            Level.roomSize.y / 2 - instance.cam.orthographicSize));
         return result.ToV3() + new Vector3(0, 0, -1);
     }
 }

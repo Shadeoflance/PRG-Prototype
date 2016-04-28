@@ -63,6 +63,7 @@ class Map
             if (a != null)
             {
                 a.CreateDoors();
+                a.CreateWalls();
                 if (!processedRooms.Contains(a.room))
                 {
                     a.room.InitUI();

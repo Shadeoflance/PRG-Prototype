@@ -18,17 +18,6 @@ class Room
             a.room = this;
             subRooms.Add(a);
         }
-        foreach (var a in subRooms)
-        {
-            if (subRooms.Contains(Level.instance.map.GetRelativeTo(a, Vector2.left)))
-                GameObject.Destroy(a.leftW);
-            if (subRooms.Contains(Level.instance.map.GetRelativeTo(a, Vector2.right)))
-                GameObject.Destroy(a.rightW);
-            if (subRooms.Contains(Level.instance.map.GetRelativeTo(a, Vector2.down)))
-                GameObject.Destroy(a.botW);
-            if (subRooms.Contains(Level.instance.map.GetRelativeTo(a, Vector2.up)))
-                GameObject.Destroy(a.topW);
-        }
     }
 
     public void EnemyDied(Enemy enemy)

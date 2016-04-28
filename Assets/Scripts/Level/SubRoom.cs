@@ -5,7 +5,6 @@ using System.Collections.Generic;
 class SubRoom : MonoBehaviour
 {
     public Room room;
-    public GameObject rightW, leftW, topW, botW;
     Dictionary<Vector2, Door> doors = new Dictionary<Vector2,Door>();
     public List<Enemy> enemiesAlive = new List<Enemy>();
 
@@ -22,6 +21,31 @@ class SubRoom : MonoBehaviour
             DisableDoors();
     }
 
+    public void CreateWalls()
+    {
+        foreach (var dir in Map.dirs)
+        {
+            SubRoom s = Level.instance.map.GetRelativeTo(this, dir);
+            if (!room.subRooms.Contains(s))
+            {
+                CreateSingleWall(dir);
+            }
+        }
+    }
+
+    private void CreateSingleWall(Vector2 dir)
+    {
+        GameObject wall = Instantiate(Resources.Load<GameObject>("Level/Wall"));
+        Transform parent = transform.FindChild("Walls").transform;
+        wall.transform.position = transform.position + Vector2.Scale(Level.roomSize / 2, dir).ToV3();
+        if(dir.y != 0)
+        {
+            wall.transform.Rotate(0, 0, 90);
+            wall.transform.localScale *= Level.roomSize.x / Level.roomSize.y;
+        }
+        wall.transform.SetParent(parent);
+    }
+
     public void CreateDoors()
     {
         foreach(var dir in Map.dirs)
@@ -36,7 +60,7 @@ class SubRoom : MonoBehaviour
     
     private void CreateSingleDoor(Vector2 dir)
     {
-        Transform doorsParent = transform.FindChild("Doors");
+        Transform parent = transform.FindChild("Doors");
         Vector2 doorDistance = new Vector2((Level.roomSize.x - 1) / 2, (Level.roomSize.y - 1) / 2);
         GameObject doorInstance = Instantiate(Resources.Load<GameObject>("Level/Door"));
         doorInstance.name = "Door" + dir;
@@ -47,13 +71,12 @@ class SubRoom : MonoBehaviour
             doorInstance.transform.Rotate(0, 0, 180);
         else if(dir == Vector2.up)
             doorInstance.transform.Rotate(0, 0, 90);
-        doorInstance.transform.SetParent(doorsParent.transform);
+        doorInstance.transform.SetParent(parent.transform);
         doors.Add(dir, doorInstance.GetComponent<Door>());
     }
 
     public void EnemyDied(Enemy enemy)
     {
-        Debug.LogWarning("enemy died");
         enemiesAlive.Remove(enemy);
     }
 
