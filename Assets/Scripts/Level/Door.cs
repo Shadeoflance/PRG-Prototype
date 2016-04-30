@@ -8,11 +8,15 @@ class Door : MonoBehaviour
     bool open = false, disabled;
     SubRoom subRoom;
 
-    void Start()
+    void Awake()
     {
         GetComponent<SpriteRenderer>().sprite = closedSprite;
-        subRoom = transform.parent.parent.GetComponent<SubRoom>();
         painter = GetComponent<SpritePainter>();
+    }
+
+    void Start()
+    {
+        subRoom = transform.parent.parent.GetComponent<SubRoom>();
     }
 
     public void Open()
@@ -46,11 +50,6 @@ class Door : MonoBehaviour
     {
         DoorTouch(collision);
     }
-
-    //void OnCollisionStay2D(Collision2D collision)
-    //{
-    //    DoorTouch(collision);
-    //}
 
     void DoorTouch(Collision2D collision)
     {

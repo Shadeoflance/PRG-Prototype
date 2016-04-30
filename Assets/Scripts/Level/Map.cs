@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 using UnityEngine.UI;
 
 class Map
@@ -69,6 +70,7 @@ class Map
                     a.room.InitUI();
                     processedRooms.Add(a.room);
                 }
+                a.GenerateEnemies("TestEnemy", Random.Range(1, 7));
             }
         }
     }

@@ -14,9 +14,6 @@ class SubRoom : MonoBehaviour
 
     void Start()
     {
-        foreach (Transform a in transform)
-            if (a.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-                enemiesAlive.Add(a.GetComponent<Enemy>());
         if (enemiesAlive.Count > 0)
             DisableDoors();
     }
@@ -73,6 +70,23 @@ class SubRoom : MonoBehaviour
             doorInstance.transform.Rotate(0, 0, 90);
         doorInstance.transform.SetParent(parent.transform);
         doors.Add(dir, doorInstance.GetComponent<Door>());
+    }
+
+    public void GenerateEnemies(string name, int amount)
+    {
+        GameObject prefab = Resources.Load<GameObject>("Enemies/" + name);
+        Transform platforms = transform.FindChild("Platforms");
+        for (int i = 0; i < amount; i++)
+        {
+            BoxCollider2D randomPlatform = platforms.GetChild(Random.Range(0, platforms.childCount)).GetComponent<BoxCollider2D>();
+            Vector2 rightUpperCorner = randomPlatform.transform.position.ToV2() + Vector2.Scale(randomPlatform.size, randomPlatform.transform.localScale.ToV2()) / 2 + randomPlatform.offset;
+            Vector2 position = rightUpperCorner - new Vector2(randomPlatform.size.x * 0.9f * transform.localScale.x, 0) * Random.Range(0f, 1f) + new Vector2(0, 0.4f);
+            GameObject instance = Instantiate(prefab);
+            instance.transform.SetParent(transform);
+            instance.transform.position = position;
+            enemiesAlive.Add(instance.GetComponent<Enemy>());
+            //instance.SetActive(gameObject.activeInHierarchy);
+        }
     }
 
     public void EnemyDied(Enemy enemy)
