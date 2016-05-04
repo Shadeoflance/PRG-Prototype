@@ -49,5 +49,7 @@ public class TileEditor : MonoBehaviour
             Gizmos.DrawLine(new Vector3(Mathf.Floor(x / width) * width, -1000000.0f, 0.0f),
                             new Vector3(Mathf.Floor(x / width) * width, 1000000.0f, 0.0f));
         }
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(Vector3.zero, Level.roomSize);
     }
 }

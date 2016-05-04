@@ -70,7 +70,7 @@ class Map
                     a.room.InitUI();
                     processedRooms.Add(a.room);
                 }
-                a.GenerateEnemies("TestEnemy", Random.Range(1, 7));
+                //a.GenerateEnemies("TestEnemy", Random.Range(1, 7));
             }
         }
     }

@@ -75,12 +75,11 @@ class SubRoom : MonoBehaviour
     public void GenerateEnemies(string name, int amount)
     {
         GameObject prefab = Resources.Load<GameObject>("Enemies/" + name);
-        Transform platforms = transform.FindChild("Platforms");
+        Transform tiles = transform.FindChild("Tiles");
         for (int i = 0; i < amount; i++)
         {
-            BoxCollider2D randomPlatform = platforms.GetChild(Random.Range(0, platforms.childCount)).GetComponent<BoxCollider2D>();
-            Vector2 rightUpperCorner = randomPlatform.transform.position.ToV2() + Vector2.Scale(randomPlatform.size, randomPlatform.transform.localScale.ToV2()) / 2 + randomPlatform.offset;
-            Vector2 position = rightUpperCorner - new Vector2(randomPlatform.size.x * 0.9f * transform.localScale.x, 0) * Random.Range(0f, 1f) + new Vector2(0, 0.4f);
+            Transform randomTile = tiles.GetChild(Random.Range(0, tiles.childCount)).transform;
+            Vector2 position = randomTile.position.ToV2() + new Vector2(0, 0.4f);
             GameObject instance = Instantiate(prefab);
             instance.transform.SetParent(transform);
             instance.transform.position = position;
