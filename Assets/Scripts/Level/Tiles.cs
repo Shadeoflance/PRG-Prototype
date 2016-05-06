@@ -13,12 +13,12 @@ class Tiles : MonoBehaviour
             if(a != null)
             {
                 Tile t = a.GetComponent<Tile>();
-                int i = (int)((a.position.x + Level.roomSize.x / 2 - 0.25f) / 0.5f);
-                int j = (int)((a.position.y + Level.roomSize.y / 2 - 0.25f) / 0.5f);
+                int i = (int)((a.localPosition.x + Level.roomSize.x / 2 - 0.25f) / 0.5f);
+                int j = (int)((a.localPosition.y + Level.roomSize.y / 2 - 0.25f) / 0.5f);
                 try
                 {
                     map[i, j] = t;
-                } catch(IndexOutOfRangeException e)
+                } catch(IndexOutOfRangeException)
                 {
                     Debug.LogError(i + " " + j);
                 }

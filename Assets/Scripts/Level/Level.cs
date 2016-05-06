@@ -20,14 +20,13 @@ class Level : MonoBehaviour
 
     void Start()
     {
-        GameObject roomPrefab = Resources.Load<GameObject>("Level/SubRoom");
         for (int i = 0; i < 4; i++)
         {
             for (int j = 0; j < 4; j++)
             {
                 if (j == 0 && i != 1)
                     continue;
-                map[i, j] = Instantiate(roomPrefab).GetComponent<SubRoom>();
+                map[i, j] = RoomContainer.GetRegularRoomInstance().GetComponent<SubRoom>();
             }
         }
         map[1, 2].room.Unite(map[2, 2].room);

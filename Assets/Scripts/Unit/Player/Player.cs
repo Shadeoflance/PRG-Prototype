@@ -7,6 +7,8 @@ public class Player : Unit
     public Dasher dasher;
     public Slamer slamer;
     public BoxCollider2D main;
+    Animator anim;
+    int speedId;
     protected override void Awake()
     {
         base.Awake();
@@ -17,6 +19,8 @@ public class Player : Unit
             Destroy(instance.gameObject);
             instance = this;
         }
+        anim = sprite.GetComponent<Animator>();
+        speedId = Animator.StringToHash("Speed");
     }
 	void Start()
 	{
@@ -41,12 +45,12 @@ public class Player : Unit
     }
 
     public static Player instance;
-
     protected override void Update()
     {
         base.Update();
         dasher.Update();
         slamer.Update();
+        anim.SetFloat(speedId, Mathf.Abs(rb.velocity.x));
     }
 
     public override void AddBuff(Buff b)
