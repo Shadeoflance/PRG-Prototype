@@ -34,6 +34,7 @@ public class Health
         {
             unit.currentState.Transit(new DamageTakenState(unit, direction));
         }
+        unit.direction = -direction;
     }
 
     public void Die()

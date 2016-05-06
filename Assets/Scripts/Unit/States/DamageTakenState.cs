@@ -9,6 +9,7 @@ public class PlayerDamageTakenState : PlayerState
     {
         currentDuration = duration;
         unit.rb.AddForce(Vector2.up.Rotate(-direction * Mathf.PI / 5) * speed);
+        unit.transform.Find("Sprite").GetComponent<Animator>().SetTrigger("Dmg");
     }
     public override void FixedUpdate()
     {
