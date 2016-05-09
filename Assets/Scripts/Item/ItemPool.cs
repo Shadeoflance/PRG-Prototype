@@ -5,72 +5,69 @@ using System.Collections.Generic;
 
 struct Bundle
 {
-    public Bundle(Sprite sprite, Action<Player> action)
+    public Bundle(string path, Action action)
     {
-        this.sprite = sprite;
+        this.sprite = Resources.Load<Sprite>("Items/" + path);
         this.action = action;
     }
-    public Bundle(string path, Action<Player> action)
-        : this(Resources.Load<Sprite>("Items/" + path), action)
-    { }
     public Sprite sprite;
-    public Action<Player> action;
+    public Action action;
 }
 public static class ItemPool
 {
-    static Dictionary<int, Bundle> items;
+    static List<Bundle> items;
+    static Bundle extraDmg;
 
     public static void AssignItem(Item item)
     {
-        if (items == null)
-            Init();
-        AssignItemWithId(item, Random.Range(0, items.Count) + 1);
-    }
-
-    public static void AssignItemWithId(Item item, int id)
-    {
-        if (items == null)
-            Init();
-        Bundle bundle = items[id];
+        Bundle bundle = GetRandom();
+        items.Remove(bundle);
         item.getAction = bundle.action;
         item.GetComponent<SpriteRenderer>().sprite = bundle.sprite;
-        item.id = id;
     }
 
-    static void Init()
+    static Bundle GetRandom()
     {
-        items = new Dictionary<int, Bundle>();
-        items.Add(1, new Bundle("extrajump", (player) =>
+        if (items.Count == 0)
+            return extraDmg;
+        return items[Random.Range(0, items.Count)];
+    }
+
+    static ItemPool()
+    {
+        items = new List<Bundle>();
+        items.Add(new Bundle("extrajump", () =>
             {
-                if (player.jumper is DefaultJumper)
+                if (Player.instance.jumper is DefaultJumper)
                 {
-                    var jumper = (DefaultJumper)player.jumper;
+                    var jumper = (DefaultJumper)Player.instance.jumper;
                     jumper.AddExtraJumps(1);
                 }
             }
         ));
 
-        items.Add(2, new Bundle("extradmg", (player) =>
+        extraDmg = new Bundle("extradmg", () =>
+        {
+            Player.instance.attack.dmgUps++;
+        }
+        );
+        items.Add(extraDmg);
+
+        items.Add(new Bundle("dmgafterdash", () =>
             {
-                player.attack.dmgUps++;
+                Player.instance.eventManager.SubscribeHandler("dashFinish", new DmgAfterDash());
             }
         ));
 
-        items.Add(3, new Bundle("dmgafterdash", (player) =>
+        items.Add(new Bundle("crit", () =>
             {
-                player.eventManager.SubscribeHandler("dashFinish", new DmgAfterDash());
+                Player.instance.eventManager.SubscribeInterceptor("shoot", new Crit());
             }
         ));
 
-        items.Add(4, new Bundle("crit", (player) =>
+        items.Add(new Bundle("distancedmg", () =>
             {
-                player.eventManager.SubscribeInterceptor("shoot", new Crit());
-            }
-        ));
-
-        items.Add(5, new Bundle("distancedmg", (player) =>
-            {
-                (player.attack as Weapon).factory.AddModifier(new DistanceDmg());
+                (Player.instance.attack as Weapon).factory.AddModifier(new DistanceDmg());
             }
         ));
     }
