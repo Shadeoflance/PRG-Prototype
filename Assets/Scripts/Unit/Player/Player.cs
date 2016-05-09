@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
+using System.Collections.Generic;
 
 public class Player : Unit
 {
     public Dasher dasher;
     public Slamer slamer;
     public BoxCollider2D main;
+    public int gold = 0;
     Animator anim;
     int speedId;
     protected override void Awake()
@@ -57,6 +58,11 @@ public class Player : Unit
     {
         base.AddBuff(b);
         b.ChangeToPlayerBuff();
+    }
+
+    public void AddGold(int amount)
+    {
+        gold += amount;
     }
 
     class JumpInvoker : ActionListener
