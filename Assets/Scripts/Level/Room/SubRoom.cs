@@ -72,7 +72,7 @@ class SubRoom : MonoBehaviour
         doors.Add(dir, doorInstance.GetComponent<Door>());
     }
 
-    public void GenerateEnemies(string name, int amount)
+    public virtual void GenerateEnemies(string name, int amount)
     {
         GameObject prefab = Resources.Load<GameObject>("Enemies/" + name);
         Transform tiles = transform.FindChild("Tiles");

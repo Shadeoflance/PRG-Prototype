@@ -24,8 +24,7 @@ public class DamageText : MonoBehaviour
     {
         style.fontSize = initialSize;
         style.font = Resources.Load<Font>("font");
-        
-        currentSize = (float)initialSize;
+        currentSize = initialSize;
     }
 
     void Update()

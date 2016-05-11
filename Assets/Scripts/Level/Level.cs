@@ -26,7 +26,12 @@ class Level : MonoBehaviour
             {
                 if (j == 0 && i != 1)
                     continue;
-                map[i, j] = RoomContainer.GetRegularRoomInstance().GetComponent<SubRoom>();
+                if(i == 2 && j == 1)
+                {
+                    map[i, j] = RoomContainer.GetShopInstance();
+                    continue;
+                }
+                map[i, j] = RoomContainer.GetRegularRoomInstance();
             }
         }
         map[1, 2].room.Unite(map[2, 2].room);

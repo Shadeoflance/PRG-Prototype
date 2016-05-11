@@ -15,28 +15,45 @@ struct Bundle
 }
 public static class ItemPool
 {
-    static List<Bundle> items;
+    static Dictionary<int, Bundle> items;
     static Bundle extraDmg;
 
     public static void AssignItem(Item item)
     {
-        Bundle bundle = GetRandom();
-        items.Remove(bundle);
+        int id = GenerateId();
+        Bundle bundle = items[id];
+        item.id = id;
         item.getAction = bundle.action;
         item.GetComponent<SpriteRenderer>().sprite = bundle.sprite;
+        Remove(id);
     }
 
-    static Bundle GetRandom()
+    static int GenerateId()
     {
         if (items.Count == 0)
-            return extraDmg;
-        return items[Random.Range(0, items.Count)];
+            return 0;//extraDmg item id
+        List<int> ids = new List<int>();
+        ids.AddRange(items.Keys);
+        return ids[Random.Range(0, ids.Count)];
+    }
+
+    public static void Remove(int id)
+    {
+        items.Remove(id);
     }
 
     static ItemPool()
     {
-        items = new List<Bundle>();
-        items.Add(new Bundle("extrajump", () =>
+        items = new Dictionary<int, Bundle>();
+
+        extraDmg = new Bundle("extradmg", () =>
+        {
+            Player.instance.attack.dmgUps++;
+        }
+        );
+        items.Add(0, extraDmg);
+
+        items.Add(1, new Bundle("extrajump", () =>
             {
                 if (Player.instance.jumper is DefaultJumper)
                 {
@@ -46,26 +63,19 @@ public static class ItemPool
             }
         ));
 
-        extraDmg = new Bundle("extradmg", () =>
-        {
-            Player.instance.attack.dmgUps++;
-        }
-        );
-        items.Add(extraDmg);
-
-        items.Add(new Bundle("dmgafterdash", () =>
+        items.Add(2, new Bundle("dmgafterdash", () =>
             {
                 Player.instance.eventManager.SubscribeHandler("dashFinish", new DmgAfterDash());
             }
         ));
 
-        items.Add(new Bundle("crit", () =>
+        items.Add(3, new Bundle("crit", () =>
             {
                 Player.instance.eventManager.SubscribeInterceptor("shoot", new Crit());
             }
         ));
 
-        items.Add(new Bundle("distancedmg", () =>
+        items.Add(4, new Bundle("distancedmg", () =>
             {
                 (Player.instance.attack as Weapon).factory.AddModifier(new DistanceDmg());
             }
