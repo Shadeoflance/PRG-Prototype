@@ -8,7 +8,7 @@ public class Enemy : Unit
         eventManager.SubscribeHandler("takeDmg", new DmgTextCreate());
         eventManager.SubscribeHandler("takeDmg", new DmgRedPaint());
         eventManager.SubscribeHandler("die", new RoomDieInfo());
-        eventManager.SubscribeHandler("die", new GoldDrop());
+        eventManager.SubscribeHandler("die", new PickupsDrop());
     }
     protected void OnCollisionStay2D(Collision2D collision)
     {
@@ -49,12 +49,13 @@ public class Enemy : Unit
             return true;
         }
     }
-    class GoldDrop : ActionListener
+    class PickupsDrop : ActionListener
     {
         public int amount = 2;
         public bool Handle(ActionParams ap)
         {
             Gold.Drop(amount, ap.unit.transform.position);
+            OrbPickup.Drop(1, ap.unit.transform.position);
             return false;
         }
     }

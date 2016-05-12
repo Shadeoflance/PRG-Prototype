@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System;
 
 public class Player : Unit
 {
@@ -8,6 +9,7 @@ public class Player : Unit
     public Slamer slamer;
     public BoxCollider2D main;
     public int gold = 0;
+    public int orbs = 0;
     Animator anim;
     int speedId;
     protected override void Awake()
@@ -38,6 +40,7 @@ public class Player : Unit
         eventManager.SubscribeHandler("jumpButtonDown", new JumpInvoker());
         eventManager.SubscribeHandler("dashButtonDown", new DashInvoker());
         eventManager.SubscribeHandler("takeDmg", new DamageBoost());
+        eventManager.SubscribeHandler("bombButtonDown", new BombDropInvoker());
 	}
 
     public static void IgnoreEnemyCollisions(bool value)
@@ -65,6 +68,11 @@ public class Player : Unit
         gold += amount;
     }
 
+    public void AddOrbs(int amount)
+    {
+        orbs += amount;
+    }
+
     class JumpInvoker : ActionListener
     {
         public bool Handle(ActionParams ap)
@@ -88,6 +96,19 @@ public class Player : Unit
         public bool Handle(ActionParams ap)
         {
             ap.unit.AddBuff(new Invulnerability(ap.unit, 1));
+            return false;
+        }
+    }
+
+    class BombDropInvoker : ActionListener
+    {
+        public bool Handle(ActionParams ap)
+        {
+            if (instance.orbs > 0)
+            {
+                OrbBomb.Drop(ap.unit.transform.position);
+                instance.orbs--;
+            }
             return false;
         }
     }

@@ -8,4 +8,5 @@
     public virtual void Dash() { }
     public virtual void Slam() { }
     public virtual void UseItem() { }
+    public virtual void DropBomb() { }
 }

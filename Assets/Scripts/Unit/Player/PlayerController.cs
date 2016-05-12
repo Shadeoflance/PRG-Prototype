@@ -37,6 +37,8 @@ public class PlayerController : IController
             player.eventManager.InvokeHandlers("itemButtonDown", null);
         if (Input.GetButtonDown("Dash"))
             player.eventManager.InvokeHandlers("dashButtonDown", null);
+        if (Input.GetButtonDown("Bomb"))
+            player.eventManager.InvokeHandlers("bombButtonDown", null);
         if (Input.GetKeyDown(KeyCode.R))
             player.transform.position = new Vector3(0, 0, 0);
 	}

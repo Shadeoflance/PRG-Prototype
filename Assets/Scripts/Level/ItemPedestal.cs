@@ -10,10 +10,10 @@ class ItemPedestal : MonoBehaviour
     static ItemPedestal()
     {
         style = new GUIStyle();
-        style.font = Resources.Load<Font>("font");
     }
     void Awake()
     {
+        style.font = Resources.Load<Font>("font");
         item = Item.Create();
         item.transform.position = transform.position;
         item.canPickup = false;

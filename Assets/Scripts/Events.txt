@@ -26,3 +26,4 @@ attackButtonDown
 attackButtonUp
 itemButtonDown
 dashButtonDown
+bombButtonDown

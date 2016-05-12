@@ -14,9 +14,11 @@ class Gold : MonoBehaviour
     }
 
     static float initialDropVelocity = 10;
+    static GameObject prefab;
     public static void Drop(int amountOfDrops, Vector2 position)
     {
-        GameObject prefab = Resources.Load<GameObject>("Pickups/Gold");
+        if(prefab == null)
+            prefab = Resources.Load<GameObject>("Pickups/Gold");
         for (int i = 0; i < amountOfDrops; i++)
         {
             GameObject instance = Instantiate(prefab);
