@@ -84,7 +84,6 @@ class SubRoom : MonoBehaviour
             instance.transform.SetParent(transform);
             instance.transform.position = position;
             enemiesAlive.Add(instance.GetComponent<Enemy>());
-            //instance.SetActive(gameObject.activeInHierarchy);
         }
     }
 
