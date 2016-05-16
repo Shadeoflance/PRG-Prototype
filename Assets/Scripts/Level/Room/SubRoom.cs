@@ -7,13 +7,18 @@ class SubRoom : MonoBehaviour
     public Room room;
     Dictionary<Vector2, Door> doors = new Dictionary<Vector2,Door>();
     public List<Enemy> enemiesAlive = new List<Enemy>();
+    public Tiles tiles;
 
-    void Awake()
+    public virtual void Awake()
     {
+        tiles = transform.FindChild("Tiles").GetComponent<Tiles>();
     }
 
-    void Start()
+    protected virtual void Start()
     {
+        CreateDoors();
+        CreateWalls();
+        GenerateEnemies("TestEnemy", Random.Range(0, 4));
         if (enemiesAlive.Count > 0)
             DisableDoors();
     }
@@ -25,22 +30,9 @@ class SubRoom : MonoBehaviour
             SubRoom s = Level.instance.map.GetRelativeTo(this, dir);
             if (!room.subRooms.Contains(s))
             {
-                CreateSingleWall(dir);
+                tiles.AddWall(dir);
             }
         }
-    }
-
-    private void CreateSingleWall(Vector2 dir)
-    {
-        GameObject wall = Instantiate(Resources.Load<GameObject>("Level/Wall"));
-        Transform parent = transform.FindChild("Walls").transform;
-        wall.transform.position = transform.position + Vector2.Scale(Level.roomSize / 2, dir).ToV3();
-        if(dir.y != 0)
-        {
-            wall.transform.Rotate(0, 0, 90);
-            wall.transform.localScale *= Level.roomSize.x / Level.roomSize.y;
-        }
-        wall.transform.SetParent(parent);
     }
 
     public void CreateDoors()
@@ -75,16 +67,34 @@ class SubRoom : MonoBehaviour
     public virtual void GenerateEnemies(string name, int amount)
     {
         GameObject prefab = Resources.Load<GameObject>("Enemies/" + name);
-        Transform tiles = transform.FindChild("Tiles");
         for (int i = 0; i < amount; i++)
         {
-            Transform randomTile = tiles.GetChild(Random.Range(0, tiles.childCount)).transform;
-            Vector2 position = randomTile.position.ToV2() + new Vector2(0, 0.4f);
+            Vector2 position = GetTopClearTilePos() + new Vector2(0, 0.4f);
             GameObject instance = Instantiate(prefab);
             instance.transform.SetParent(transform);
             instance.transform.position = position;
             enemiesAlive.Add(instance.GetComponent<Enemy>());
         }
+    }
+
+    List<Tile> clearTiles;
+    private Vector2 GetTopClearTilePos()
+    {
+        if (clearTiles == null)
+        {
+            clearTiles = new List<Tile>();
+            foreach (var a in tiles.map)
+            {
+                if (a == null)
+                    continue;
+                if(a.y < tiles.map.GetLength(1) - 1 && tiles.map[a.x, a.y + 1] == null)
+                {
+                    clearTiles.Add(a);
+                }
+            }
+        }
+        Debug.LogWarning(clearTiles.Count);
+        return clearTiles[Random.Range(0, clearTiles.Count)].transform.position;
     }
 
     public void EnemyDied(Enemy enemy)

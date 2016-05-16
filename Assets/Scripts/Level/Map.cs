@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
-using UnityEngine.UI;
 
 class Map
 {
@@ -63,14 +61,11 @@ class Map
         {
             if (a != null)
             {
-                a.CreateDoors();
-                a.CreateWalls();
                 if (!processedRooms.Contains(a.room))
                 {
                     a.room.InitUI();
                     processedRooms.Add(a.room);
                 }
-                //a.GenerateEnemies("TestEnemy", Random.Range(1, 7));
             }
         }
     }

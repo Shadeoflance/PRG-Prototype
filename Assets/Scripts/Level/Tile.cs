@@ -2,7 +2,6 @@
 
 class Tile : MonoBehaviour
 {
-    public bool processed = false;
     public int x, y;
     SpritePainter painter;
 

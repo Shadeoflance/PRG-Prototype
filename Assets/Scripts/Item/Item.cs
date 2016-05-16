@@ -26,10 +26,10 @@ public class Item : MonoBehaviour
         Destroy(gameObject);
     }
 
-    static GameObject prefab = Resources.Load<GameObject>("Item");
+    static Prefab prefab = new Prefab("Item");
 
     public static Item Create()
     {
-        return Instantiate(prefab).GetComponent<Item>();
+        return prefab.Instantiate().GetComponent<Item>();
     }
 }

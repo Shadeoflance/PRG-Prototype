@@ -42,15 +42,11 @@ class OrbBomb : MonoBehaviour
         Destroy(gameObject);
     }
 
-    static GameObject prefab;
+    static Prefab prefab = new Prefab("Pickups/OrbBomb");
 
     public static void Drop(Vector2 pos)
     {
-        if(prefab == null)
-        {
-            prefab = Resources.Load<GameObject>("Pickups/OrbBomb");
-        }
-        GameObject instance = Instantiate(prefab);
+        GameObject instance = prefab.Instantiate();
         instance.transform.position = pos;
     }
 }
