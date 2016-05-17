@@ -93,7 +93,6 @@ class SubRoom : MonoBehaviour
                 }
             }
         }
-        Debug.LogWarning(clearTiles.Count);
         return clearTiles[Random.Range(0, clearTiles.Count)].transform.position;
     }
 

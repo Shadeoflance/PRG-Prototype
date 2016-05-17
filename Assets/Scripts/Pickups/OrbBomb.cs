@@ -18,6 +18,7 @@ class OrbBomb : MonoBehaviour
 
     void Explode()
     {
+        OrbExplosion.Create(transform.position);
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range, LayerMask.GetMask("Player", "Enemy"));
         HashSet<Enemy> enemies = new HashSet<Enemy>();
         bool didPlayer = false;

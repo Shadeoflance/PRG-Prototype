@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 
-public static class DoubleJumpClouds
+class OrbExplosion
 {
-    static Prefab prefab = new Prefab("Effects/DoubleJump");
+    static Prefab prefab = new Prefab("Effects/OrbExplosion");
+
     public static void Create(Vector2 position)
     {
         var newInstance = prefab.Instantiate();

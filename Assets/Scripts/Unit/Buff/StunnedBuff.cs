@@ -6,7 +6,7 @@ public class StunnedBuff : Buff
     public StunnedBuff(Unit u, float duration) : base(u, duration) 
     {
         if (stun == null)
-            stun = Resources.Load<ParticleSystem>("Stun");
+            stun = Resources.Load<ParticleSystem>("Effects/Stun");
         var newInstance = GameObject.Instantiate<ParticleSystem>(stun);
         newInstance.transform.position = u.transform.position + new Vector3(0f, u.size.y + 0.4f, 0f);
         newInstance.transform.SetParent(u.gameObject.transform);
