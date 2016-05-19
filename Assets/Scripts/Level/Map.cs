@@ -8,6 +8,7 @@ class Map
     public static Vector2[] dirs = new Vector2[] { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
     SubRoom[,] rooms;
     public int size;
+    public Spawn spawn;
 
     public Map(int size)
     {
@@ -51,6 +52,10 @@ class Map
             value.transform.SetParent(Level.instance.transform);
             value.WrapInRoom();
             value.Disable();
+            if(value is Spawn)
+            {
+                spawn = (Spawn)value;
+            }
         }
     }
 

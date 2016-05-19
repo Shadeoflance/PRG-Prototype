@@ -26,6 +26,11 @@ class Level : MonoBehaviour
             {
                 if (j == 0 && i != 1)
                     continue;
+                if (j == 1 && i == 1)
+                {
+                    map[i, j] = RoomContainer.GetSpawnInstance();
+                    continue;
+                }   
                 //if(i == 2 && j == 1)
                 //{
                 //    map[i, j] = RoomContainer.GetShopInstance();
@@ -37,7 +42,7 @@ class Level : MonoBehaviour
         map[1, 2].room.Unite(map[2, 2].room);
         map[3, 3].room.Unite(map[3, 2].room);
         map.PostInitialize();
-        current = map[1, 1].room;
+        current = map.spawn.room;
         current.Enable();
         Player.instance.transform.position = current.subRooms[0].transform.position;
         map.UpdateUI();

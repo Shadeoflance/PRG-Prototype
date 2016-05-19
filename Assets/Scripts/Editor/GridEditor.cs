@@ -83,20 +83,25 @@ public class GridEditor : Editor
             {
                 DestroyTileAt(aligned);
             }
-            else if(e.character == 'e')
+            else if(e.character == 'c')
+            {
+                tileEditor.SelectNext();
+                e.Use();
+            }
+            else if(e.character == 'v')
             {
                 tileEditor.SelectPrev();
                 e.Use();
             }
         }
-        if(e.type == EventType.ScrollWheel)
-        {
-            if (e.delta.y > 0)
-                tileEditor.SelectNext();
-            if (e.delta.y < 0)
-                tileEditor.SelectPrev();
-            e.Use();
-        }
+        //if(e.type == EventType.ScrollWheel)
+        //{
+        //    if (e.delta.y > 0)
+        //        tileEditor.SelectNext();
+        //    if (e.delta.y < 0)
+        //        tileEditor.SelectPrev();
+        //    e.Use();
+        //}
 
     }
 
