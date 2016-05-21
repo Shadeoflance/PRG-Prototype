@@ -35,42 +35,56 @@ class Tiles : MonoBehaviour
         {
             Tile t = null;
             int k = 1;
+            bool oneway = false;
             for (int x = 1; x < map.GetLength(0) - 1; x++)
             {
                 if(t == null && map[x, y] != null)
                 {
                     t = map[x, y];
+                    oneway = t is OneWayTile;
                     continue;
                 }
-                else if (t != null && map[x, y] != null)
-                    k++;
-                else if(t != null && map[x, y] == null)
+                else if(t != null)
                 {
-                    BoxTiles(t, k);
-                    k = 1;
-                    t = null;
+                    if(map[x, y] != null)
+                    {
+                        if((map[x, y] is OneWayTile) == oneway)
+                        {
+                            k++;
+                        }
+                        else
+                        {
+                            BoxTiles(t, k, false);
+                            k = 1;
+                            t = null;
+                        }
+                    }
+                    else
+                    {
+                        BoxTiles(t, k, false);
+                        k = 1;
+                        t = null;
+                    }
                 }
             }
             if (t != null)
-                BoxTiles(t, k);
+                BoxTiles(t, k, false);
         }
     }
 
-    void BoxTiles(Tile start, int count)
+    void BoxTiles(Tile start, int count, bool up)
     {
         BoxCollider2D box = start.gameObject.AddComponent<BoxCollider2D>();
         box.size = new Vector2(0.5f * count, 0.5f);
         box.offset = new Vector2(box.size.x / 2 - 0.25f, 0);
-    }
-    void BoxTilesUp(Tile start, int count)
-    {
-        BoxCollider2D box = start.gameObject.AddComponent<BoxCollider2D>();
-        box.size = new Vector2(0.5f, 0.5f * count);
-        box.offset = new Vector2(0, box.size.y / 2 - 0.25f);
+        if(start is OneWayTile)
+        {
+            box.usedByEffector = true;
+        }
     }
 
     Prefab prefab = new Prefab("Level/Tiles/BasicTile");
-    Tile CreateTile(int x, int y)
+    Tile CreateWallTile(int x, int y)
     {
         Tile newInstance = prefab.Instantiate().GetComponent<Tile>();
         newInstance.x = x;
@@ -88,33 +102,33 @@ class Tiles : MonoBehaviour
         {
             for (int i = 0; i < map.GetLength(1); i++)
             {
-                CreateTile(map.GetLength(0) - 1, i);
+                CreateWallTile(map.GetLength(0) - 1, i);
             }
-            BoxTilesUp(map[map.GetLength(0) - 1, 0], map.GetLength(1));
+            BoxTiles(map[map.GetLength(0) - 1, 0], map.GetLength(1), true);
         }
         else if(dir.x < 0)
         {
             for (int i = 0; i < map.GetLength(1); i++)
             {
-                CreateTile(0, i);
+                CreateWallTile(0, i);
             }
-            BoxTilesUp(map[0, 0], map.GetLength(1));
+            BoxTiles(map[0, 0], map.GetLength(1), true);
         }
         else if(dir.y > 0)
         {
             for (int i = 0; i < map.GetLength(0); i++)
             {
-                CreateTile(i, map.GetLength(1) - 1);
+                CreateWallTile(i, map.GetLength(1) - 1);
             }
-            BoxTiles(map[0, map.GetLength(1) - 1], map.GetLength(0));
+            BoxTiles(map[0, map.GetLength(1) - 1], map.GetLength(0), false);
         }
         else
         {
             for (int i = 0; i < map.GetLength(0); i++)
             {
-                CreateTile(i, 0);
+                CreateWallTile(i, 0);
             }
-            BoxTiles(map[0, 0], map.GetLength(0));
+            BoxTiles(map[0, 0], map.GetLength(0), false);
         }
     }
 }
