@@ -6,7 +6,7 @@ class ShootableTile : Tile
     {
         if(bullet.unit is Player)
         {
-            Destroy(gameObject);
+            Destroy();
         }
     }
 }

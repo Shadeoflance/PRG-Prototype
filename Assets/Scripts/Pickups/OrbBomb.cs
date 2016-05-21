@@ -19,7 +19,7 @@ class OrbBomb : MonoBehaviour
     void Explode()
     {
         OrbExplosion.Create(transform.position);
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range, LayerMask.GetMask("Player", "Enemy"));
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range, LayerMask.GetMask("Player", "Enemy", "Level"));
         HashSet<Enemy> enemies = new HashSet<Enemy>();
         bool didPlayer = false;
         foreach(var a in hits)
@@ -34,6 +34,12 @@ class OrbBomb : MonoBehaviour
             {
                 didPlayer = true;
                 Player.instance.health.TakeDamage(effectiveDmg, gameObject);
+                continue;
+            }
+            Tile t = a.GetComponent<Tile>();
+            if(t != null)
+            {
+                t.ExplosionHit();
             }
         }
         foreach(var e in enemies)

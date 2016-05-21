@@ -18,6 +18,7 @@ class Tiles : MonoBehaviour
                 try
                 {
                     map[i, j] = t;
+                    t.tiles = this;
                 } catch(IndexOutOfRangeException)
                 {
                     Debug.LogError(i + " " + j);
@@ -26,6 +27,13 @@ class Tiles : MonoBehaviour
                 t.y = j;
             }
         }
+        UpdateColliders();
+    }
+
+    public void DestroyTile(Tile t)
+    {
+        Destroy(t.gameObject);
+        map[t.x, t.y] = null;
         UpdateColliders();
     }
 
@@ -38,6 +46,7 @@ class Tiles : MonoBehaviour
             bool oneway = false;
             for (int x = 1; x < map.GetLength(0) - 1; x++)
             {
+                RemoveCollider(map[x, y]);
                 if(t == null && map[x, y] != null)
                 {
                     t = map[x, y];
@@ -70,6 +79,16 @@ class Tiles : MonoBehaviour
             if (t != null)
                 BoxTiles(t, k, false);
         }
+    }
+
+    void RemoveCollider(Tile t)
+    {
+        if (t == null)
+            return;
+        Collider2D[] cols = t.GetComponents<Collider2D>();
+        foreach (var a in cols)
+            if (!a.isTrigger)
+                Destroy(a);
     }
 
     void BoxTiles(Tile start, int count, bool up)

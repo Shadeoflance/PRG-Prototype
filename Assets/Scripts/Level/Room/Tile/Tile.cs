@@ -4,6 +4,8 @@ class Tile : MonoBehaviour
 {
     public int x, y;
     SpritePainter painter;
+    [System.NonSerialized]
+    public Tiles tiles;
 
     void Awake()
     {
@@ -18,8 +20,10 @@ class Tile : MonoBehaviour
         }
     }
 
-    public virtual void BulletHit(Bullet bullet)
+    public virtual void BulletHit(Bullet bullet) { }
+    public virtual void ExplosionHit() { }
+    protected virtual void Destroy()
     {
-
+        tiles.DestroyTile(this);
     }
 }
