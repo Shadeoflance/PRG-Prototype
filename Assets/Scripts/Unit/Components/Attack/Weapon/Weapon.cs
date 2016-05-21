@@ -6,8 +6,8 @@ public class Weapon : Attack, IUpdatable
     public float bps;
     float cd = 0;
 
-    public Weapon(Unit unit, float damage = 1f, float speed = 10f, float life = 1f, float bps = 4f)
-        : base(unit, damage)
+    public Weapon(Unit unit, float speed = 10f, float life = 1f, float bps = 4f)
+        : base(unit)
     {
         this.bps = bps;
         factory = new BulletFactory(unit)

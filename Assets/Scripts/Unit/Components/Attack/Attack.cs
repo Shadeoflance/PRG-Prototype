@@ -5,10 +5,10 @@ public class Attack : IUpdatable
 {
     protected Unit unit;
     public float baseDmg, dmgUps = 0, flatDmg = 0;
-    public Attack(Unit unit, float baseDmg = 1)
+    public Attack(Unit unit)
     {
         this.unit = unit;
-        this.baseDmg = baseDmg;
+        this.baseDmg = unit.damage;
     }
     public virtual void DoAttack() { }
 
