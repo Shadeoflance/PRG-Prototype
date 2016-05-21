@@ -75,8 +75,8 @@ class Tiles : MonoBehaviour
     void BoxTiles(Tile start, int count, bool up)
     {
         BoxCollider2D box = start.gameObject.AddComponent<BoxCollider2D>();
-        box.size = new Vector2(0.5f * count, 0.5f);
-        box.offset = new Vector2(box.size.x / 2 - 0.25f, 0);
+        box.size = up ? new Vector2(0.5f, 0.5f * count) : new Vector2(0.5f * count, 0.5f);
+        box.offset = up ? new Vector2(0, box.size.y / 2 - 0.25f) : new Vector2(box.size.x / 2 - 0.25f, 0);
         if(start is OneWayTile)
         {
             box.usedByEffector = true;
