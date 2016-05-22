@@ -8,6 +8,7 @@ class SubRoom : MonoBehaviour
     Dictionary<Vector2, Door> doors = new Dictionary<Vector2,Door>();
     public List<Enemy> enemiesAlive = new List<Enemy>();
     public Tiles tiles;
+    public bool isHostile = true;
 
     public virtual void Awake()
     {
@@ -18,9 +19,14 @@ class SubRoom : MonoBehaviour
     {
         CreateDoors();
         CreateWalls();
-        GenerateEnemies("TestEnemy", Random.Range(0, 4));
-        if (enemiesAlive.Count > 0)
-            DisableDoors();
+        if(isHostile)
+            GenerateEnemies("TestEnemy", Random.Range(1, 4));
+        foreach (var a in room.subRooms)
+            if (a.isHostile)
+            {
+                DisableDoors();
+                break;
+            }
     }
 
     public void CreateWalls()

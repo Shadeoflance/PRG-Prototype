@@ -48,7 +48,7 @@ class Map
             if (!CheckBounds(x, y))
                 throw new Exception("Tried to set room out of map bounds. x = " + x + " y = " + y);
             rooms[x, y] = value;
-            value.transform.position = new Vector3(Level.roomSize.x * x, Level.roomSize.y * y, 0);
+            value.transform.position = new Vector3((Level.roomSize.x + 1) * x, (Level.roomSize.y + 1) * y, 0);
             value.transform.SetParent(Level.instance.transform);
             value.WrapInRoom();
             value.Disable();

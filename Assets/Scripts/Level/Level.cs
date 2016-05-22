@@ -37,6 +37,8 @@ class Level : MonoBehaviour
                 //    continue;
                 //}
                 map[i, j] = RoomContainer.GetRegularRoomInstance();
+                if (UnityEngine.Random.Range(0, 1) > 0.7f)
+                    map[i, j].isHostile = false;
             }
         }
         map[1, 2].room.Unite(map[2, 2].room);
