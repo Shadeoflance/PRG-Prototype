@@ -6,15 +6,17 @@ public class Item : MonoBehaviour
     public Action getAction;
     public int id;
     public bool canPickup = true;
+    Rigidbody2D rb;
 
     void Awake()
     {
+        rb = GetComponent<Rigidbody2D>();
         ItemPool.AssignItem(this);
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    void OnCollisionEnter2D(Collision2D col)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player") && canPickup)
+        if (col.gameObject.IsPlayer() && canPickup && Math.Abs(rb.velocity.y) < 0.01f)
         {
             PickUp();
         }

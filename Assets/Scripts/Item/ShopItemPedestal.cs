@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-class ItemPedestal : MonoBehaviour
+class ShopItemPedestal : MonoBehaviour
 {
-    public static int price = 0;
+    public static int price = 15;
     static Color outColor = new Color(0.5f, 0.5f, 0.3f), inColor = new Color(1, 0.9f, 0.3f);
     static GUIStyle style;
     Item item;
 
-    static ItemPedestal()
+    static ShopItemPedestal()
     {
         style = new GUIStyle();
     }
@@ -34,8 +34,6 @@ class ItemPedestal : MonoBehaviour
 
     void OnGUI()
     {
-        if (price == 0)
-            return;
         Vector2 pos = Camera.main.WorldToScreenPoint(transform.position + new Vector3(-0.24f, -0.5f)).ToV2();
         Rect rect = new Rect(0, 0, 1, 1);
         rect.x = pos.x;
