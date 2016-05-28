@@ -22,6 +22,7 @@ public class Player : Unit
             Destroy(instance.gameObject);
             instance = this;
         }
+        PickupsUI.Update();
         anim = sprite.GetComponent<Animator>();
         speedId = Animator.StringToHash("Speed");
     }
@@ -66,11 +67,13 @@ public class Player : Unit
     public void AddGold(int amount)
     {
         gold += amount;
+        PickupsUI.Update();
     }
 
     public void AddOrbs(int amount)
     {
         orbs += amount;
+        PickupsUI.Update();
     }
 
     class JumpInvoker : ActionListener
@@ -108,6 +111,7 @@ public class Player : Unit
             {
                 OrbBomb.Drop(ap.unit.transform.position);
                 instance.orbs--;
+                PickupsUI.Update();
             }
             return false;
         }

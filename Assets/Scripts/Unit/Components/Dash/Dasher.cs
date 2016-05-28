@@ -10,7 +10,7 @@ public class Dasher : IUpdatable
     public Dasher(Player player)
     {
         this.player = player;
-        Image i = GameObject.Find("Icons/Dash").GetComponent<Image>();
+        Image i = GameObject.Find("UI/Dash").GetComponent<Image>();
         cdMaterial = GameObject.Instantiate<Material>(i.material);
         i.material = cdMaterial;
     }

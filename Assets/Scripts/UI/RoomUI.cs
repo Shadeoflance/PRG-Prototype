@@ -7,6 +7,7 @@ class RoomUI
     public List<Image> images = new List<Image>();
     Room room;
     bool revealed = false;
+    bool visited = false;
 
     public RoomUI(Room room)
     {
@@ -54,6 +55,7 @@ class RoomUI
         {
             SetColor(Color.white);
             revealed = true;
+            visited = true;
             return;
         }
         if (!revealed)
@@ -77,7 +79,9 @@ class RoomUI
         }
         else
         {
-            SetColor(new Color(0.3f, 0.3f, 0.3f));
+            if (visited)
+                SetColor(new Color(0.65f, 0.65f, 0.65f));
+            else SetColor(new Color(0.3f, 0.3f, 0.3f));
         }
 
     }

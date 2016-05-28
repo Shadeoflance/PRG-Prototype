@@ -10,7 +10,7 @@ public class Slamer
     public Slamer(Player player)
     {
         this.player = player;
-        Image i = GameObject.Find("Icons/Slam").GetComponent<Image>();
+        Image i = GameObject.Find("UI/Slam").GetComponent<Image>();
         cdMaterial = GameObject.Instantiate<Material>(i.material);
         i.material = cdMaterial;
     }
