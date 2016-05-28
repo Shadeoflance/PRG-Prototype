@@ -19,7 +19,7 @@ public class Unit : MonoBehaviour
     private int spriteDirection = 1;
     public float damage = 1f, hp = 3;
     protected Transform sprite;
-    private Material healthBar;
+    protected Material healthBar;
     private Group<Buff> buffs = new Group<Buff>();
     public Vector2 size;
 
@@ -46,7 +46,6 @@ public class Unit : MonoBehaviour
         currentState.Move(needVel);
         currentState.Update();
         eventManager.Update();
-        healthBar.SetFloat("_HealthPercentage", 1f * health.currentHealth / health.maxHealth);
         if (!bot.IsTouchingLayers(1 << LayerMask.NameToLayer("Level")) && currentState != airborne)
         {
             //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(0, -1), 0.6f, 1 << LayerMask.NameToLayer("Level"));
@@ -58,6 +57,11 @@ public class Unit : MonoBehaviour
             sprite.localScale = Vector3.Scale(sprite.localScale, new Vector3(-1, 1, 1));
             spriteDirection *= -1;
         }
+    }
+
+    public void UpdateHealthBar()
+    {
+        healthBar.SetFloat("_HealthPercentage", 1f * health.currentHealth / health.maxHealth);
     }
 
     public virtual void AddBuff(Buff b)

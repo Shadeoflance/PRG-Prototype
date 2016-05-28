@@ -25,6 +25,8 @@ public class Player : Unit
         PickupsUI.Update();
         anim = sprite.GetComponent<Animator>();
         speedId = Animator.StringToHash("Speed");
+        Image h = GameObject.Find("UI/Health").GetComponent<Image>();
+        healthBar = h.material;
     }
 	void Start()
 	{
