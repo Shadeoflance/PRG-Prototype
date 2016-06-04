@@ -30,7 +30,11 @@ public class Unit : MonoBehaviour
         eventManager.SubscribeHandler("land", new WalkOnLand());
         sprite = transform.FindChild("Sprite");
         size = sprite.gameObject.GetComponent<SpriteRenderer>().bounds.extents.ToV2();
-        healthBar = transform.FindChild("HealthBar").GetComponent<SpriteRenderer>().material;
+    }
+
+    protected virtual void Start()
+    {
+        UpdateHealthBar();
     }
 
     protected virtual void Update()
@@ -61,7 +65,7 @@ public class Unit : MonoBehaviour
 
     public void UpdateHealthBar()
     {
-        healthBar.SetFloat("_HealthPercentage", 1f * health.currentHealth / health.maxHealth);
+        healthBar.SetFloat("_HealthPercentage", 1f * health.currentHealth / health.maxHealth);  
     }
 
     public virtual void AddBuff(Buff b)

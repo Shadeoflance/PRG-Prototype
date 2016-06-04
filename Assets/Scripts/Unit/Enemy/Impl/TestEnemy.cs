@@ -5,13 +5,13 @@ public class TestEnemy : Enemy
     public bool stationary = false;
     protected override void Start()
     {
-        base.Start();
         controller = new TestEnemyController(this);
         mover = new DefaultMover(this, speed);
         health = new Health(this, hp);
         walking = new WalkingState(this);
         airborne = new AirborneState(this);
         attack = new Attack(this);
+        base.Start();
     }
 }
 

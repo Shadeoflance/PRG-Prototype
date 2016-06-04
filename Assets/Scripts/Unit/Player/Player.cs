@@ -44,6 +44,7 @@ public class Player : Unit
         eventManager.SubscribeHandler("dashButtonDown", new DashInvoker());
         eventManager.SubscribeHandler("takeDmg", new DamageBoost());
         eventManager.SubscribeHandler("bombButtonDown", new BombDropInvoker());
+        base.Start();
 	}
 
     public static void IgnoreEnemyCollisions(bool value)

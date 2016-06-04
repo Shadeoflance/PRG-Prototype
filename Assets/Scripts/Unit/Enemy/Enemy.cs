@@ -3,12 +3,18 @@ using UnityEngine;
 
 public class Enemy : Unit
 {
-    protected virtual void Start()
+    protected override void Awake()
+    {
+        base.Awake();
+        healthBar = transform.FindChild("HealthBar").GetComponent<SpriteRenderer>().material;
+    }
+    protected override void Start()
     {
         eventManager.SubscribeHandler("takeDmg", new DmgTextCreate());
         eventManager.SubscribeHandler("takeDmg", new DmgRedPaint());
         eventManager.SubscribeHandler("die", new RoomDieInfo());
         eventManager.SubscribeHandler("die", new PickupsDrop());
+        base.Start();
     }
     protected void OnCollisionStay2D(Collision2D collision)
     {
