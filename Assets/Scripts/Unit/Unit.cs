@@ -16,7 +16,6 @@ public class Unit : MonoBehaviour
     public Attack attack;
     public Health health;
     public int direction = 1;
-    private int spriteDirection = 1;
     public float damage = 1f, hp = 3;
     protected Transform sprite;
     protected Material healthBar;
@@ -29,12 +28,11 @@ public class Unit : MonoBehaviour
         eventManager = new EventManager(this);
         eventManager.SubscribeHandler("land", new WalkOnLand());
         sprite = transform.FindChild("Sprite");
-        size = sprite.gameObject.GetComponent<SpriteRenderer>().bounds.extents.ToV2();
+        size = GetComponent<SpriteRenderer>().bounds.extents.ToV2();
     }
 
     protected virtual void Start()
     {
-        UpdateHealthBar();
     }
 
     protected virtual void Update()
@@ -56,16 +54,6 @@ public class Unit : MonoBehaviour
             //if(hit.collider == null)
             currentState.Transit(airborne);
         }
-        if (spriteDirection != direction)
-        {
-            sprite.localScale = Vector3.Scale(sprite.localScale, new Vector3(-1, 1, 1));
-            spriteDirection *= -1;
-        }
-    }
-
-    public void UpdateHealthBar()
-    {
-        healthBar.SetFloat("_HealthPercentage", 1f * health.currentHealth / health.maxHealth);  
     }
 
     public virtual void AddBuff(Buff b)

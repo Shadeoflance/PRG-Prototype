@@ -6,12 +6,11 @@ public class Enemy : Unit
     protected override void Awake()
     {
         base.Awake();
-        healthBar = transform.FindChild("HealthBar").GetComponent<SpriteRenderer>().material;
     }
     protected override void Start()
     {
         eventManager.SubscribeHandler("takeDmg", new DmgTextCreate());
-        eventManager.SubscribeHandler("takeDmg", new DmgRedPaint());
+        eventManager.SubscribeHandler("takeDmg", new DmgPaint());
         eventManager.SubscribeHandler("die", new RoomDieInfo());
         eventManager.SubscribeHandler("die", new PickupsDrop());
         base.Start();
@@ -36,14 +35,14 @@ public class Enemy : Unit
             return false;
         }
     }
-    class DmgRedPaint : ActionListener
+    class DmgPaint : ActionListener
     {
         SpritePainter painter;
         public bool Handle(ActionParams ap)
         {
             if (painter == null)
-                painter = ap.unit.transform.FindChild("Sprite").GetComponent<SpritePainter>();
-            painter.Paint(Color.red, 0.5f, true);
+                painter = ap.unit.GetComponent<SpritePainter>();
+            painter.Paint(Color.white, 0.5f, true);
             return false;
         }
     }

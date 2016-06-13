@@ -19,7 +19,6 @@ public class Health
         if (ap.forbid)
             return; 
         currentHealth -= (float)ap["amount"];
-        unit.UpdateHealthBar();
         unit.eventManager.InvokeHandlers("takeDmg", ap);
         if (currentHealth <= 0)
         {

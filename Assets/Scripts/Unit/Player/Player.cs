@@ -10,8 +10,6 @@ public class Player : Unit
     public BoxCollider2D main;
     public int gold = 0;
     public int orbs = 0;
-    Animator anim;
-    int speedId;
     protected override void Awake()
     {
         base.Awake();
@@ -22,14 +20,9 @@ public class Player : Unit
             Destroy(instance.gameObject);
             instance = this;
         }
-        PickupsUI.Update();
-        anim = sprite.GetComponent<Animator>();
-        speedId = Animator.StringToHash("Speed");
-        Image h = GameObject.Find("UI/Health").GetComponent<Image>();
-        healthBar = h.material;
     }
-	void Start()
-	{
+    protected override void Start()
+    {
 		controller = new PlayerController(this);
         jumper = new DefaultJumper(this, jumpForce, jumpHeight, 1);
         mover = new DefaultMover(this, speed);
@@ -58,7 +51,6 @@ public class Player : Unit
         base.Update();
         dasher.Update();
         slamer.Update();
-        anim.SetFloat(speedId, Mathf.Abs(rb.velocity.x));
     }
 
     public override void AddBuff(Buff b)
