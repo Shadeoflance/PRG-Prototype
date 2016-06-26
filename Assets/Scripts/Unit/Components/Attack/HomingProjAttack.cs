@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-class HomingProjAttack : Attack
+class ProjAttack : Attack
 {
     BulletFactory factory;
     float life = 3, speed = 4;
-    public HomingProjAttack(Unit u) : base(u)
+    public ProjAttack(Unit u, bool homing = false) : base(u)
     {
         Bullet b = ((GameObject)Resources.Load("HomingProj")).GetComponent<Bullet>();
         //b.transform.FindChild("Sprite").GetComponent<SpriteRenderer>().sprite = sprite;
@@ -13,13 +13,14 @@ class HomingProjAttack : Attack
             .SetBullet(b)
             .SetLife(life)
             .SetSpeed(speed)
-            .SetDmgMask(LayerMask.GetMask("Player"))
-            .AddModifier(new HomingModif());
+            .SetDmgMask(LayerMask.GetMask("Player"));
+        if (homing)
+            factory.AddModifier(new HomingModif());
     }
 
     public override void DoAttack()
     {
-        factory.SetPosition(unit.transform.position).Build();
+        factory.SetPosition(unit.transform.position).SetDir((Player.instance.transform.position - unit.transform.position).normalized).Build();
         cd = 2;
     }
 

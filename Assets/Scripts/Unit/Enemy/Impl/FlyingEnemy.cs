@@ -1,24 +1,24 @@
 ﻿using UnityEngine;
 
-class TestFlyingEnemy : Enemy
+class FlyingEnemy : Enemy
 {
     protected override void Start()
     {
         base.Start();
-        controller = new TFEController(this);
+        controller = new FEController(this);
         mover = new Flyer(this, speed);
         health = new Health(this, 2f);
         walking = new WalkingState(this);
         airborne = new AirborneState(this);
-        attack = new HomingProjAttack(this);
+        attack = new ProjAttack(this);
     }
 }
 
-class TFEController : IController
+class FEController : IController
 {
     Unit unit;
 
-    public TFEController(Unit unit)
+    public FEController(Unit unit)
     {
         this.unit = unit;
     }
@@ -38,7 +38,7 @@ class TFEController : IController
         if (Player.instance == null)
             return Vector2.zero;
         Vector2 toPlayer = (Player.instance.transform.position - unit.transform.position).ToV2();
-        if (toPlayer.magnitude < 4)
+        if (toPlayer.magnitude < 9)
             return toPlayer.normalized;
         else return Vector2.zero;
     }

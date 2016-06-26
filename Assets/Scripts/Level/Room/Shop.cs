@@ -2,5 +2,9 @@
 
 class Shop : SubRoom
 {
-    public override void GenerateEnemies(string name, int amount) { }
+    protected override void Start()
+    {
+        isHostile = false;
+        base.Start();
+    }
 }

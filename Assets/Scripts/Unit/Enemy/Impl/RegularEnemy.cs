@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-public class TestEnemy : Enemy
+public class RegularEnemy : Enemy
 {
     public bool stationary = false;
     protected override void Start()
     {
-        controller = new TestEnemyController(this);
+        controller = new RegularEnemyController(this);
         mover = new DefaultMover(this, speed);
         health = new Health(this, hp);
         walking = new WalkingState(this);
@@ -15,13 +15,13 @@ public class TestEnemy : Enemy
     }
 }
 
-class TestEnemyController : IController
+class RegularEnemyController : IController
 {
     float timer = 1;
-    TestEnemy unit;
+    RegularEnemy unit;
     Vector2 needPoint;
 
-    public TestEnemyController(TestEnemy unit)
+    public RegularEnemyController(RegularEnemy unit)
     {
         this.unit = unit;
     }

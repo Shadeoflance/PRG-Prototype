@@ -19,8 +19,8 @@ class SubRoom : MonoBehaviour
     {
         CreateDoors();
         CreateWalls();
-        if(isHostile)
-            GenerateEnemies("TestEnemy", Random.Range(1, 4));
+        if (isHostile)
+            InitEnemies();
         foreach (var a in room.subRooms)
             if (a.isHostile)
             {
@@ -70,12 +70,21 @@ class SubRoom : MonoBehaviour
         doors.Add(dir, doorInstance.GetComponent<Door>());
     }
 
-    public virtual void GenerateEnemies(string name, int amount)
+    public virtual void InitEnemies()
+    {
+        GenerateEnemies("RegularEnemy", Random.Range(1, 5));
+        GenerateEnemies("FlyingEnemy", Random.Range(1, 3), false);
+    }
+
+    private void GenerateEnemies(string name, int amount, bool ground = true)
     {
         GameObject prefab = Resources.Load<GameObject>("Enemies/" + name);
         for (int i = 0; i < amount; i++)
         {
-            Vector2 position = GetTopClearTilePos() + new Vector2(0, 0.4f);
+            Vector2 position;
+            if (ground)
+                position = GetTopClearTilePos() + new Vector2(0, 0.4f);
+            else position = GetAirClearTilePos();
             GameObject instance = Instantiate(prefab);
             instance.transform.SetParent(transform);
             instance.transform.position = position;
@@ -100,6 +109,25 @@ class SubRoom : MonoBehaviour
             }
         }
         return clearTiles[Random.Range(0, clearTiles.Count)].transform.position;
+    }
+
+    List<Tile> clearTilesAir;
+    private Vector2 GetAirClearTilePos()
+    {
+        if(clearTilesAir == null)
+        {
+            clearTilesAir = new List<Tile>();
+            foreach (var a in tiles.map)
+            {
+                if (a == null)
+                    continue;
+                if (a.y > 0 && a.y < tiles.map.GetLength(1) - 2 && tiles.map[a.x, a.y - 1] == null)
+                {
+                    clearTilesAir.Add(a);
+                }
+            }
+        }
+        return clearTilesAir[Random.Range(0, clearTilesAir.Count)].transform.position;
     }
 
     public void EnemyDied(Enemy enemy)

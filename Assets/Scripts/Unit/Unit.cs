@@ -48,7 +48,7 @@ public class Unit : MonoBehaviour
         currentState.Move(needVel);
         currentState.Update();
         eventManager.Update();
-        if (!bot.IsTouchingLayers(1 << LayerMask.NameToLayer("Level")) && currentState != airborne)
+        if (bot != null && !bot.IsTouchingLayers(1 << LayerMask.NameToLayer("Level")) && currentState != airborne)
         {
             //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(0, -1), 0.6f, 1 << LayerMask.NameToLayer("Level"));
             //if(hit.collider == null)

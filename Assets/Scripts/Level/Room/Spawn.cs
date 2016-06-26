@@ -7,5 +7,4 @@ class Spawn : SubRoom
         isHostile = false;
         base.Start();
     }
-    public override void GenerateEnemies(string name, int amount) { }
 }
