@@ -72,8 +72,9 @@ class SubRoom : MonoBehaviour
 
     public virtual void InitEnemies()
     {
-        GenerateEnemies("RegularEnemy", Random.Range(1, 6));
-        GenerateEnemies("FlyingEnemy", Random.Range(1, 4), false);
+        GenerateEnemies("RegularEnemy", Random.Range(1, 4));
+        GenerateEnemies("FlyingEnemy", Random.Range(1, 3), false);
+        GenerateEnemies("DiggerEnemy", Random.Range(1, 3));
     }
 
     private void GenerateEnemies(string name, int amount, bool ground = true)
@@ -93,7 +94,7 @@ class SubRoom : MonoBehaviour
     }
 
     List<Tile> clearTiles;
-    private Vector2 GetTopClearTilePos()
+    public Vector2 GetTopClearTilePos()
     {
         if (clearTiles == null)
         {
@@ -112,7 +113,7 @@ class SubRoom : MonoBehaviour
     }
 
     List<Tile> clearTilesAir;
-    private Vector2 GetAirClearTilePos()
+    public Vector2 GetAirClearTilePos()
     {
         if(clearTilesAir == null)
         {

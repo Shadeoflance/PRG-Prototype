@@ -41,7 +41,8 @@ public class Unit : MonoBehaviour
         foreach (var a in buffs)
             a.Update();
         controller.Update();
-        attack.Update();
+        if(attack != null)
+            attack.Update();
         Vector2 needVel = controller.NeedVel();
         if (currentState == null)
             currentState = airborne;
@@ -89,14 +90,16 @@ public class Unit : MonoBehaviour
         }
     }
 
-    //void OnGUI()
-    //{
-    //    Vector2 pos = Utils.ToV2(Camera.main.WorldToScreenPoint(transform.position));
-    //    Rect rect = new Rect(0, 0, 150, 50);
-    //    rect.x = pos.x - 30;
-    //    rect.y = Screen.height - pos.y - rect.height;
-    //    GUI.Label(rect, new GUIContent(currentState.GetType().ToString()));
-    //}
+    void OnGUI()
+    {
+        Vector2 pos = Utils.ToV2(Camera.main.WorldToScreenPoint(transform.position));
+        Rect rect = new Rect(0, 0, 150, 50);
+        rect.x = pos.x - 30;
+        rect.y = Screen.height - pos.y - rect.height;
+        if(currentState == null)
+            GUI.Label(rect, "null");
+        else GUI.Label(rect, new GUIContent(currentState.GetType().ToString()));
+    }
 
     class WalkOnLand : ActionListener
     {

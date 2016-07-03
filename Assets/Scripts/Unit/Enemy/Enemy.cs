@@ -15,9 +15,17 @@ public class Enemy : Unit
         eventManager.SubscribeHandler("die", new PickupsDrop());
         base.Start();
     }
+
+    protected override void Update()
+    {
+        base.Update();
+        if (controller.NeedJump() && jumper != null)
+            jumper.Jump();
+    }
+
     protected void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (attack != null && collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             attack.DealDamage(collision.gameObject.GetComponent<Player>());
         }

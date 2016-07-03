@@ -40,6 +40,13 @@ public class Player : Unit
         base.Start();
 	}
 
+    public static float Distance(Vector2 v)
+    {
+        if (instance == null)
+            return float.MaxValue;
+        return (v.ToV3() - instance.transform.position).magnitude;
+    }
+
     public static void IgnoreEnemyCollisions(bool value)
     {
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), value);

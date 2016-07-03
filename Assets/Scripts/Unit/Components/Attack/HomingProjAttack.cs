@@ -6,9 +6,7 @@ class ProjAttack : Attack
     float life = 3, speed = 4;
     public ProjAttack(Unit u, bool homing = false) : base(u)
     {
-        Bullet b = ((GameObject)Resources.Load("HomingProj")).GetComponent<Bullet>();
-        //b.transform.FindChild("Sprite").GetComponent<SpriteRenderer>().sprite = sprite;
-        //b.modifiers.Add(new HomingModif());
+        Bullet b = ((GameObject)Resources.Load("Bullet")).GetComponent<Bullet>();
         factory = new BulletFactory(unit)
             .SetBullet(b)
             .SetLife(life)
