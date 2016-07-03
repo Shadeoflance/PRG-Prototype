@@ -14,10 +14,10 @@ class Chest : MonoBehaviour
         if(rank == 1)
         {
             Add(Item.Create().gameObject);
-            Add(OrbPickup.Create().gameObject);
+            Add(OrbPickup.Create());
             for (int i = 0; i < 3; i++)
             {
-                Add(Gold.Create().gameObject);
+                Add(Pixel.Create());
             }
         }
     }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Math = System.Math;
 
-class Gold : MonoBehaviour
+class Pixel : MonoBehaviour
 {
     int amount = 1;
     Rigidbody2D rb;
@@ -11,17 +11,17 @@ class Gold : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void OnCollisionEnter2D(Collision2D col)
+    void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.gameObject.IsPlayer() && Math.Abs(rb.velocity.y) < 0.01f)
+        if(col.gameObject.IsPlayer())
         {
-            col.gameObject.GetComponent<Player>().AddGold(amount);
-            Destroy(gameObject);
+            col.gameObject.GetComponent<Player>().AddPixel(amount);
+            Destroy(transform.parent.gameObject);
         }
     }
 
     static float initialDropVelocity = 10;
-    static Prefab prefab = new Prefab("Pickups/Gold");
+    static Prefab prefab = new Prefab("Pickups/Pixel");
     public static void Drop(int amountOfDrops, Vector2 position)
     {
         for (int i = 0; i < amountOfDrops; i++)
@@ -31,8 +31,8 @@ class Gold : MonoBehaviour
             instance.transform.position = position;
         }
     }
-    public static Gold Create()
+    public static GameObject Create()
     {
-        return prefab.Instantiate().GetComponent<Gold>();
+        return prefab.Instantiate().gameObject;
     }
 }

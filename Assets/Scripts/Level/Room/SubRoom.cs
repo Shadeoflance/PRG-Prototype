@@ -72,8 +72,8 @@ class SubRoom : MonoBehaviour
 
     public virtual void InitEnemies()
     {
-        GenerateEnemies("RegularEnemy", Random.Range(1, 5));
-        GenerateEnemies("FlyingEnemy", Random.Range(1, 3), false);
+        GenerateEnemies("RegularEnemy", Random.Range(1, 6));
+        GenerateEnemies("FlyingEnemy", Random.Range(1, 4), false);
     }
 
     private void GenerateEnemies(string name, int amount, bool ground = true)

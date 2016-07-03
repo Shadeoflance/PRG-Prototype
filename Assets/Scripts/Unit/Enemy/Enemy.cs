@@ -59,7 +59,7 @@ public class Enemy : Unit
         public int amount = 2;
         public bool Handle(ActionParams ap)
         {
-            Gold.Drop(amount, ap.unit.transform.position);
+            Pixel.Drop(amount, ap.unit.transform.position);
             OrbPickup.Drop(1, ap.unit.transform.position);
             return false;
         }

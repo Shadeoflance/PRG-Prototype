@@ -10,12 +10,12 @@ class OrbPickup : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void OnCollisionEnter2D(Collision2D col)
+    void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.IsPlayer() && Math.Abs(rb.velocity.y) < 0.01f)
+        if (col.gameObject.IsPlayer())
         {
             col.gameObject.GetComponent<Player>().AddOrbs(1);
-            Destroy(gameObject);
+            Destroy(transform.parent.gameObject);
         }
     }
 
@@ -30,8 +30,9 @@ class OrbPickup : MonoBehaviour
             instance.transform.position = position;
         }
     }
-    public static OrbPickup Create()
+
+    public static GameObject Create()
     {
-        return prefab.Instantiate().GetComponent<OrbPickup>();
+        return prefab.Instantiate().gameObject;
     }
 }

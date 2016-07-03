@@ -59,7 +59,7 @@ public class Player : Unit
         b.ChangeToPlayerBuff();
     }
 
-    public void AddGold(int amount)
+    public void AddPixel(int amount)
     {
         gold += amount;
         PickupsUI.Update();
