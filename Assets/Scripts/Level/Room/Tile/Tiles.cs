@@ -30,6 +30,12 @@ class Tiles : MonoBehaviour
         UpdateColliders();
     }
 
+    public Vector2 GetPosition(int i, int j)
+    {
+        return new Vector2((i - 1) * 0.5f + 0.25f - Level.roomSize.x / 2, (j - 1) * 0.5f + 0.25f - Level.roomSize.y / 2) 
+            + transform.position.ToV2();
+    }
+
     public void DestroyTile(Tile t)
     {
         Destroy(t.gameObject);

@@ -75,6 +75,7 @@ class SubRoom : MonoBehaviour
         GenerateEnemies("RegularEnemy", Random.Range(1, 4));
         GenerateEnemies("FlyingEnemy", Random.Range(1, 3), false);
         GenerateEnemies("DiggerEnemy", Random.Range(1, 3));
+        GenerateEnemies("TeleporterEnemy", 1);
     }
 
     private void GenerateEnemies(string name, int amount, bool ground = true)
@@ -93,42 +94,43 @@ class SubRoom : MonoBehaviour
         }
     }
 
-    List<Tile> clearTiles;
+    List<Vector2> clearPositions;
     public Vector2 GetTopClearTilePos()
     {
-        if (clearTiles == null)
+        if (clearPositions == null)
         {
-            clearTiles = new List<Tile>();
+            clearPositions = new List<Vector2>();
             foreach (var a in tiles.map)
             {
                 if (a == null)
                     continue;
                 if(a.y < tiles.map.GetLength(1) - 1 && tiles.map[a.x, a.y + 1] == null)
                 {
-                    clearTiles.Add(a);
+                    clearPositions.Add(a.transform.position);
                 }
             }
         }
-        return clearTiles[Random.Range(0, clearTiles.Count)].transform.position;
+        return clearPositions[Random.Range(0, clearPositions.Count)];
     }
 
-    List<Tile> clearTilesAir;
+    List<Vector2> clearAirPositions;
     public Vector2 GetAirClearTilePos()
     {
-        if(clearTilesAir == null)
+        if(clearAirPositions == null)
         {
-            clearTilesAir = new List<Tile>();
-            foreach (var a in tiles.map)
-            {
-                if (a == null)
-                    continue;
-                if (a.y > 0 && a.y < tiles.map.GetLength(1) - 2 && tiles.map[a.x, a.y - 1] == null)
+            clearAirPositions = new List<Vector2>();
+            for (int i = 2; i < tiles.map.GetLength(0) - 2; i++)
+                for (int j = 2; j < tiles.map.GetLength(1) - 2; j++)
                 {
-                    clearTilesAir.Add(a);
+                    Vector2 v = tiles.GetPosition(i, j);
+                    Tile a = tiles.map[i, j];
+                    if (a == null || tiles.map[a.x, a.y - 1] == null)
+                    {
+                        clearAirPositions.Add(v);
+                    }
                 }
-            }
         }
-        return clearTilesAir[Random.Range(0, clearTilesAir.Count)].transform.position;
+        return clearAirPositions[Random.Range(0, clearAirPositions.Count)];
     }
 
     public void EnemyDied(Enemy enemy)

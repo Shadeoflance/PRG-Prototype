@@ -18,14 +18,13 @@ class DiggerEnemy : Enemy
 }
 class DigJumper : Jumper
 {
-    float digCD = 4;
+    float cd = 4;
     bool canJump = true;
     public DigJumper(Unit unit) : base(unit) { }
     public override void Jump()
     {
         if (!CanJump())
             return;
-        Debug.LogWarning("jumping");
         canJump = false;
         unit.StartCoroutine(ResetCD());
         unit.currentState.Transit(new DiggingState(unit));
@@ -33,7 +32,7 @@ class DigJumper : Jumper
 
     IEnumerator ResetCD()
     {
-        yield return new WaitForSeconds(digCD);
+        yield return new WaitForSeconds(cd);
         canJump = true;
     }
 

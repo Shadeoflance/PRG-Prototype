@@ -10,6 +10,7 @@ public class Player : Unit
     public BoxCollider2D main;
     public int gold = 0;
     public int orbs = 0;
+    public float jumpForce, jumpHeight;
     protected override void Awake()
     {
         base.Awake();

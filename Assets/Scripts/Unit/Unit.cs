@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Unit : MonoBehaviour
 {
-    public float jumpForce, jumpHeight, gravityScale = 5;
+    public float gravityScale = 5;
     public IController controller;
     public Rigidbody2D rb;
     public Collider2D bot, top;
@@ -25,6 +25,7 @@ public class Unit : MonoBehaviour
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = gravityScale;
         eventManager = new EventManager(this);
         eventManager.SubscribeHandler("land", new WalkOnLand());
         sprite = transform.FindChild("Sprite");
