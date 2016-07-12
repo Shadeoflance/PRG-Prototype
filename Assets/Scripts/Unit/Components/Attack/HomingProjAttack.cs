@@ -11,9 +11,10 @@ class ProjAttack : Attack
             .SetBullet(b)
             .SetLife(life)
             .SetSpeed(speed)
-            .SetDmgMask(LayerMask.GetMask("Player"));
+            .SetDmgMask(LayerMask.GetMask("Player"))
+            .SetColor(Color.red);
         if (homing)
-            factory.AddModifier(new HomingModif());
+            factory.AddModifier(new HomingModif()).SetColor(Color.magenta);
     }
 
     public override void DoAttack()

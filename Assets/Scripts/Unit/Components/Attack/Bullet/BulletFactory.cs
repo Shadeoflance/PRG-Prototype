@@ -4,6 +4,7 @@ public class BulletFactory
 {
     Bullet bullet;
     Vector2 direction, position;
+    Color color = Color.white;
     Unit player;
     float speed;
     float? life;
@@ -37,6 +38,12 @@ public class BulletFactory
     public BulletFactory SetPosition(Vector2 position)
     {
         this.position = position;
+        return this;
+    }
+
+    public BulletFactory SetColor(Color color)
+    {
+        this.color = color;
         return this;
     }
 
@@ -75,6 +82,7 @@ public class BulletFactory
         newBullet.dmgMult = dmgMult;
         newBullet.unit = player;
         newBullet.dmgMask = dmgMask;
+        newBullet.GetComponent<SpriteRenderer>().color = color;
         foreach (var a in modifiers)
             newBullet.modifiers.Add(a.Instantiate());
         return newBullet;

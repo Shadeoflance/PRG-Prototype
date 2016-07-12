@@ -97,7 +97,7 @@ public static class ItemPool
             if (Random.Range(0f, 1f) > 0.3f)
                 return false;
             var b = ap["bullet"] as Bullet;
-            b.transform.GetComponent<SpriteRenderer>().color = Color.red;
+            b.GetComponent<SpriteRenderer>().color = Color.red;
             b.dmgMult += 2;
             return false;
         }
