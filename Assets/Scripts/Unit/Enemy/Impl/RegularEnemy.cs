@@ -2,7 +2,6 @@
 
 public class RegularEnemy : Enemy
 {
-    public bool stationary = false;
     protected override void Start()
     {
         controller = new RegularEnemyController(this);
@@ -38,8 +37,6 @@ class RegularEnemyController : IController
 
     public Vector2 NeedVel()
     {
-        if (unit.stationary)
-            return Vector2.zero;
         Vector2 dir = Utils.TrimY(needPoint - Utils.ToV2(unit.transform.position));
         if (dir.magnitude < 0.05)
             return Vector2.zero;
@@ -48,8 +45,8 @@ class RegularEnemyController : IController
 
     public void Update()
     {
-        Vector2 toPlayer = Utils.ToV2(Player.instance.transform.position - unit.transform.position);
-        if (toPlayer.magnitude < 5)
+        float dist = Player.Distance(unit.transform.position);
+        if (dist < 5)
         {
             needPoint = Player.instance.transform.position;
             return;
@@ -58,7 +55,7 @@ class RegularEnemyController : IController
         if (timer < 0)
         {
             timer = 5;
-            needPoint = Utils.ToV2(unit.transform.position) + new Vector2((Random.Range(0, 2) == 1 ? -1 : 1) * 3, 0);
+            needPoint = Utils.ToV2(unit.transform.position) + new Vector2((Random.Range(0, 3) == 1 ? -1 : 1) * 3, 0);
         }
     }
 }

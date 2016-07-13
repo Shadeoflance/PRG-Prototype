@@ -11,8 +11,7 @@ class TeleporterEnemy : Enemy
         jumper = new TeleportJumper(this, circle);
         airborne = new AirborneState(this);
         walking = airborne;
-        currentState = airborne;
-        health = new Health(this, 5f);
+        health = new Health(this, hp);
         attack = new ProjAttack(this, true);
         base.Start();
     }

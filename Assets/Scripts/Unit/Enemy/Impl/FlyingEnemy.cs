@@ -6,10 +6,9 @@ class FlyingEnemy : Enemy
     {
         controller = new FEController(this);
         mover = new Flyer(this, speed);
-        health = new Health(this, 2f);
+        health = new Health(this, hp);
         airborne = new AirborneState(this);
         walking = airborne;
-        currentState = airborne;
         attack = new ProjAttack(this);
         base.Start();
     }
