@@ -4,17 +4,18 @@ using System.Collections.Generic;
 class SpritePainter : MonoBehaviour 
 {
     SpriteRenderer sprite;
-    Color initial;
+    Color? initial;
     Group<ColorChanger> changers = new Group<ColorChanger>();
     
-    void Start()
+    void Awake()
     {
         sprite = GetComponent<SpriteRenderer>();
-        initial = sprite.color;
     }
 
     public void Paint(Color c, float? time, bool smooth)
     {
+        if(initial == null)
+            initial = sprite.color;
         changers.Add(new ColorChanger(c, time, smooth));
     }
 
@@ -30,7 +31,9 @@ class SpritePainter : MonoBehaviour
 
     void Update()
     {
-        Color c = initial.Copy();
+        if (changers.Count == 0)
+            return;
+        Color c = initial.Value.Copy();
         changers.Refresh();
         foreach (var a in changers)
         {

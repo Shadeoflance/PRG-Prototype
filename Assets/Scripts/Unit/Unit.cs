@@ -6,6 +6,7 @@ public class Unit : MonoBehaviour
     public float gravityScale = 5;
     public IController controller;
     public Rigidbody2D rb;
+    public SpriteRenderer sr;
     public Collider2D bot, top;
     public Collider2D sides;
     public float speed;
@@ -17,7 +18,6 @@ public class Unit : MonoBehaviour
     public Health health;
     public int direction = 1;
     public float damage = 1f, hp = 3;
-    protected Transform sprite;
     protected Material healthBar;
     private Group<Buff> buffs = new Group<Buff>();
     public Vector2 size;
@@ -25,11 +25,11 @@ public class Unit : MonoBehaviour
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
         rb.gravityScale = gravityScale;
         eventManager = new EventManager(this);
         eventManager.SubscribeHandler("land", new WalkOnLand());
-        sprite = transform.FindChild("Sprite");
-        size = GetComponent<SpriteRenderer>().bounds.extents.ToV2();
+        size = sr.bounds.extents.ToV2();
     }
 
     protected virtual void Start()

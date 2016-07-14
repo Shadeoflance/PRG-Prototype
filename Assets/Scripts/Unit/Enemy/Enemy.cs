@@ -9,6 +9,10 @@ public class Enemy : Unit
     }
     protected override void Start()
     {
+        if (UnityEngine.Random.Range(0f, 1f) > 0.9f)
+        {
+            EliteModifiers.SetRandomModifier(this);
+        }
         eventManager.SubscribeHandler("takeDmg", new DmgTextCreate());
         eventManager.SubscribeHandler("takeDmg", new DmgPaint());
         eventManager.SubscribeHandler("die", new RoomDieInfo());
