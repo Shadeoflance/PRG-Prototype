@@ -2,6 +2,7 @@
 using Object = System.Object;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class ActionParams
 {
@@ -212,5 +213,25 @@ public class EventManager
         foreach (var a in interceptors)
             if (a.Value.Contains(interceptor))
                 a.Value.Remove(interceptor);
+    }
+
+    public void UnsibscribeHandler(string eventName, Type t)
+    {
+        if (!handlers.ContainsKey(eventName))
+            return;
+        foreach (var a in handlers)
+            foreach(var e in a.Value)
+                if (e.GetType() == t)
+                    a.Value.Remove(e);
+    }
+
+    public void UnsibscribeInterceptor(string eventName, Type t)
+    {
+        if (!interceptors.ContainsKey(eventName))
+            return;
+        foreach (var a in interceptors)
+            foreach (var e in a.Value)
+                if (e.GetType() == t)
+                    a.Value.Remove(e);
     }
 }

@@ -31,10 +31,10 @@ class SpritePainter : MonoBehaviour
 
     void Update()
     {
-        if (changers.Count == 0)
+        changers.Refresh();
+        if (initial == null)
             return;
         Color c = initial.Value.Copy();
-        changers.Refresh();
         foreach (var a in changers)
         {
             a.Update();

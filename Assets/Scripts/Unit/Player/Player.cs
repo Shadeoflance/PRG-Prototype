@@ -97,15 +97,6 @@ public class Player : Unit
         }
     }
 
-    class DamageBoost : ActionListener
-    {
-        public bool Handle(ActionParams ap)
-        {
-            ap.unit.AddBuff(new Invulnerability(ap.unit, 1));
-            return false;
-        }
-    }
-
     class BombDropInvoker : ActionListener
     {
         public bool Handle(ActionParams ap)

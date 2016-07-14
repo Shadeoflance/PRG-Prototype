@@ -14,6 +14,12 @@ static class EliteModifiers
             e.health.maxHealth *= 2;
             e.health.currentHealth = e.health.maxHealth;
         });
+        modifiers.Add((Enemy e) =>
+        {
+            e.sr.color = new Color(0.58f, 0.17f, 0.5f);
+            e.eventManager.UnsibscribeHandler("takeDmg", typeof(Knockback));
+            e.eventManager.SubscribeHandler("takeDmg", new DamageBoost(0.7f));
+        });
     }
 
     public static void SetRandomModifier(Enemy e)
