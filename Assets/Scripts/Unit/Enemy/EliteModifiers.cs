@@ -20,6 +20,11 @@ static class EliteModifiers
             e.eventManager.UnsibscribeHandler("takeDmg", typeof(Knockback));
             e.eventManager.SubscribeHandler("takeDmg", new DamageBoost(0.7f));
         });
+        modifiers.Add((Enemy e) =>
+        {
+            e.sr.color = new Color(0.4f, 0.4f, 0.4f);
+            e.attack.baseDmg *= 2;
+        });
     }
 
     public static void SetRandomModifier(Enemy e)
