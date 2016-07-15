@@ -13,7 +13,7 @@ public class Enemy : Unit
         eventManager.SubscribeHandler("takeDmg", new DmgPaint());
         eventManager.SubscribeHandler("die", new RoomDieInfo());
         eventManager.SubscribeHandler("die", new PickupsDrop());
-        if (UnityEngine.Random.Range(0f, 1f) > 0.8f)
+        if (UnityEngine.Random.Range(0f, 1f) > 0.5f || true)
         {
             EliteModifiers.SetRandomModifier(this);
         }
