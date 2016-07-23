@@ -5,12 +5,10 @@ class Chest : MonoBehaviour
 {
     static float initialDropVelocity = 7;
     public int rank = 1;
+    public SpriteRenderer top;
     List<GameObject> contents = new List<GameObject>();
-    SpriteRenderer sr;
     void Awake()
     {
-        sr = GetComponent<SpriteRenderer>();
-        sr.sprite = Resources.Load<Sprite>("Chest/closed" + rank);
         if(rank == 1)
         {
             Add(Item.Create().gameObject);
@@ -34,7 +32,7 @@ class Chest : MonoBehaviour
         if (isOpen)
             return;
         isOpen = true;
-        sr.sprite = Resources.Load<Sprite>("Chest/open" + rank);
+        top.color = new Color(0f, 0f, 0f, 0f);
         int protate = Player.instance.transform.position.x > transform.position.x ? 1 : -1;
         foreach (var a in contents)
         {

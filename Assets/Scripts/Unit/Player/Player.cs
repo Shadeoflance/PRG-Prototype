@@ -5,6 +5,7 @@ using System;
 
 public class Player : Unit
 {
+    public bool god = false;
     public Dasher dasher;
     public Slamer slamer;
     public BoxCollider2D main;
@@ -39,6 +40,14 @@ public class Player : Unit
         eventManager.SubscribeHandler("takeDmg", new DamageBoost());
         eventManager.SubscribeHandler("bombButtonDown", new BombDropInvoker());
         base.Start();
+        if(god)
+        {
+            mover = new Flyer(this, speed);
+            gravityScale = 0;
+            rb.gravityScale = 0;
+            health.maxHealth = 10000;
+            health.currentHealth = 10000;
+        }
 	}
 
     public static float Distance(Vector2 v)

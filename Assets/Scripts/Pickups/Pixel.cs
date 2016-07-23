@@ -1,19 +1,13 @@
 ﻿using UnityEngine;
-using Math = System.Math;
 
 class Pixel : MonoBehaviour
 {
     int amount = 1;
-    Rigidbody2D rb;
-
-    void Awake()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
+    public Rigidbody2D rb;
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.gameObject.IsPlayer())
+        if(rb.velocity.magnitude < 0.1f && col.gameObject.IsPlayer())
         {
             col.gameObject.GetComponent<Player>().AddPixel(amount);
             Destroy(transform.parent.gameObject);

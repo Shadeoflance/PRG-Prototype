@@ -3,16 +3,11 @@ using Math = System.Math;
 
 class OrbPickup : MonoBehaviour
 {
-    Rigidbody2D rb;
-
-    void Awake()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
+    public Rigidbody2D rb;
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.IsPlayer())
+        if (rb.velocity.magnitude < 0.1f && col.gameObject.IsPlayer())
         {
             col.gameObject.GetComponent<Player>().AddOrbs(1);
             Destroy(transform.parent.gameObject);
