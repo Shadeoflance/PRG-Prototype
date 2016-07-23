@@ -56,7 +56,7 @@ class SubRoom : MonoBehaviour
     private void CreateSingleDoor(Vector2 dir)
     {
         Transform parent = transform.FindChild("Doors");
-        Vector2 doorDistance = new Vector2((Level.roomSize.x - 1) / 2, (Level.roomSize.y - 1) / 2);
+        Vector2 doorDistance = new Vector2((Level.roomSize.x) / 2 - 0.3f, (Level.roomSize.y - 0.3f) / 2);
         GameObject doorInstance = Instantiate(Resources.Load<GameObject>("Level/Door"));
         doorInstance.name = "Door" + dir;
         doorInstance.transform.position = transform.position + Vector2.Scale(doorDistance, dir).ToV3();

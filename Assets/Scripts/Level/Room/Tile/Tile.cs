@@ -24,9 +24,8 @@ class Tile : MonoBehaviour
     public Tile Reinstantiate()
     {
         Tile t = Instantiate<GameObject>(Resources.Load<GameObject>(prefabPath + name)).GetComponent<Tile>();
-        t.transform.position = transform.position;
-        t.transform.localPosition = transform.localPosition;
         t.transform.parent = transform.parent;
+        t.transform.localPosition = transform.localPosition;
         Destroy(gameObject);
         return t;
     }

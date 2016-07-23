@@ -3,6 +3,7 @@
 class Door : MonoBehaviour
 {
     public Sprite openSprite, closedSprite;
+    [System.NonSerialized]
     public SpritePainter painter;
     Color disabledColor = new Color(0.2f, 0.2f, 0.2f);
     bool open = false, disabled;
