@@ -8,13 +8,18 @@ class Tiles : MonoBehaviour
 
     void Awake()
     {
-        foreach(Transform a in transform)
+        List<Transform> l = new List<Transform>();
+        foreach(Transform t in transform)
+        {
+            l.Add(t.GetComponent<Transform>());
+        }
+        foreach(var a in l)
         {
             if(a != null)
             {
-                Tile t = a.GetComponent<Tile>();
-                int i = (int)((a.localPosition.x + Level.roomSize.x / 2 - 0.25f) / 0.5f) + 1;
-                int j = (int)((a.localPosition.y + Level.roomSize.y / 2 - 0.25f) / 0.5f) + 1;
+                Tile t = a.GetComponent<Tile>().Reinstantiate();
+                int i = (int)((t.transform.localPosition.x + Level.roomSize.x / 2 - 0.25f) / 0.5f) + 1;
+                int j = (int)((t.transform.localPosition.y + Level.roomSize.y / 2 - 0.25f) / 0.5f) + 1;
                 try
                 {
                     map[i, j] = t;

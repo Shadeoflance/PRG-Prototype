@@ -20,6 +20,17 @@ class Tile : MonoBehaviour
         }
     }
 
+    string prefabPath = "Level/Tiles/";
+    public Tile Reinstantiate()
+    {
+        Tile t = Instantiate<GameObject>(Resources.Load<GameObject>(prefabPath + name)).GetComponent<Tile>();
+        t.transform.position = transform.position;
+        t.transform.localPosition = transform.localPosition;
+        t.transform.parent = transform.parent;
+        Destroy(gameObject);
+        return t;
+    }
+
     public virtual void BulletHit(Bullet bullet) { }
     public virtual void ExplosionHit() { }
     protected virtual void Destroy()
