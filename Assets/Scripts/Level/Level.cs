@@ -4,7 +4,7 @@ using System;
 class Level : MonoBehaviour
 {
     public static Vector2 roomSize = new Vector2(20, 15);
-    public Map map = new Map(4);
+    public Map map;
     public static Level instance;
     public Room current;
     void Awake()
@@ -20,29 +20,31 @@ class Level : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < 4; i++)
-        {
-            for (int j = 0; j < 4; j++)
-            {
-                if (j == 0 && i != 1)
-                    continue;
-                if (j == 1 && i == 1)
-                {
-                    map[i, j] = RoomContainer.GetSpawnInstance();
-                    continue;
-                }   
-                //if(i == 2 && j == 1)
-                //{
-                //    map[i, j] = RoomContainer.GetShopInstance();
-                //    continue;
-                //}
-                map[i, j] = RoomContainer.GetRegularRoomInstance();
-                if (UnityEngine.Random.Range(0, 1) > 0.7f)
-                    map[i, j].isHostile = false;
-            }
-        }
-        map[1, 2].room.Unite(map[2, 2].room);
-        map[3, 3].room.Unite(map[3, 2].room);
+        //for (int i = 0; i < 4; i++)
+        //{
+        //    for (int j = 0; j < 4; j++)
+        //    {
+        //        if (j == 0 && i != 1)
+        //            continue;
+        //        if (j == 1 && i == 1)
+        //        {
+        //            map[i, j] = RoomContainer.GetSpawnInstance();
+        //            continue;
+        //        }   
+        //        //if(i == 2 && j == 1)
+        //        //{
+        //        //    map[i, j] = RoomContainer.GetShopInstance();
+        //        //    continue;
+        //        //}
+        //        map[i, j] = RoomContainer.GetRegularRoomInstance();
+        //        if (UnityEngine.Random.Range(0, 1) > 0.7f)
+        //            map[i, j].isHostile = false;
+        //    }
+        //}
+        //map[1, 2].room.Unite(map[2, 2].room);
+        //map[3, 3].room.Unite(map[3, 2].room);
+        map = new Map(7);
+        LevelGenerator.Generate(map);
         map.PostInitialize();
         current = map.spawn.room;
         current.Enable();

@@ -16,23 +16,9 @@ class Map
         this.size = size;
     }
 
-    public Pair<int, int> GetIndex(SubRoom room)
-    {
-        for (int i = 0; i < size; i++)
-        {
-            for (int j = 0; j < size; j++)
-            {
-                if (rooms[i, j] == room)
-                    return new Pair<int, int>(i, j);
-            }
-        }
-        return null;
-    }
-
     public SubRoom GetRelativeTo(SubRoom room, Vector2 dir)
     {
-        var index = GetIndex(room);
-        return this[index.first + (int)dir.x, index.second + (int)dir.y];
+        return this[room.x + (int)dir.x, room.y + (int)dir.y];
     }
 
     public SubRoom this[int x, int y]
@@ -47,7 +33,11 @@ class Map
         {
             if (!CheckBounds(x, y))
                 throw new Exception("Tried to set room out of map bounds. x = " + x + " y = " + y);
+            if (rooms[x, y] != null)
+                throw new Exception("Tried to set new room in position of existing one. x = " + x + " y = " + y);
             rooms[x, y] = value;
+            value.x = x;
+            value.y = y;
             value.transform.position = new Vector3((Level.roomSize.x) * x, (Level.roomSize.y) * y, 0);
             value.transform.SetParent(Level.instance.transform);
             value.WrapInRoom();

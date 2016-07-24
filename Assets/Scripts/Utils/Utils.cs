@@ -29,6 +29,10 @@ public static class Utils
 
         return new Vector2(cos * tx - sin * ty, sin * tx + cos * ty);
     }
+    public static Vector2 OneNormalize(this Vector2 v)
+    {
+        return new Vector2(v.x == 0 ? 0 : v.x / Mathf.Abs(v.x), v.y == 0 ? 0 : v.y / Mathf.Abs(v.y));
+    }
     public static Color WithAlpha(this Color c, float value)
     {
         return new Color(c.r, c.g, c.b, value);
@@ -36,5 +40,13 @@ public static class Utils
     public static Color Copy(this Color c)
     {
         return new Color(c.r, c.g, c.b, c.a);
+    }
+    public static int CoinInt()
+    {
+        return Random.Range(0f, 1f) > 0.5f ? 1 : 0;
+    }
+    public static bool Coin()
+    {
+        return Random.Range(0f, 1f) > 0.5f;
     }
 }

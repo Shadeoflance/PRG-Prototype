@@ -4,11 +4,15 @@ using System.Collections.Generic;
 
 class SubRoom : MonoBehaviour
 {
+    [System.NonSerialized]
     public Room room;
+    public int x, y;
     Dictionary<Vector2, Door> doors = new Dictionary<Vector2,Door>();
+    [System.NonSerialized]
     public List<Enemy> enemiesAlive = new List<Enemy>();
+    [System.NonSerialized]
     public Tiles tiles;
-    public bool isHostile = true;
+    public bool isHostile = true, lockable = false;
 
     public virtual void Awake()
     {
@@ -19,10 +23,10 @@ class SubRoom : MonoBehaviour
     {
         CreateDoors();
         CreateWalls();
-        if (isHostile)
-            InitEnemies();
+        //if (isHostile)
+        //    InitEnemies();
         foreach (var a in room.subRooms)
-            if (a.isHostile)
+            if (a.isHostile && enemiesAlive.Count > 0)
             {
                 DisableDoors();
                 break;

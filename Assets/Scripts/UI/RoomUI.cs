@@ -14,8 +14,7 @@ class RoomUI
         this.room = room;
         foreach(var a in room.subRooms)
         {
-            Pair<int, int> ind = Level.instance.map.GetIndex(a);
-            images.Add(CreateImage(ind.first, ind.second));
+            images.Add(CreateImage(a.x, a.y));
         }
         CreateConnectors(room.subRooms[0], room.subRooms, new List<SubRoom>());
     }
@@ -36,8 +35,7 @@ class RoomUI
             SubRoom next = Level.instance.map.GetRelativeTo(current, d);
             if (next != null && rooms.Contains(next) && !processed.Contains(next))
             {
-                Pair<int, int> ind = Level.instance.map.GetIndex(current);
-                Vector2 t = new Vector2(ind.first, ind.second) + d * 0.5f;
+                Vector2 t = new Vector2(current.x, current.y) + d * 0.5f;
                 Image newInstance = CreateImage(t.x, t.y);
                 images.Add(newInstance);
                 processed.Add(current);
