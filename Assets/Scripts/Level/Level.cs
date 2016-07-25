@@ -48,6 +48,7 @@ class Level : MonoBehaviour
         map.PostInitialize();
         current = map.spawn.room;
         current.Enable();
+        map.Reveal();
         Player.instance.transform.position = current.subRooms[0].transform.position;
         map.UpdateUI();
         CameraScript.instance.RefreshBorders();

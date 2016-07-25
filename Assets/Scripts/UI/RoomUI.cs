@@ -84,6 +84,12 @@ class RoomUI
 
     }
 
+    public void Reveal()
+    {
+        revealed = true;
+        Update();
+    }
+
     void SetColor(Color color)
     {
         foreach (var a in images)

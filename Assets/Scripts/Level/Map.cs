@@ -9,6 +9,7 @@ class Map
     SubRoom[,] rooms;
     public int size;
     public Spawn spawn;
+    public List<SubRoom> regulars = new List<SubRoom>();
 
     public Map(int size)
     {
@@ -46,6 +47,10 @@ class Map
             {
                 spawn = (Spawn)value;
             }
+            if(value.GetType() == typeof(SubRoom))
+            {
+                regulars.Add(value);
+            }
         }
     }
 
@@ -78,8 +83,17 @@ class Map
         }
     }
 
-    bool CheckBounds(int x, int y)
+    public bool CheckBounds(int x, int y)
     {
         return x >= 0 && x < size && y >= 0 && y < size;
+    }
+
+    public void Reveal()
+    {
+        foreach(var a in rooms)
+        {
+            if (a != null)
+                a.room.roomUI.Reveal();
+        }
     }
 }
