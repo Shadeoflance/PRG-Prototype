@@ -5,6 +5,7 @@ using System.Collections.Generic;
 class RoomUI
 {
     public List<Image> images = new List<Image>();
+    public Color initialColor = Color.white;
     Room room;
     bool revealed = false;
     bool visited = false;
@@ -93,6 +94,6 @@ class RoomUI
     void SetColor(Color color)
     {
         foreach (var a in images)
-            a.color = color;
+            a.color = color * initialColor;
     }
 }

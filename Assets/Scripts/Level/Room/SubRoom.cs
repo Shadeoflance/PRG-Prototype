@@ -12,7 +12,7 @@ class SubRoom : MonoBehaviour
     public List<Enemy> enemiesAlive = new List<Enemy>();
     [System.NonSerialized]
     public Tiles tiles;
-    public bool isHostile = true, lockable = false;
+    public bool isHostile = true;
 
     public virtual void Awake()
     {
@@ -119,6 +119,15 @@ class SubRoom : MonoBehaviour
     }
 
     List<Vector2> clearAirPositions;
+
+    public virtual Color InitialColor
+    {
+        get
+        {
+            return Color.white;
+        }
+    }
+
     public Vector2 GetAirClearTilePos()
     {
         if(clearAirPositions == null)

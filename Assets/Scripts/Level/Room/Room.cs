@@ -33,6 +33,7 @@ class Room
     public void InitUI()
     {
         roomUI = new RoomUI(this);
+        roomUI.initialColor = subRooms[0].InitialColor;
     }
 
     public void Enable()
