@@ -18,6 +18,8 @@ class ShopItemPedestal : MonoBehaviour
         item.transform.position = transform.position;
         item.canPickup = false;
         item.transform.SetParent(transform);
+        item.GetComponent<Rigidbody2D>().isKinematic = true;
+        item.GetComponent<Collider2D>().enabled = false;
     }
 
     void OnTriggerStay2D(Collider2D col)
