@@ -9,6 +9,7 @@ class LevelGenerator
         CreateShop(map);
         CreateRegularFar(map);
         CreateRegularFar(map);
+        CreateBoss(map);
         for (int i = 0; i < 3; i++)
             CreateRegularRandom(map);
     }
@@ -16,6 +17,12 @@ class LevelGenerator
     {
         Vector2 v = RandOnCircle(Utils.CoinInt(), map);
         map[(int)v.x, (int)v.y] = RoomContainer.GetShopInstance();
+        CreatePath(map, (int)v.x, (int)v.y);
+    }
+    static void CreateBoss(Map map)
+    {
+        Vector2 v = RandOnCircle(0, map);
+        map[(int)v.x, (int)v.y] = RoomContainer.GetBossInstance();
         CreatePath(map, (int)v.x, (int)v.y);
     }
     static void CreateRegularFar(Map map)

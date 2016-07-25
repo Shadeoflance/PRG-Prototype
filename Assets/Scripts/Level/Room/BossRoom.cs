@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
-class Spawn : SubRoom
+class BossRoom : SubRoom
 {
     public override Color InitialColor
     {
         get
         {
-            return Color.blue;
+            return Color.red;
         }
     }
     protected override void Start()

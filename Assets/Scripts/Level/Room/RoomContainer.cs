@@ -6,6 +6,7 @@ class RoomContainer
     static List<GameObject> regularRooms;
     static List<GameObject> shops;
     static List<GameObject> spawns;
+    static List<GameObject> bosses;
 
     static RoomContainer()
     {
@@ -17,6 +18,9 @@ class RoomContainer
 
         spawns = new List<GameObject>();
         spawns.AddRange(Resources.LoadAll<GameObject>("Level/Rooms/Spawn"));
+
+        bosses = new List<GameObject>();
+        bosses.AddRange(Resources.LoadAll<GameObject>("Level/Rooms/Boss"));
     }
 
     public static SubRoom GetRegularRoomInstance()
@@ -32,5 +36,10 @@ class RoomContainer
     public static SubRoom GetSpawnInstance()
     {
         return Object.Instantiate(spawns[Random.Range(0, spawns.Count)]).GetComponent<SubRoom>();
+    }
+
+    public static SubRoom GetBossInstance()
+    {
+        return Object.Instantiate(bosses[Random.Range(0, bosses.Count)]).GetComponent<SubRoom>();
     }
 }
