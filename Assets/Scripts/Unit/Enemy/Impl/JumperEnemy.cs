@@ -19,7 +19,8 @@ class JumperEnemy : Enemy
 
 class EnemyJumper : Jumper
 {
-    float cd = 3;
+    public float cd = 3;
+    public Vector2 force = new Vector2(14f, 8f);
     bool canJump = true;
     private Material triangle;
 
@@ -38,7 +39,7 @@ class EnemyJumper : Jumper
         unit.StartCoroutine(ResetCD());
         if(unit.currentState.Transit(new JumpingState(unit)))
         {
-            unit.rb.AddForce(new Vector2(14f * unit.direction, 8f), ForceMode2D.Impulse);
+            unit.rb.AddForce(new Vector2(force.x * unit.direction, force.y), ForceMode2D.Impulse);
             triangle.SetFloat("_Percentage", 0f);
             unit.StartCoroutine(ResetState());
             unit.StartCoroutine(RenderTriangle());
@@ -93,26 +94,26 @@ class JumpingState : UnitState
 
 class JumperController : IController
 {
-    JumperEnemy unit;
-    float timer = 1;
+    Unit unit;
+    float timer = 1, detectDist;
     Vector2 needPoint;
 
-    public JumperController(JumperEnemy unit)
+    public JumperController(Unit unit, float detectDist = 5)
     {
         this.unit = unit;
+        this.detectDist = detectDist;
     }
 
     public bool NeedAttack()
     {
-        return false;
+        return true;
     }
 
     public bool NeedJump()
     {
-        return Player.Distance(unit.transform.position) < 5;
+        return Player.Distance(unit.transform.position) < detectDist;
     }
-
-
+    
     public Vector2 NeedVel()
     {
         Vector2 dir = Utils.TrimY(needPoint - Utils.ToV2(unit.transform.position));
@@ -124,7 +125,7 @@ class JumperController : IController
     public void Update()
     {
         float dist = Player.Distance(unit.transform.position);
-        if (dist < 5)
+        if (dist < detectDist)
         {
             needPoint = Player.instance.transform.position;
             return;

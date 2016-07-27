@@ -13,7 +13,8 @@ class Room
 
     public void Unite(Room r)
     {
-        foreach (var a in r.subRooms)
+        List<SubRoom> subrooms = new List<SubRoom>(r.subRooms);
+        foreach (var a in subrooms)
         {
             a.room = this;
             subRooms.Add(a);

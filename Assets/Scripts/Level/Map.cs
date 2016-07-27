@@ -9,6 +9,7 @@ class Map
     SubRoom[,] rooms;
     public int size;
     public Spawn spawn;
+    public BossRoom boss;
     public List<SubRoom> regulars = new List<SubRoom>();
 
     public Map(int size)
@@ -46,6 +47,10 @@ class Map
             if(value is Spawn)
             {
                 spawn = (Spawn)value;
+            }
+            if(value is BossRoom)
+            {
+                boss = (BossRoom)value;
             }
             if(value.GetType() == typeof(SubRoom))
             {

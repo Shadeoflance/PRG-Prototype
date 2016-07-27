@@ -12,6 +12,7 @@ class SubRoom : MonoBehaviour
     public List<Enemy> enemiesAlive = new List<Enemy>();
     [System.NonSerialized]
     public Tiles tiles;
+    public Transform enemies;
     public bool isHostile = true;
 
     public virtual void Awake()
@@ -23,8 +24,8 @@ class SubRoom : MonoBehaviour
     {
         CreateDoors();
         CreateWalls();
-        //if (isHostile)
-        //    InitEnemies();
+        if (isHostile)
+            InitEnemies();
         foreach (var a in room.subRooms)
             if (a.isHostile && enemiesAlive.Count > 0)
             {
@@ -76,11 +77,15 @@ class SubRoom : MonoBehaviour
 
     public virtual void InitEnemies()
     {
-        GenerateEnemies("RegularEnemy", Random.Range(1, 4));
-        GenerateEnemies("FlyingEnemy", Random.Range(0, 3), false);
-        GenerateEnemies("DiggerEnemy", Random.Range(1, 3));
-        GenerateEnemies("TeleporterEnemy", Random.Range(0, 2));
-        GenerateEnemies("JumperEnemy", Random.Range(1, 3));
+        //GenerateEnemies("RegularEnemy", Random.Range(1, 4));
+        //GenerateEnemies("FlyingEnemy", Random.Range(0, 3), false);
+        //GenerateEnemies("DiggerEnemy", Random.Range(1, 3));
+        //GenerateEnemies("TeleporterEnemy", Random.Range(0, 2));
+        //GenerateEnemies("JumperEnemy", Random.Range(1, 3));
+        foreach(Transform a in enemies)
+        {
+            enemiesAlive.Add(a.GetComponent<Enemy>());
+        }
     }
 
     private void GenerateEnemies(string name, int amount, bool ground = true)
@@ -93,7 +98,7 @@ class SubRoom : MonoBehaviour
                 position = GetTopClearTilePos() + new Vector2(0, 0.4f);
             else position = GetAirClearTilePos();
             GameObject instance = Instantiate(prefab);
-            instance.transform.SetParent(transform);
+            instance.transform.SetParent(enemies);
             instance.transform.position = position;
             enemiesAlive.Add(instance.GetComponent<Enemy>());
         }

@@ -6,10 +6,10 @@ class LevelGenerator
     public static void Generate(Map map)
     {
         map[map.size / 2, map.size / 2] = RoomContainer.GetSpawnInstance();
+        CreateBoss(map);
         CreateShop(map);
         CreateRegularFar(map);
         CreateRegularFar(map);
-        CreateBoss(map);
         for (int i = 0; i < 3; i++)
             CreateRegularRandom(map);
         int t = Random.Range(1, 4);
@@ -43,7 +43,8 @@ class LevelGenerator
             for (int i = 0; i < dirs.Count; i++)
             {
                 Vector2 d = dirs[i];
-                if (map.GetRelativeTo(r, d) == null)
+                SubRoom rel = map.GetRelativeTo(r, d);
+                if (rel == null || rel.GetType() != typeof(SubRoom))
                 {
                     dirs.Remove(d);
                     i--;
@@ -96,7 +97,12 @@ class LevelGenerator
             else
                 y += (int)v.y;
             if (map[x, y] != null)
-                break;
+            {
+                if (map[x, y].GetType() == typeof(SubRoom))
+                    break;
+                else
+                    continue;
+            }
             map[x, y] = RoomContainer.GetRegularRoomInstance();
             v = (new Vector2(map.size / 2, map.size / 2) - new Vector2(x, y)).OneNormalize();
         }

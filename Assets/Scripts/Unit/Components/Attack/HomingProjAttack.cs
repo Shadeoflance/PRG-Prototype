@@ -3,7 +3,7 @@
 class ProjAttack : Attack
 {
     BulletFactory factory;
-    float life = 3, speed = 4;
+    public float life = 3, speed = 4, cd = 2;
     public ProjAttack(Unit u, bool homing = false) : base(u)
     {
         Bullet b = ((GameObject)Resources.Load("Bullet")).GetComponent<Bullet>();
@@ -20,14 +20,14 @@ class ProjAttack : Attack
     public override void DoAttack()
     {
         factory.SetPosition(unit.transform.position).SetDir((Player.instance.transform.position - unit.transform.position).normalized).Build();
-        cd = 2;
+        curCd = cd;
     }
 
-    float cd;
+    float curCd;
     public override void Update()
     {
-        cd -= Time.deltaTime;
-        if (unit.controller.NeedAttack() && cd <= 0)
+        curCd -= Time.deltaTime;
+        if (unit.controller.NeedAttack() && curCd <= 0)
         {
             unit.currentState.Attack();
         }

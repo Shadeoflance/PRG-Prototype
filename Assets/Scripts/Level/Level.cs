@@ -46,7 +46,7 @@ class Level : MonoBehaviour
         map = new Map(7);
         LevelGenerator.Generate(map);
         map.PostInitialize();
-        current = map.spawn.room;
+        current = map.boss.room;
         current.Enable();
         map.Reveal();
         Player.instance.transform.position = current.subRooms[0].transform.position;

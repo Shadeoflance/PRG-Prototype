@@ -11,7 +11,13 @@ class BossRoom : SubRoom
     }
     protected override void Start()
     {
-        isHostile = false;
         base.Start();
+    }
+    public override void InitEnemies()
+    {
+        foreach (Transform a in enemies)
+        {
+            enemiesAlive.Add(a.GetComponent<Enemy>());
+        }
     }
 }

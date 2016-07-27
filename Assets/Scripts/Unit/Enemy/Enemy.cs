@@ -13,11 +13,16 @@ public class Enemy : Unit
         eventManager.SubscribeHandler("takeDmg", new DmgPaint());
         eventManager.SubscribeHandler("die", new RoomDieInfo());
         eventManager.SubscribeHandler("die", new PickupsDrop());
+        SetModifier();
+        base.Start();
+    }
+
+    protected virtual void SetModifier()
+    {
         if (UnityEngine.Random.Range(0f, 1f) > 0.4f)
         {
             EliteModifiers.SetRandomModifier(this);
         }
-        base.Start();
     }
 
     protected override void Update()
