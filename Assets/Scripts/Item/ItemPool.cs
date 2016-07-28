@@ -39,6 +39,8 @@ public static class ItemPool
 
     public static void Remove(int id)
     {
+        if (id == 0)
+            return;
         items.Remove(id);
     }
 
