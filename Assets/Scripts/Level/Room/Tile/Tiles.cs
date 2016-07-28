@@ -58,8 +58,10 @@ class Tiles : MonoBehaviour
             for (int x = 1; x < map.GetLength(0) - 1; x++)
             {
                 Tile tn = map[x, y];
-                if (tn is ChestPlaceholder)
+                if (tn != null && !tn.Collidable)
+                {
                     tn = null;
+                }
                 RemoveCollider(tn);
                 if(t == null && tn != null)
                 {
@@ -69,7 +71,7 @@ class Tiles : MonoBehaviour
                 }
                 else if(t != null)
                 {
-                    if(map[x, y] != null)
+                    if(tn != null)
                     {
                         if((tn is OneWayTile) == oneway)
                         {

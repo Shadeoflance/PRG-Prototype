@@ -13,4 +13,11 @@ class ChestPlaceholder : Tile
         c.transform.parent = transform.parent.parent;
         c.transform.localPosition = transform.localPosition;
     }
+    public override bool Collidable
+    {
+        get
+        {
+            return false;
+        }
+    }
 }

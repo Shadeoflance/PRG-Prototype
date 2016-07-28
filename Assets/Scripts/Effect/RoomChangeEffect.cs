@@ -9,6 +9,8 @@ class RoomChangeEffect : MonoBehaviour
     void Start()
     {
         next.room.Enable();
+        foreach (var r in next.room.subRooms)
+            r.enabled = false;
         time = initialTime;
         Player.instance.enabled = false;
         Player.instance.GetComponent<Rigidbody2D>().isKinematic = true;
@@ -19,6 +21,8 @@ class RoomChangeEffect : MonoBehaviour
 
     void End()
     {
+        foreach (var r in next.room.subRooms)
+            r.enabled = true;
         Player.instance.enabled = true;
         Player.instance.GetComponent<Rigidbody2D>().isKinematic = false;
         current.room.Disable();

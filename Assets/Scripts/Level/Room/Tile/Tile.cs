@@ -12,6 +12,9 @@ class Tile : MonoBehaviour
         painter = GetComponent<SpritePainter>();
     }
 
+    public virtual bool Collidable
+    { get { return true; } }
+
     void OnTriggerExit2D(Collider2D col)
     {
         if(col.gameObject.layer == LayerMask.NameToLayer("Player"))

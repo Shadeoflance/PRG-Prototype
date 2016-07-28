@@ -77,15 +77,15 @@ class SubRoom : MonoBehaviour
 
     public virtual void InitEnemies()
     {
+        foreach (Transform a in enemies)
+        {
+            enemiesAlive.Add(a.GetComponent<Enemy>());
+        }
         //GenerateEnemies("RegularEnemy", Random.Range(1, 4));
         //GenerateEnemies("FlyingEnemy", Random.Range(0, 3), false);
         //GenerateEnemies("DiggerEnemy", Random.Range(1, 3));
         //GenerateEnemies("TeleporterEnemy", Random.Range(0, 2));
         //GenerateEnemies("JumperEnemy", Random.Range(1, 3));
-        foreach(Transform a in enemies)
-        {
-            enemiesAlive.Add(a.GetComponent<Enemy>());
-        }
     }
 
     private void GenerateEnemies(string name, int amount, bool ground = true)

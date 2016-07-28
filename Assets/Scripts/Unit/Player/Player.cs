@@ -47,6 +47,7 @@ public class Player : Unit
             rb.gravityScale = 0;
             health.maxHealth = 10000;
             health.currentHealth = 10000;
+            attack.baseDmg = 10;
         }
 	}
 

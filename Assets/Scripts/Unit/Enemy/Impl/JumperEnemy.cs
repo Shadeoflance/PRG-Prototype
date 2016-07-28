@@ -11,6 +11,7 @@ class JumperEnemy : Enemy
         health = new Health(this, hp);
         walking = new WalkingState(this);
         airborne = new AirborneState(this);
+        currentState = airborne;
         mover = new DefaultMover(this, speed);
         attack = new Attack(this);
         base.Start();
