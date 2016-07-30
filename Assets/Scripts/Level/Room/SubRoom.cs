@@ -125,7 +125,7 @@ class SubRoom : MonoBehaviour
 
     List<Vector2> clearAirPositions;
 
-    public virtual Color InitialColor
+    public virtual Color RoomColor
     {
         get
         {

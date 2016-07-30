@@ -2,7 +2,7 @@
 
 class Shop : SubRoom
 {
-    public override Color InitialColor
+    public override Color RoomColor
     {
         get
         {

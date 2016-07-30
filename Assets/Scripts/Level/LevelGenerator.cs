@@ -6,10 +6,10 @@ class LevelGenerator
     public static void Generate(Map map)
     {
         map[map.size / 2, map.size / 2] = RoomContainer.GetSpawnInstance();
-        CreateBoss(map);
         CreateShop(map);
         CreateRegularFar(map);
         CreateRegularFar(map);
+        CreateBoss(map);
         for (int i = 0; i < 3; i++)
             CreateRegularRandom(map);
         int t = Random.Range(1, 4);
@@ -25,13 +25,30 @@ class LevelGenerator
     static void CreateBoss(Map map)
     {
         Vector2 v = RandOnCircle(0, map);
+        while (map[(int)v.x, (int)v.y + 1] != null ||
+            map[(int)v.x, (int)v.y - 1] != null ||
+            map[(int)v.x - 1, (int)v.y] is Shop ||
+            map[(int)v.x + 1, (int)v.y] is Shop)
+            v = RandOnCircle(0, map);
         map[(int)v.x, (int)v.y] = RoomContainer.GetBossInstance();
-        CreatePath(map, (int)v.x, (int)v.y);
+        Vector2 t = (new Vector2(map.size / 2, map.size / 2) - new Vector2(v.x, v.y)).OneNormalize();
+        if (t.x == 0)
+            t.x = Utils.Coin() ? -1 : 1;
+        if(map[(int)(v.x + t.x), (int)v.y] == null)
+            map[(int)(v.x + t.x), (int)v.y] = RoomContainer.GetRegularRoomInstance();
+        CreatePath(map, (int)(v.x + t.x), (int)v.y);
     }
     static void CreateRegularFar(Map map)
     {
         Vector2 v = RandOnCircle(Utils.CoinInt(), map);
-        map[(int)v.x, (int)v.y] = RoomContainer.GetRegularRoomInstance();
+        while (map[(int)v.x + 1, (int)v.y] != null ||
+                map[(int)v.x - 1, (int)v.y] != null ||
+                map[(int)v.x, (int)v.y + 1] != null ||
+                map[(int)v.x, (int)v.y - 1] != null)
+        {
+            v = RandOnCircle(Utils.CoinInt(), map);
+        }
+            map[(int)v.x, (int)v.y] = RoomContainer.GetRegularRoomInstance();
         CreatePath(map, (int)v.x, (int)v.y);
     }
     static void ConnectRandom(Map map)
@@ -71,6 +88,13 @@ class LevelGenerator
                 {
                     dirs.Remove(d);
                     i--;
+                    continue;
+                }
+                if(map[r.x + (int)d.x, r.y + (int)d.y + 1] is BossRoom ||
+                    map[r.x + (int)d.x, r.y + (int)d.y - 1] is BossRoom)
+                {
+                    dirs.Remove(d);
+                    i--;
                 }
             }
             if (dirs.Count == 0)
@@ -98,10 +122,7 @@ class LevelGenerator
                 y += (int)v.y;
             if (map[x, y] != null)
             {
-                if (map[x, y].GetType() == typeof(SubRoom))
-                    break;
-                else
-                    continue;
+                break;
             }
             map[x, y] = RoomContainer.GetRegularRoomInstance();
             v = (new Vector2(map.size / 2, map.size / 2) - new Vector2(x, y)).OneNormalize();
