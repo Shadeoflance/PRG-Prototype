@@ -23,5 +23,14 @@ class BossRoom : SubRoom
         GameObject boss = Instantiate(e[Random.Range(0, e.Length)]);
         boss.transform.SetParent(enemies);
         boss.transform.localPosition = new Vector3(0, -Level.roomSize.y / 4);
+        boss.GetComponent<Unit>().eventManager.SubscribeHandler("die", new GameOverHandler());
+    }
+    class GameOverHandler : ActionListener
+    {
+        public bool Handle(ActionParams ap)
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("end");
+            return true;
+        }
     }
 }
