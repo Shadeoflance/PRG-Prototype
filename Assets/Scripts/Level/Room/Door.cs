@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-class Door : MonoBehaviour
+public class Door : MonoBehaviour
 {
     public Sprite openSprite, closedSprite;
     [System.NonSerialized]

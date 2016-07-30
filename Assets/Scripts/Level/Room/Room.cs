@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-class Room
+public class Room
 {
     public List<SubRoom> subRooms = new List<SubRoom>();
     public RoomUI roomUI;

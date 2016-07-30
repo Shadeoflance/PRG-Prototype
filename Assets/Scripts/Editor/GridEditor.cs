@@ -26,6 +26,14 @@ public class GridEditor : Editor
         tileEditor = (TileEditor)target;
         tileEditor.Init();
         parent = GameObject.Find("TilesTemp").transform;
+        foreach (var a in GameObject.FindObjectsOfType<SubRoom>())
+        {
+            if (a.enabled)
+            {
+                parent = a.transform.Find("Tiles");
+                break;
+            }
+        }
         //SceneView.onSceneGUIDelegate = GridUpdate;
     }
 
@@ -42,8 +50,6 @@ public class GridEditor : Editor
             return;
         }
         SpriteRenderer sr = tileEditor.current.GetComponent<SpriteRenderer>();
-        if(sr == null)
-            sr = tileEditor.current.transform.FindChild("Sprite").GetComponent<SpriteRenderer>();
         if (sr == null)
         {
             return;

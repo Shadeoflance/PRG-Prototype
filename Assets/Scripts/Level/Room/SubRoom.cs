@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-class SubRoom : MonoBehaviour
+public class SubRoom : MonoBehaviour
 {
     [System.NonSerialized]
     public Room room;

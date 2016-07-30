@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-class RoomUI
+public class RoomUI
 {
     public List<Image> images = new List<Image>();
     public Color initialColor = Color.white;

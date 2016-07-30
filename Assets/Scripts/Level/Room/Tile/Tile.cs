@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-class Tile : MonoBehaviour
+public class Tile : MonoBehaviour
 {
     public int x, y;
     SpritePainter painter;

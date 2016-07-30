@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-class SpritePainter : MonoBehaviour 
+public class SpritePainter : MonoBehaviour 
 {
     SpriteRenderer sprite;
     Color? initial;

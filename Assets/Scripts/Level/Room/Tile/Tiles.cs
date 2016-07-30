@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System;
 
-class Tiles : MonoBehaviour
+public class Tiles : MonoBehaviour
 {
     public Tile[,] map = new Tile[(int)Level.roomSize.x * 2 + 2, (int)Level.roomSize.y * 2 + 2];
 
