@@ -11,6 +11,7 @@ class TeleporterEnemy : Enemy
         jumper = new TeleportJumper(this, circle);
         airborne = new AirborneState(this);
         walking = airborne;
+        currentState = airborne;
         health = new Health(this, hp);
         attack = new ProjAttack(this, true);
         base.Start();
@@ -37,6 +38,12 @@ class TeleportJumper : Jumper
         unit.transform.position = Level.instance.current
            .subRooms[UnityEngine.Random.Range(0, Level.instance.current.subRooms.Count)].GetAirClearTilePos();
         circle.localScale = new Vector2(0.3f, 0.3f);
+    }
+    
+    public void JumpNoCD()
+    {
+        unit.transform.position = Level.instance.current
+           .subRooms[UnityEngine.Random.Range(0, Level.instance.current.subRooms.Count)].GetAirClearTilePos();
     }
 
     IEnumerator ResetCD()
@@ -67,6 +74,7 @@ class TeleportJumper : Jumper
 class TeleporterController : IController
 {
     TeleporterEnemy unit;
+    public float distance = 5;
 
     public TeleporterController(TeleporterEnemy unit)
     {
@@ -75,7 +83,7 @@ class TeleporterController : IController
 
     public bool NeedAttack()
     {
-        return Player.Distance(unit.transform.position) < 5;
+        return Player.Distance(unit.transform.position) < distance;
     }
 
     public bool NeedJump()
