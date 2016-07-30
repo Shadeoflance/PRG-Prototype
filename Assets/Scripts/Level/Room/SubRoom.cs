@@ -14,6 +14,7 @@ public class SubRoom : MonoBehaviour
     public Tiles tiles;
     public Transform enemies;
     public bool isHostile = true;
+    public bool FlyingPref = false;
 
     public virtual void Awake()
     {
@@ -81,11 +82,19 @@ public class SubRoom : MonoBehaviour
         {
             enemiesAlive.Add(a.GetComponent<Enemy>());
         }
-        //GenerateEnemies("RegularEnemy", Random.Range(1, 4));
-        //GenerateEnemies("FlyingEnemy", Random.Range(0, 3), false);
-        //GenerateEnemies("DiggerEnemy", Random.Range(1, 3));
-        //GenerateEnemies("TeleporterEnemy", Random.Range(0, 2));
-        //GenerateEnemies("JumperEnemy", Random.Range(1, 3));
+        if (FlyingPref)
+        {
+            GenerateEnemies("FlyingEnemy", Random.Range(1, 4), false);
+            GenerateEnemies("TeleporterEnemy", Random.Range(0, 2));
+            GenerateEnemies("DiggerEnemy", Random.Range(0, 2));
+        }
+        else
+        {
+            GenerateEnemies("RegularEnemy", Random.Range(1, 4));
+            GenerateEnemies("DiggerEnemy", Random.Range(0, 3));
+            GenerateEnemies("TeleporterEnemy", Random.Range(0, 2));
+            GenerateEnemies("JumperEnemy", Random.Range(0, 3));
+        }
     }
 
     private void GenerateEnemies(string name, int amount, bool ground = true)
