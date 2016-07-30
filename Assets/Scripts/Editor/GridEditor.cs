@@ -25,7 +25,6 @@ public class GridEditor : Editor
     {
         tileEditor = (TileEditor)target;
         tileEditor.Init();
-        parent = GameObject.Find("TilesTemp").transform;
         foreach (var a in GameObject.FindObjectsOfType<SubRoom>())
         {
             if (a.enabled)

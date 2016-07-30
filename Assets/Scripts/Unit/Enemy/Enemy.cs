@@ -9,6 +9,7 @@ public class Enemy : Unit
     }
     protected override void Start()
     {
+        currentState = airborne;
         eventManager.SubscribeHandler("takeDmg", new DmgTextCreate());
         eventManager.SubscribeHandler("takeDmg", new DmgPaint());
         eventManager.SubscribeHandler("die", new RoomDieInfo());

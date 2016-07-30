@@ -9,7 +9,8 @@ class DiggerEnemy : Enemy
         controller = new DiggerController(this);
         health = new Health(this, hp);
         walking = new WalkingState(this);
-        airborne = new WalkingState(this);
+        airborne = walking;
+        currentState = walking;
         jumper = new DigJumper(this);
         attack = new ProjAttack(this);
 
@@ -92,8 +93,16 @@ class DiggingState : UnitState
     }
     void ChangeLocation()
     {
-        unit.transform.position = Level.instance.current
+        Vector2 v;
+        int k = 0;
+        do
+        {
+            k++;
+            v = Level.instance.current
             .subRooms[UnityEngine.Random.Range(0, Level.instance.current.subRooms.Count)].GetTopClearTilePos();
+        }
+        while (Player.Distance(v) > 8 && k < 300);
+        unit.transform.position = v;
     }
 }
 class DiggerController : IController
