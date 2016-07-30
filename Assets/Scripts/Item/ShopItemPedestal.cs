@@ -15,7 +15,7 @@ class ShopItemPedestal : MonoBehaviour
     {
         style.font = Resources.Load<Font>("font");
         item = Item.Create();
-        item.transform.position = transform.position;
+        item.transform.position = transform.position + Vector3.down;
         item.canPickup = false;
         item.transform.SetParent(transform);
         item.GetComponent<Rigidbody2D>().isKinematic = true;

@@ -6,9 +6,9 @@ class LevelGenerator
     public static void Generate(Map map)
     {
         map[map.size / 2, map.size / 2] = RoomContainer.GetSpawnInstance();
+        CreateRegularFar(map);
+        CreateRegularFar(map);
         CreateShop(map);
-        CreateRegularFar(map);
-        CreateRegularFar(map);
         CreateBoss(map);
         for (int i = 0; i < 3; i++)
             CreateRegularRandom(map);
@@ -109,6 +109,7 @@ class LevelGenerator
         Vector2 v = (new Vector2(map.size / 2, map.size / 2) - new Vector2(x, y)).OneNormalize();
         while (true)
         {
+            int bx = x, by = y;
             if(v.x != 0 && v.y != 0)
             {
                 if(Utils.Coin())
@@ -120,6 +121,19 @@ class LevelGenerator
                 x += (int)v.x;
             else
                 y += (int)v.y;
+            if(map[x, y] is Shop)
+            {
+                if(bx != x)
+                {
+                    x = bx;
+                    y += (int)v.y;
+                }
+                else
+                {
+                    y = by;
+                    x += (int)v.x;
+                }
+            }
             if (map[x, y] != null)
             {
                 break;

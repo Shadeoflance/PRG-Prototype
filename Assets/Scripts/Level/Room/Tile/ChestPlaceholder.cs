@@ -5,7 +5,8 @@ class ChestPlaceholder : Tile
     static Prefab chest = new Prefab("Pickups/Chest");
     void Start()
     {
-        SpawnChest();
+        if(Random.Range(0f, 1f) > 0.8f)
+            SpawnChest();
     }
     public void SpawnChest()
     {
