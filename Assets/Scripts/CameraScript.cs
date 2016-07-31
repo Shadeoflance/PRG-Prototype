@@ -17,7 +17,7 @@ class CameraScript : MonoBehaviour
             instance = this;
         }
         cam = GetComponent<Camera>();
-        cam.orthographicSize = (Level.roomSize.x / 2 + 0.5f) / cam.aspect;
+        cam.orthographicSize = Math.Min((Level.roomSize.x / 2 + 0.5f) / cam.aspect, (Level.roomSize.y / 2 + 0.5f));
     }
     void Start()
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 class Map
 {
@@ -73,6 +74,12 @@ class Map
                 }
             }
         }
+        Transform m = GameObject.Find("Map").transform;
+        Image rui = regulars[0].room.roomUI.images[0];
+        int curPixels = (int)Math.Round(rooms.GetLength(0) * rui.mainTexture.width * rui.transform.localScale.x + 
+            roomUIDistance.x * (rooms.GetLength(0) - 1));
+        int needPixels = Screen.width / 10;
+        m.transform.localScale = new Vector3(needPixels * 1f / curPixels, needPixels * 1f / curPixels, 1);
     }
 
     public void UpdateUI()

@@ -14,10 +14,10 @@ public class StunnedBuff : Buff
         }
         else if (!u.currentState.Transit(new StunnedState(u)))
             return;
-        var newInstance = GameObject.Instantiate<ParticleSystem>(stun);
+        var newInstance = Object.Instantiate(stun);
         newInstance.transform.position = u.transform.position + new Vector3(0f, u.size.y + 0.4f, 0f);
         newInstance.transform.SetParent(u.gameObject.transform);
-        GameObject.Destroy(newInstance, duration);
+        Object.Destroy(newInstance, duration);
         imagePath = "Buffs/stunned";
     }
     public override void End()

@@ -7,7 +7,7 @@ public class Tile : MonoBehaviour
     [System.NonSerialized]
     public Tiles tiles;
     [System.NonSerialized]
-    public GameObject collider = null;
+    public GameObject colObj = null;
 
     void Awake()
     {

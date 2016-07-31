@@ -101,14 +101,14 @@ public class Tiles : MonoBehaviour
     {
         if (t == null)
             return;
-        if (t.collider != null)
-            Destroy(t.collider);
+        if (t.colObj != null)
+            Destroy(t.colObj);
     }
 
     void BoxTiles(Tile start, int count, bool up)
     {
         GameObject col = new GameObject("Collider");
-        start.collider = col;
+        start.colObj = col;
         col.transform.SetParent(start.transform);
         col.transform.localPosition = Vector3.zero;
         BoxCollider2D box = col.AddComponent<BoxCollider2D>();

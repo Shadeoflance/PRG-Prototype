@@ -22,7 +22,7 @@ public class RoomUI
 
     Image CreateImage(float x, float y)
     {
-        Image image = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("SubRoomUI")).GetComponent<Image>();
+        Image image = Object.Instantiate(Resources.Load<GameObject>("SubRoomUI")).GetComponent<Image>();
         RectTransform map = GameObject.Find("Map").GetComponent<RectTransform>();
         image.rectTransform.SetParent(map);
         image.rectTransform.position = map.position.ToV2() + Vector2.Scale(Map.roomUIDistance, new Vector2(x, -Level.instance.map.size + 1 + y));
