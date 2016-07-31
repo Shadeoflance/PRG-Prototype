@@ -53,8 +53,8 @@ public class Bullet : MonoBehaviour
             {
                 if (collision.gameObject.tag == "Door")
                     collision.GetComponent<Door>().Open();
-                if (collision.gameObject.tag == "Tile")
-                    collision.GetComponent<Tile>().BulletHit(this);
+                //if (collision.gameObject.tag == "Tile")
+                //    collision.GetComponent<Tile>().BulletHit(this);
             }
             ActionParams ap = new ActionParams();
             ap["other"] = collision.gameObject;

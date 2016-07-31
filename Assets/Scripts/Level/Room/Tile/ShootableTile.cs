@@ -13,4 +13,13 @@ class ShootableTile : Tile
             Destroy();
         }
     }
+    public override void ExplosionHit()
+    {
+        Destroy();
+    }
+    void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(0.5f, 1f, 0.7f);
+        Gizmos.DrawSphere(transform.position, 0.1f);
+    }
 }

@@ -6,6 +6,8 @@ public class Tile : MonoBehaviour
     SpritePainter painter;
     [System.NonSerialized]
     public Tiles tiles;
+    [System.NonSerialized]
+    public GameObject collider = null;
 
     void Awake()
     {
@@ -20,6 +22,17 @@ public class Tile : MonoBehaviour
         if(col.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             painter.Paint(new Color(0.6f, 1f, 0.6f), 0.5f, true);
+        }
+    }
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if(col.gameObject.layer == LayerMask.NameToLayer("Bullet"))
+        {
+            Bullet b = col.GetComponent<Bullet>();
+            if (b.unit.tag == "Player")
+            {
+                BulletHit(b);
+            }
         }
     }
 

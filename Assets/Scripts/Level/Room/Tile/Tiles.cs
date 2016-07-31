@@ -101,20 +101,28 @@ public class Tiles : MonoBehaviour
     {
         if (t == null)
             return;
-        Collider2D[] cols = t.GetComponents<Collider2D>();
-        foreach (var a in cols)
-            if (!a.isTrigger)
-                Destroy(a);
+        if (t.collider != null)
+            Destroy(t.collider);
     }
 
     void BoxTiles(Tile start, int count, bool up)
     {
-        BoxCollider2D box = start.gameObject.AddComponent<BoxCollider2D>();
+        GameObject col = new GameObject("Collider");
+        start.collider = col;
+        col.transform.SetParent(start.transform);
+        col.transform.localPosition = Vector3.zero;
+        BoxCollider2D box = col.AddComponent<BoxCollider2D>();
         box.size = up ? new Vector2(0.5f, 0.5f * count) : new Vector2(0.5f * count, 0.5f);
         box.offset = up ? new Vector2(0, box.size.y / 2 - 0.25f) : new Vector2(box.size.x / 2 - 0.25f, 0);
         if(start is OneWayTile)
         {
             box.usedByEffector = true;
+            PlatformEffector2D p = col.AddComponent<PlatformEffector2D>();
+            p.useOneWay = true;
+            p.useOneWayGrouping = true;
+            p.surfaceArc = 60;
+            p.sideArc = 1;
+            p.useColliderMask = true;
         }
     }
 

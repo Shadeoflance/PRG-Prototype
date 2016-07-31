@@ -10,4 +10,9 @@ class ExplosibleTile : Tile
     {
         Destroy();
     }
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.gray;
+        Gizmos.DrawSphere(transform.position, 0.1f);
+    }
 }
