@@ -23,7 +23,7 @@ class Pixel : MonoBehaviour
             GameObject instance = prefab.Instantiate();
             instance.GetComponent<Rigidbody2D>().velocity = new Vector2(0, initialDropVelocity).Rotate(Random.Range(-Mathf.PI / 4, Mathf.PI / 4));
             instance.transform.position = position;
-            instance.transform.parent = Level.instance.current.subRooms[0].transform;
+            instance.transform.parent = Level.instance.current.transform;
         }
     }
     public static GameObject Create()

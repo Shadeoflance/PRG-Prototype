@@ -20,45 +20,22 @@ class Level : MonoBehaviour
 
     void Start()
     {
-        //for (int i = 0; i < 4; i++)
-        //{
-        //    for (int j = 0; j < 4; j++)
-        //    {
-        //        if (j == 0 && i != 1)
-        //            continue;
-        //        if (j == 1 && i == 1)
-        //        {
-        //            map[i, j] = RoomContainer.GetSpawnInstance();
-        //            continue;
-        //        }   
-        //        //if(i == 2 && j == 1)
-        //        //{
-        //        //    map[i, j] = RoomContainer.GetShopInstance();
-        //        //    continue;
-        //        //}
-        //        map[i, j] = RoomContainer.GetRegularRoomInstance();
-        //        if (UnityEngine.Random.Range(0, 1) > 0.7f)
-        //            map[i, j].isHostile = false;
-        //    }
-        //}
-        //map[1, 2].room.Unite(map[2, 2].room);
-        //map[3, 3].room.Unite(map[3, 2].room);
         map = new Map(7);
         LevelGenerator.Generate(map);
         map.PostInitialize();
-        current = map.spawn.room;
+        current = map.spawn;
         current.Enable();
         map.Reveal();
-        Player.instance.transform.position = current.subRooms[0].transform.position;
+        Player.instance.transform.position = current.transform.position;
         map.UpdateUI();
         CameraScript.instance.RefreshBorders();
     }
 
-    public void ChangeRoom(Vector2 dir, SubRoom subRoom)
+    public void ChangeRoom(Vector2 dir, Room room)
     {
-        SubRoom next = map.GetRelativeTo(subRoom, dir);
-        RoomChangeEffect.Create(subRoom, next);
-        current = next.room;
+        Room next = map.GetRelativeTo(room, dir);
+        RoomChangeEffect.Create(room, next);
+        current = next;
         map.UpdateUI();
         CameraScript.instance.RefreshBorders();
     }

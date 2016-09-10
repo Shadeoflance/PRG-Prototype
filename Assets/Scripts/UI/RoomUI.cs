@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class RoomUI
 {
-    public List<Image> images = new List<Image>();
-    public Color initialColor = Color.white;
+    public Image image;
+    public Color initialColor;
     Room room;
     bool revealed = false;
     bool visited = false;
@@ -13,11 +13,8 @@ public class RoomUI
     public RoomUI(Room room)
     {
         this.room = room;
-        foreach(var a in room.subRooms)
-        {
-            images.Add(CreateImage(a.x, a.y));
-        }
-        CreateConnectors(room.subRooms[0], room.subRooms, new List<SubRoom>());
+        initialColor = room.RoomColor;
+        image = CreateImage(room.x, room.y);
     }
 
     Image CreateImage(float x, float y)
@@ -27,24 +24,6 @@ public class RoomUI
         image.rectTransform.SetParent(map);
         image.rectTransform.position = map.position.ToV2() + Vector2.Scale(Map.roomUIDistance, new Vector2(x, -Level.instance.map.size + 1 + y));
         return image;
-    }
-
-    void CreateConnectors(SubRoom current, List<SubRoom> rooms, List<SubRoom> processed)
-    {
-        foreach (var d in Map.dirs)
-        {
-            SubRoom next = Level.instance.map.GetRelativeTo(current, d);
-            if (next != null && rooms.Contains(next) && !processed.Contains(next))
-            {
-                Vector2 t = new Vector2(current.x, current.y) + d * 0.5f;
-                Image newInstance = CreateImage(t.x, t.y);
-                images.Add(newInstance);
-                processed.Add(current);
-                if (!processed.Contains(next))
-                    CreateConnectors(next, rooms, processed);
-            }
-            else continue;
-        }
     }
 
     public void Update()
@@ -59,22 +38,15 @@ public class RoomUI
         }
         if (!revealed)
         {
-            foreach (var a in room.subRooms)
-            {
-                if (level.current.subRooms.Contains(level.map.GetRelativeTo(a, Vector2.up)) ||
-                    level.current.subRooms.Contains(level.map.GetRelativeTo(a, Vector2.right)) ||
-                    level.current.subRooms.Contains(level.map.GetRelativeTo(a, Vector2.down)) ||
-                    level.current.subRooms.Contains(level.map.GetRelativeTo(a, Vector2.left)))
+                if (level.current == level.map.GetRelativeTo(room, Vector2.up))
                 {
                     revealed = true;
                     SetColor(new Color(0.3f, 0.3f, 0.3f));
-                    break;
                 }
                 else
                 {
                     SetColor(new Color(1, 1, 1, 0));
                 }
-            }
         }
         else
         {
@@ -93,7 +65,6 @@ public class RoomUI
 
     void SetColor(Color color)
     {
-        foreach (var a in images)
-            a.color = color * initialColor;
+        image.color = color * initialColor;
     }
 }

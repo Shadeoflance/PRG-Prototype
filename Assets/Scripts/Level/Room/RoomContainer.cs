@@ -23,23 +23,23 @@ class RoomContainer
         bosses.AddRange(Resources.LoadAll<GameObject>("Level/Rooms/Boss"));
     }
 
-    public static SubRoom GetRegularRoomInstance()
+    public static Room GetRegularRoomInstance()
     {
-        return Object.Instantiate(regularRooms[Random.Range(0, regularRooms.Count)]).GetComponent<SubRoom>();
+        return Object.Instantiate(regularRooms[Random.Range(0, regularRooms.Count)]).GetComponent<Room>();
     }
 
-    public static SubRoom GetShopInstance()
+    public static Room GetShopInstance()
     {
-        return Object.Instantiate(shops[Random.Range(0, shops.Count)]).GetComponent<SubRoom>();
+        return Object.Instantiate(shops[Random.Range(0, shops.Count)]).GetComponent<Room>();
     }
 
-    public static SubRoom GetSpawnInstance()
+    public static Room GetSpawnInstance()
     {
-        return Object.Instantiate(spawns[Random.Range(0, spawns.Count)]).GetComponent<SubRoom>();
+        return Object.Instantiate(spawns[Random.Range(0, spawns.Count)]).GetComponent<Room>();
     }
 
-    public static SubRoom GetBossInstance()
+    public static Room GetBossInstance()
     {
-        return Object.Instantiate(bosses[Random.Range(0, bosses.Count)]).GetComponent<SubRoom>();
+        return Object.Instantiate(bosses[Random.Range(0, bosses.Count)]).GetComponent<Room>();
     }
 }

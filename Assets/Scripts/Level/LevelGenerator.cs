@@ -13,8 +13,6 @@ class LevelGenerator
         for (int i = 0; i < 3; i++)
             CreateRegularRandom(map);
         int t = Random.Range(1, 4);
-        for (int i = 0; i < t; i++)
-            ConnectRandom(map);
     }
     static void CreateShop(Map map)
     {
@@ -51,35 +49,11 @@ class LevelGenerator
             map[(int)v.x, (int)v.y] = RoomContainer.GetRegularRoomInstance();
         CreatePath(map, (int)v.x, (int)v.y);
     }
-    static void ConnectRandom(Map map)
-    {
-        while (true)
-        {
-            SubRoom r = map.regulars[Random.Range(0, map.regulars.Count)];
-            List<Vector2> dirs = new List<Vector2>(Map.dirs);
-            for (int i = 0; i < dirs.Count; i++)
-            {
-                Vector2 d = dirs[i];
-                SubRoom rel = map.GetRelativeTo(r, d);
-                if (rel == null || rel.GetType() != typeof(SubRoom))
-                {
-                    dirs.Remove(d);
-                    i--;
-                }
-            }
-            if (dirs.Count == 0)
-                continue;
-            Vector2 dir = dirs[Random.Range(0, dirs.Count)];
-
-            map[r.x, r.y].room.Unite(map[r.x + (int)dir.x, r.y + (int)dir.y].room);
-            break;
-        }
-    }
     static void CreateRegularRandom(Map map)
     {
         while(true)
         {
-            SubRoom r = map.regulars[Random.Range(0, map.regulars.Count)];
+            Room r = map.regulars[Random.Range(0, map.regulars.Count)];
             List<Vector2> dirs = new List<Vector2>(Map.dirs);
             for(int i = 0; i < dirs.Count; i++)
             {

@@ -98,8 +98,7 @@ class DiggingState : UnitState
         do
         {
             k++;
-            v = Level.instance.current
-            .subRooms[UnityEngine.Random.Range(0, Level.instance.current.subRooms.Count)].GetTopClearTilePos();
+            v = Level.instance.current.GetTopClearTilePos();
         }
         while (Player.Distance(v) > 8 && k < 300);
         unit.transform.position = v;

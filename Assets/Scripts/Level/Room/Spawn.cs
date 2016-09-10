@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-class Spawn : SubRoom
+class Spawn : Room
 {
     public override Color RoomColor
     {

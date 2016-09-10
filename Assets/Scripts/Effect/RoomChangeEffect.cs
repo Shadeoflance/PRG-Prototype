@@ -5,12 +5,11 @@ class RoomChangeEffect : MonoBehaviour
     Vector3 from, to;
     Vector2 dir;
     float time, initialTime = 0.5f;
-    SubRoom current, next;
+    Room current, next;
     void Start()
     {
-        next.room.Enable();
-        foreach (var r in next.room.subRooms)
-            r.enabled = false;
+        next.Enable();
+        next.enabled = false;
         time = initialTime;
         Player.instance.enabled = false;
         Player.instance.GetComponent<Rigidbody2D>().isKinematic = true;
@@ -21,17 +20,16 @@ class RoomChangeEffect : MonoBehaviour
 
     void End()
     {
-        foreach (var r in next.room.subRooms)
-            r.enabled = true;
+        next.enabled = true;
         Player.instance.enabled = true;
         Player.instance.GetComponent<Rigidbody2D>().isKinematic = false;
-        current.room.Disable();
+        current.Disable();
         Player.instance.transform.position = next.transform.position + 
             Vector2.Scale(-dir, new Vector2(8f, 5.5f)).ToV3();
         Destroy(gameObject);
     }
     
-    public static void Create(SubRoom current, SubRoom next)
+    public static void Create(Room current, Room next)
     {
         GameObject newInstance = new GameObject("Room Change Effect");
         RoomChangeEffect effect = newInstance.AddComponent<RoomChangeEffect>();

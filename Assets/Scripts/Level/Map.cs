@@ -7,24 +7,24 @@ class Map
 {
     public static Vector2 roomUIDistance = new Vector2(40, 30);
     public static Vector2[] dirs = new Vector2[] { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
-    SubRoom[,] rooms;
+    Room[,] rooms;
     public int size;
     public Spawn spawn;
     public BossRoom boss;
-    public List<SubRoom> regulars = new List<SubRoom>();
+    public List<Room> regulars = new List<Room>();
 
     public Map(int size)
     {
-        rooms = new SubRoom[size, size];
+        rooms = new Room[size, size];
         this.size = size;
     }
 
-    public SubRoom GetRelativeTo(SubRoom room, Vector2 dir)
+    public Room GetRelativeTo(Room room, Vector2 dir)
     {
         return this[room.x + (int)dir.x, room.y + (int)dir.y];
     }
 
-    public SubRoom this[int x, int y]
+    public Room this[int x, int y]
     {
         get 
         {
@@ -43,7 +43,6 @@ class Map
             value.y = y;
             value.transform.position = new Vector3((Level.roomSize.x) * x, (Level.roomSize.y) * y, 0);
             value.transform.SetParent(Level.instance.transform);
-            value.WrapInRoom();
             value.Disable();
             if(value is Spawn)
             {
@@ -53,7 +52,7 @@ class Map
             {
                 boss = (BossRoom)value;
             }
-            if(value.GetType() == typeof(SubRoom))
+            if(value.GetType() == typeof(Room))
             {
                 regulars.Add(value);
             }
@@ -62,20 +61,15 @@ class Map
 
     public void PostInitialize()
     {
-        List<Room> processedRooms = new List<Room>();
         foreach (var a in rooms)
         {
             if (a != null)
             {
-                if (!processedRooms.Contains(a.room))
-                {
-                    a.room.InitUI();
-                    processedRooms.Add(a.room);
-                }
+                a.InitUI();
             }
         }
         Transform m = GameObject.Find("Map").transform;
-        Image rui = regulars[0].room.roomUI.images[0];
+        Image rui = regulars[0].roomUI.image;
         int curPixels = (int)Math.Round(rooms.GetLength(0) * rui.mainTexture.width * rui.transform.localScale.x + 
             roomUIDistance.x * (rooms.GetLength(0) - 1));
         int needPixels = Screen.width / 10;
@@ -87,10 +81,9 @@ class Map
         List<Room> processedRooms = new List<Room>();
         foreach (var a in rooms)
         {
-            if (a != null && !processedRooms.Contains(a.room))
+            if (a != null)
             {
-                a.room.roomUI.Update();
-                processedRooms.Add(a.room);
+                a.roomUI.Update();
             }
         }
     }
@@ -105,7 +98,7 @@ class Map
         foreach(var a in rooms)
         {
             if (a != null)
-                a.room.roomUI.Reveal();
+                a.roomUI.Reveal();
         }
     }
 }

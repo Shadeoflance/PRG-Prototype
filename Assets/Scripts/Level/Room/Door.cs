@@ -7,7 +7,7 @@ public class Door : MonoBehaviour
     public SpritePainter painter;
     Color disabledColor = new Color(0.2f, 0.2f, 0.2f);
     bool open = false, disabled;
-    SubRoom subRoom;
+    Room room;
 
     void Awake()
     {
@@ -17,7 +17,7 @@ public class Door : MonoBehaviour
 
     void Start()
     {
-        subRoom = transform.parent.parent.GetComponent<SubRoom>();
+        room = transform.parent.parent.GetComponent<Room>();
     }
 
     public void Open()
@@ -57,6 +57,6 @@ public class Door : MonoBehaviour
         if (disabled)
             return;
         if (open && collision.gameObject.layer == LayerMask.NameToLayer("Player"))
-            subRoom.DoorTouch(this);
+            room.DoorTouch(this);
     }
 }

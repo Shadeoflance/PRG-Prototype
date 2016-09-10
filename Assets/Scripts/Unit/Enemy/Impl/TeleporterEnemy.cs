@@ -35,15 +35,13 @@ class TeleportJumper : Jumper
             return;
         unit.StartCoroutine(ResetCD());
         canJump = false;
-        unit.transform.position = Level.instance.current
-           .subRooms[UnityEngine.Random.Range(0, Level.instance.current.subRooms.Count)].GetAirClearTilePos();
+        unit.transform.position = Level.instance.current.GetAirClearTilePos();
         circle.localScale = new Vector2(0.3f, 0.3f);
     }
     
     public void JumpNoCD()
     {
-        unit.transform.position = Level.instance.current
-           .subRooms[UnityEngine.Random.Range(0, Level.instance.current.subRooms.Count)].GetAirClearTilePos();
+        unit.transform.position = Level.instance.current.GetAirClearTilePos();
     }
 
     IEnumerator ResetCD()

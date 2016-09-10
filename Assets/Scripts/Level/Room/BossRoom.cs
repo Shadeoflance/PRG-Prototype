@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-class BossRoom : SubRoom
+class BossRoom : Room
 {
     public override Color RoomColor
     {

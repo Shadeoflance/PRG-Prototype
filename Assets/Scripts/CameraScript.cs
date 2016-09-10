@@ -39,17 +39,15 @@ class CameraScript : MonoBehaviour
     {
         bx1 = by1 = 99999;
         bx2 = by2 = -99999;
-        foreach(var a in Level.instance.current.subRooms)
-        {
-            bx1 = Math.Min(bx1, a.transform.position.x - Level.roomSize.x / 2 - 0.5f + cam.orthographicSize * cam.aspect);
-            bx2 = Math.Max(bx2, a.transform.position.x + Level.roomSize.x / 2 + 0.5f - cam.orthographicSize * cam.aspect);
-            by1 = Math.Min(by1, a.transform.position.y - Level.roomSize.y / 2 - 0.5f + cam.orthographicSize);
-            by2 = Math.Max(by2, a.transform.position.y + Level.roomSize.y / 2 + 0.5f - cam.orthographicSize);
-        }
+        Room a = Level.instance.current;
+        bx1 = Math.Min(bx1, a.transform.position.x - Level.roomSize.x / 2 - 0.5f + cam.orthographicSize * cam.aspect);
+        bx2 = Math.Max(bx2, a.transform.position.x + Level.roomSize.x / 2 + 0.5f - cam.orthographicSize * cam.aspect);
+        by1 = Math.Min(by1, a.transform.position.y - Level.roomSize.y / 2 - 0.5f + cam.orthographicSize);
+        by2 = Math.Max(by2, a.transform.position.y + Level.roomSize.y / 2 + 0.5f - cam.orthographicSize);
     }
-    public static Vector3 GetPositionToSide(SubRoom subRoom, Vector2 dir)
+    public static Vector3 GetPositionToSide(Room room, Vector2 dir)
     {
-        Vector2 result = subRoom.transform.position;
+        Vector2 result = room.transform.position;
         result = result + Vector2.Scale(dir, 
             new Vector2(Level.roomSize.x / 2 + 0.5f - instance.cam.orthographicSize * instance.cam.aspect, 
             Level.roomSize.y / 2 + 0.5f - instance.cam.orthographicSize));
