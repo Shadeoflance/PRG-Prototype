@@ -16,6 +16,12 @@ public class Room : MonoBehaviour
     public bool FlyingPref = false;
     public RoomUI roomUI;
 
+    void Update()
+    {
+        foreach (var d in doors.Values)
+            Debug.DrawLine(d.transform.position, d.transform.position + (Player.instance.transform.position - d.transform.position).normalized * 3);
+    }
+
     public virtual void Awake()
     {
         tiles = transform.FindChild("Tiles").GetComponent<Tiles>();
@@ -151,6 +157,15 @@ public class Room : MonoBehaviour
                     Tile a = tiles.map[i, j];
                     if (a == null || tiles.map[a.x, a.y - 1] == null)
                     {
+                        bool doorClose = false;
+                        foreach(var d in doors.Values)
+                            if((d.transform.position.ToV2() - v).magnitude < 3)
+                            {
+                                doorClose = true;
+                                break;
+                            }
+                        if (doorClose)
+                            continue;
                         clearAirPositions.Add(v);
                     }
                 }
