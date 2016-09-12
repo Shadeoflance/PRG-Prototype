@@ -72,7 +72,7 @@ class Map
         Image rui = regulars[0].roomUI.image;
         int curPixels = (int)Math.Round(rooms.GetLength(0) * rui.mainTexture.width * rui.transform.localScale.x + 
             roomUIDistance.x * (rooms.GetLength(0) - 1));
-        int needPixels = Screen.width / 10;
+        int needPixels = 100;
         m.transform.localScale = new Vector3(needPixels * 1f / curPixels, needPixels * 1f / curPixels, 1);
     }
 

@@ -9,7 +9,7 @@ public class Player : Unit
     public Dasher dasher;
     public Slamer slamer;
     public BoxCollider2D main;
-    public int gold = 0;
+    public int pixels = 0;
     public int orbs = 0;
     public float jumpForce, jumpHeight;
     protected override void Awake()
@@ -35,7 +35,9 @@ public class Player : Unit
         currentState = new PlayerWalkingState(this);
         walking = new PlayerWalkingState(this);
         airborne = new PlayerAirborneState(this);
-        AddBuff(new TestBuff(this));
+        AddBuff(new TestBuff(this, 60));
+        AddBuff(new TestBuff(this, 60));
+        AddBuff(new TestBuff(this, 60));
         eventManager.SubscribeHandler("jumpButtonDown", new JumpInvoker());
         eventManager.SubscribeHandler("dashButtonDown", new DashInvoker());
         eventManager.SubscribeHandler("takeDmg", new DamageBoost());
@@ -80,7 +82,7 @@ public class Player : Unit
 
     public void AddPixel(int amount)
     {
-        gold += amount;
+        pixels += amount;
         PickupsUI.Update();
     }
 

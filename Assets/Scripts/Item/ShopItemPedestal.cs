@@ -26,9 +26,9 @@ class ShopItemPedestal : MonoBehaviour
     {
         if (item == null)
             return;
-        if(col.gameObject.layer == LayerMask.NameToLayer("Player") && Player.instance.controller.NeedVel().y > 0 && Player.instance.gold >= price)
+        if(col.gameObject.layer == LayerMask.NameToLayer("Player") && Player.instance.controller.NeedVel().y > 0 && Player.instance.pixels >= price)
         {
-            Player.instance.gold -= price;
+            Player.instance.pixels -= price;
             item.PickUp();
             item = null;
         }
