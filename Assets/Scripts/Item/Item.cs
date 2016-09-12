@@ -43,6 +43,7 @@ public class Item : MonoBehaviour
 
     public void PickUp()
     {
+        Debug.Log("Item picked up: " + id);
         getAction();
         Destroy(gameObject);
     }

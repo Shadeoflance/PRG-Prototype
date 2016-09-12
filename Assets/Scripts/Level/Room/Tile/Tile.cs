@@ -37,7 +37,7 @@ public class Tile : MonoBehaviour
     }
 
     string prefabPath = "Level/Tiles/";
-    public Tile Reinstantiate()
+    public virtual Tile Reinstantiate()
     {
         Tile t = Instantiate<GameObject>(Resources.Load<GameObject>(prefabPath + name)).GetComponent<Tile>();
         t.transform.parent = transform.parent;

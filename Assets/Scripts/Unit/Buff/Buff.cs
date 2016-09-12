@@ -5,13 +5,13 @@ using System;
 public class Buff : IUpdatable
 {
     protected Unit unit;
-    float duration;
+    float? duration;
     protected string imagePath = null;
     public bool playerBuff = false;
     private static GameObject buffs = GameObject.Find("Buffs");
     private GameObject buffImage;
 
-    public Buff(Unit unit, float duration)
+    public Buff(Unit unit, float? duration)
     {
         this.unit = unit;
         this.duration = duration;
@@ -43,6 +43,8 @@ public class Buff : IUpdatable
 
     public virtual void Update()
     {
+        if (duration == null)
+            return;
         duration -= Time.deltaTime;
         if (duration < 0)
             End();
@@ -51,11 +53,11 @@ public class Buff : IUpdatable
             float t = 1;
             if (duration < 1)
             {
-                t = (float)Math.Sin(duration * Math.PI * 12) / 3 + 0.66f;
+                t = (float)Math.Sin(duration.Value * Math.PI * 12) / 3 + 0.66f;
             }
             else if (duration < 5)
             {
-                t = (float)Math.Sin(duration * Math.PI * 4) / 3 + 0.66f;
+                t = (float)Math.Sin(duration.Value * Math.PI * 4) / 3 + 0.66f;
             }
             icon.color = icon.color.WithAlpha(t);
         }

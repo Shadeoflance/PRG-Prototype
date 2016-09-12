@@ -6,7 +6,7 @@ public class Weapon : Attack, IUpdatable
     public float bps;
     float cd = 0;
 
-    public Weapon(Unit unit, float speed = 10f, float life = 1f, float bps = 4f)
+    public Weapon(Unit unit, float speed = 10f, float life = 2f, float bps = 2f)
         : base(unit)
     {
         this.bps = bps;

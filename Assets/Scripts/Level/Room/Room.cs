@@ -126,7 +126,16 @@ public class Room : MonoBehaviour
             {
                 if (a == null)
                     continue;
-                if(a.y < tiles.map.GetLength(1) - 1 && tiles.map[a.x, a.y + 1] == null)
+                bool doorClose = false;
+                foreach (var d in doors.Values)
+                    if ((d.transform.position - a.transform.position).magnitude < 3)
+                    {
+                        doorClose = true;
+                        break;
+                    }
+                if (doorClose)
+                    continue;
+                if (a.y < tiles.map.GetLength(1) - 1 && tiles.map[a.x, a.y + 1] == null)
                 {
                     clearPositions.Add(a.transform.position);
                 }

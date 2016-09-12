@@ -35,6 +35,7 @@ public class Player : Unit
         currentState = new PlayerWalkingState(this);
         walking = new PlayerWalkingState(this);
         airborne = new PlayerAirborneState(this);
+        AddBuff(new TestBuff(this));
         eventManager.SubscribeHandler("jumpButtonDown", new JumpInvoker());
         eventManager.SubscribeHandler("dashButtonDown", new DashInvoker());
         eventManager.SubscribeHandler("takeDmg", new DamageBoost());

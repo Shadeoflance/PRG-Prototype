@@ -3,9 +3,10 @@
 class ChestPlaceholder : Tile
 {
     static Prefab chest = new Prefab("Pickups/Chest");
+    public float spawnChance = 0.3f;
     void Start()
     {
-        if(Random.Range(0f, 1f) > 0.5f)
+        if(Random.Range(0f, 1f) < spawnChance)
             SpawnChest();
     }
     public void SpawnChest()
@@ -25,5 +26,13 @@ class ChestPlaceholder : Tile
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawSphere(transform.position, 0.1f);
+    }
+
+
+    public override Tile Reinstantiate()
+    {
+        Tile t = base.Reinstantiate();
+        (t as ChestPlaceholder).spawnChance = spawnChance;
+        return t;
     }
 }
