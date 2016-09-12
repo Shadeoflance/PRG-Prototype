@@ -36,6 +36,7 @@ public class Item : MonoBehaviour
     {
         if (col.gameObject.IsPlayer() && canPickup && Math.Abs(rb.velocity.y) < 0.01f)
         {
+            canPickup = false;
             PickUp();
         }
     }
