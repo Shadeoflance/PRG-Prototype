@@ -59,7 +59,7 @@ class DiggingState : UnitState
     public override void Jump() { }
     public override void Attack() { }
     public override void Move(Vector2 dir) { }
-    public override void TakeDamage(float amount, GameObject source) { }
+    public override void TakeDamage(float amount, GameObject source, bool invertBump) { }
     public override bool Transit(UnitState state)
     {
         return false;

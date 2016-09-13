@@ -12,7 +12,7 @@ public class Attack : IUpdatable
     }
     public virtual void DoAttack() { }
 
-    public virtual void DealDamage(Unit victim, float multiplier = 1)
+    public virtual void DealDamage(Unit victim, float multiplier = 1, bool invertBump = false)
     {
         ActionParams ap = new ActionParams();
         ap["victim"] = victim;
@@ -21,7 +21,7 @@ public class Attack : IUpdatable
         unit.eventManager.InvokeInterceptors("dealDamage", ap);
         if (ap.forbid)
             return;
-        victim.currentState.TakeDamage((float) ap["dmg"], unit.gameObject);
+        victim.currentState.TakeDamage((float) ap["dmg"], unit.gameObject, invertBump);
         unit.eventManager.InvokeHandlers("dealDamage", ap);
     }
 

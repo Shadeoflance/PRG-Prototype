@@ -13,11 +13,12 @@ public class Health
         unit.eventManager.SubscribeHandler("takeDmg", new Knockback(unit is Player));
     }
 
-    public void TakeDamage(float amount, GameObject source)
+    public void TakeDamage(float amount, GameObject source, bool invertBump = false)
     {
         ActionParams ap = new ActionParams();
         ap["amount"] = amount;
         ap["source"] = source;
+        ap["invertBump"] = invertBump;
         unit.eventManager.InvokeInterceptors("takeDmg", ap);
         if (ap.forbid)
             return; 
@@ -56,6 +57,8 @@ class Knockback : ActionListener
     {
         GameObject source = (GameObject)ap["source"];
         int direction = source.transform.position.x < ap.unit.transform.position.x ? 1 : -1;
+        if ((bool)ap["invertBump"])
+            direction *= -1;
         ap.unit.currentState.Transit(isPlayer ?
             (UnitState)new PlayerDamageTakenState(ap.unit, direction) : new DamageTakenState(ap.unit, direction));
         return false;

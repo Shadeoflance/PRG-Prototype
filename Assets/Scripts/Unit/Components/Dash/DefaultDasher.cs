@@ -40,7 +40,7 @@ public class DefaultDasher : Dasher
             Enemy enemy = (Enemy)ap["enemy"];
             if (!alreadyPenetrated.Contains(enemy))
             {
-                player.attack.DealDamage(enemy, dmgMul);
+                player.attack.DealDamage(enemy, dmgMul, true);
                 alreadyPenetrated.Add(enemy);
             }
             return false;
