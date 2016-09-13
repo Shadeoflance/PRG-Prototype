@@ -21,12 +21,13 @@ class TeleporterEnemy : Enemy
 class TeleportJumper : Jumper
 {
     float cd = 3;
-    bool canJump = true;
+    bool canJump = false;
     Transform circle;
 
     public TeleportJumper(Unit unit, Transform circle) : base(unit)
     {
         this.circle = circle;
+        unit.StartCoroutine(ResetCD());
     }
 
     public override void Jump()

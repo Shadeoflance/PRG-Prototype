@@ -22,7 +22,7 @@ class EnemyJumper : Jumper
 {
     public float cd = 3;
     public Vector2 force = new Vector2(14f, 8f);
-    bool canJump = true;
+    bool canJump = false;
     private Material triangle;
 
     public EnemyJumper(Unit unit) : base(unit)
@@ -30,31 +30,26 @@ class EnemyJumper : Jumper
         SpriteRenderer sr = ((JumperEnemy)unit).triangle;
         triangle = GameObject.Instantiate<Material>(sr.material);
         sr.material = triangle;
+        unit.StartCoroutine(ResetCD());
+        unit.StartCoroutine(RenderTriangle());
     }
 
     public override void Jump()
     {
         if (!CanJump())
             return;
-        canJump = false;
-        unit.StartCoroutine(ResetCD());
         if(unit.currentState.Transit(new JumpingState(unit)))
         {
+            canJump = false;
+            unit.StartCoroutine(ResetCD());
             unit.rb.AddForce(new Vector2(force.x * unit.direction, force.y), ForceMode2D.Impulse);
-            triangle.SetFloat("_Percentage", 0f);
-            unit.StartCoroutine(ResetState());
             unit.StartCoroutine(RenderTriangle());
         }
     }
 
-    IEnumerator ResetState()
-    {
-        yield return new WaitForSeconds(1f);
-        unit.currentState = unit.walking;
-    }
-
     IEnumerator RenderTriangle()
     {
+        triangle.SetFloat("_Percentage", 0f);
         yield return new WaitForSeconds(cd / 3 * 2);
         float resetCD = 0;
         while(resetCD < cd / 3)

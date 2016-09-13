@@ -20,15 +20,20 @@ class DiggerEnemy : Enemy
 class DigJumper : Jumper
 {
     float cd = 4;
-    bool canJump = true;
-    public DigJumper(Unit unit) : base(unit) { }
+    bool canJump = false;
+    public DigJumper(Unit unit) : base(unit)
+    {
+        unit.StartCoroutine(ResetCD());
+    }
     public override void Jump()
     {
         if (!CanJump())
             return;
-        canJump = false;
-        unit.StartCoroutine(ResetCD());
-        unit.currentState.Transit(new DiggingState(unit));
+        if(unit.currentState.Transit(new DiggingState(unit)))
+        {
+            canJump = false;
+            unit.StartCoroutine(ResetCD());
+        }
     }
 
     IEnumerator ResetCD()

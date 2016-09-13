@@ -2,7 +2,7 @@
 
 class ShopItemPedestal : MonoBehaviour
 {
-    public static int price = 15;
+    public static int price = 20;
     static Color outColor = new Color(0.5f, 0.5f, 0.3f), inColor = new Color(1, 0.9f, 0.3f);
     static GUIStyle style;
     Item item;
