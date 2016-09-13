@@ -27,13 +27,16 @@ class CounterNode
         image.color = new Color(c.r, c.g, c.b, 0);
     }
 }
-
+enum Resource
+{
+    hp, orbs, pixels
+}
 class CountIndicator : MonoBehaviour
 {
     public Color color;
     List<CounterNode> nodes = new List<CounterNode>(5);
     int count = 0;
-    public bool orbs = false;
+    public Resource resource;
     void Start()
     {
         foreach(Transform t20 in transform)
@@ -62,15 +65,20 @@ class CountIndicator : MonoBehaviour
 
     void Update()
     {
-        if (orbs)
+        if (resource == Resource.orbs)
         {
             if (Player.instance.orbs != count)
                 ChangeCount(Player.instance.orbs);
         }
-        else
+        else if(resource == Resource.pixels)
         {
             if (Player.instance.pixels != count)
                 ChangeCount(Player.instance.pixels);
+        }
+        else if(resource == Resource.hp)
+        {
+            if ((int)Player.instance.health.currentHealth != count)
+                ChangeCount((int)Player.instance.health.currentHealth);
         }
     }
 
