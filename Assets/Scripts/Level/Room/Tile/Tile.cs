@@ -3,8 +3,8 @@
 public class Tile : MonoBehaviour
 {
     public int x, y;
-    SpritePainter painter;
     [System.NonSerialized]
+    public SpritePainter painter;
     public Tiles tiles;
     [System.NonSerialized]
     public GameObject colObj = null;

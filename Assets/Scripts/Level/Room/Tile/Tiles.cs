@@ -132,6 +132,7 @@ public class Tiles : MonoBehaviour
         Tile newInstance = prefab.Instantiate().GetComponent<Tile>();
         newInstance.x = x;
         newInstance.y = y;
+        newInstance.tiles = this;
         map[x, y] = newInstance;
         newInstance.transform.parent = transform;
         newInstance.transform.localPosition = new Vector3((x - 1) * 0.5f + 0.25f - Level.roomSize.x / 2, (y - 1) * 0.5f + 0.25f - Level.roomSize.y / 2);

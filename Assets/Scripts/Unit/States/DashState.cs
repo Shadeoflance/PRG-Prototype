@@ -5,6 +5,7 @@ public class DashState : PlayerState
 {
     float speed, distance;
     Vector3 startPoint;
+    static TrailRenderer trail;
     public DashState(Unit unit, float speed, float distance) : base(unit) 
     {
         this.speed = speed;
@@ -14,6 +15,11 @@ public class DashState : PlayerState
             a.enabled = false;
         unit.rb.gravityScale = 0;
         unit.rb.velocity = Vector2.zero;
+
+        if (trail == null)
+            trail = player.transform.FindChild("DashTrail").GetComponent<TrailRenderer>();
+        trail.Clear();
+        trail.enabled = true;
     }
 
     public override void Attack() { }
@@ -64,6 +70,7 @@ public class DashState : PlayerState
     }
     public void Finish()
     {
+        trail.enabled = false;
         player.rb.velocity = Vector3.zero;
         player.currentState = player.walking;
         foreach (var a in player.GetComponents<Collider2D>())

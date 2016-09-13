@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class SlamState : PlayerState
 {
     float speed, range;
+    static TrailRenderer trail;
     public SlamState(Unit unit, float speed, float range)
         : base(unit)
     {
@@ -14,6 +15,11 @@ public class SlamState : PlayerState
             a.enabled = false;
         unit.rb.gravityScale = 0;
         unit.rb.velocity = Vector2.zero;
+
+        if (trail == null)
+            trail = player.transform.FindChild("SlamTrail").GetComponent<TrailRenderer>();
+        trail.Clear();
+        trail.enabled = true;
     }
 
     public override void Attack() { }
@@ -35,13 +41,17 @@ public class SlamState : PlayerState
         if (hit.Length > 0)
         {
             player.transform.position = player.transform.position + new Vector3(0, -hit[0].distance, 0);
-            Finish();
+            Finish(hit[0].collider.gameObject);
             return;
         }
         unit.transform.position = unit.transform.position + new Vector3(0, -delta, 0);
     }
-    public void Finish()
+    public void Finish(GameObject o)
     {
+        Tile t = o.GetComponent<Tile>();
+        LightupTiles(t);
+
+        trail.enabled = false;
         player.rb.velocity = Vector3.zero;
         player.currentState = player.walking;
         foreach (var a in player.GetComponents<Collider2D>())
@@ -58,5 +68,27 @@ public class SlamState : PlayerState
         ap["enemies"] = enemies;
         player.eventManager.InvokeHandlers("slamFinish", ap);
         player.eventManager.InvokeHandlers("land", null);
+    }
+
+    void LightupTiles(Tile t)
+    {
+        if (t == null)
+            return;
+        for(int i = t.x; i < t.tiles.map.GetLength(0); i++)
+        {
+            Tile k = t.tiles.map[i, t.y];
+            if (k == null || (k.transform.position - t.transform.position).magnitude > range)
+            {
+                break;
+            }
+            k.painter.Paint(new Color(1f, 0.9f, 0f), 1f, true);
+        }
+        for (int i = t.x - 1; i > 0; i--)
+        {
+            Tile k = t.tiles.map[i, t.y];
+            if (k == null || (k.transform.position - t.transform.position).magnitude > range)
+                break;
+            k.painter.Paint(new Color(1f, 0.9f, 0f), 1f, true);
+        }
     }
 }
