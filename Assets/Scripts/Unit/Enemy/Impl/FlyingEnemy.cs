@@ -5,8 +5,8 @@ class FlyingEnemy : Enemy
     protected override void Start()
     {
         controller = new FEController(this);
-        mover = new Flyer(this, speed);
-        health = new Health(this, hp);
+        mover = new Flyer(this);
+        health = new Health(this);
         airborne = new AirborneState(this);
         walking = airborne;
         attack = new ProjAttack(this);

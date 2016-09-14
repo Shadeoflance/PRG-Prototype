@@ -4,12 +4,9 @@ using UnityEngine;
 public class Health
 {
     Unit unit;
-    public float currentHealth, maxHealth;
-    public Health(Unit unit, float maxHealth)
+    public Health(Unit unit)
     {
         this.unit = unit;
-        this.maxHealth = maxHealth;
-        currentHealth = maxHealth;
         unit.eventManager.SubscribeHandler("takeDmg", new Knockback(unit is Player));
     }
 
@@ -22,9 +19,9 @@ public class Health
         unit.eventManager.InvokeInterceptors("takeDmg", ap);
         if (ap.forbid)
             return; 
-        currentHealth -= (float)ap["amount"];
+        unit.stats.hp -= (float)ap["amount"];
         unit.eventManager.InvokeHandlers("takeDmg", ap);
-        if (currentHealth <= 0)
+        if (unit.stats.hp <= 0)
         {
             Die();
             return;

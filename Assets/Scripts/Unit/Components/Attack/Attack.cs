@@ -4,11 +4,10 @@ using UnityEngine;
 public class Attack : IUpdatable
 {
     protected Unit unit;
-    public float baseDmg, dmgUps = 0, flatDmg = 0;
+    public float dmgUps = 0, flatDmg = 0;
     public Attack(Unit unit)
     {
         this.unit = unit;
-        this.baseDmg = unit.damage;
     }
     public virtual void DoAttack() { }
 
@@ -16,8 +15,8 @@ public class Attack : IUpdatable
     {
         ActionParams ap = new ActionParams();
         ap["victim"] = victim;
-        ap["dmg"] = (unit is Player) ? (baseDmg * (float)Math.Sqrt(dmgUps * 1.2f + 1) + flatDmg) * multiplier
-            : baseDmg;
+        ap["dmg"] = (unit is Player) ? (unit.stats.damage * (float)Math.Sqrt(dmgUps * 1.2f + 1) + flatDmg) * multiplier
+            : unit.stats.damage;
         unit.eventManager.InvokeInterceptors("dealDamage", ap);
         if (ap.forbid)
             return;

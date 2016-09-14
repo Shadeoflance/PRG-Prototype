@@ -20,7 +20,7 @@ public class Enemy : Unit
 
     protected virtual void SetModifier()
     {
-        if (UnityEngine.Random.Range(0f, 1f) > 0.4f)
+        if (UnityEngine.Random.Range(0f, 1f) > 0.6f)
         {
             EliteModifiers.SetRandomModifier(this);
         }

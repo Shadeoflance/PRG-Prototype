@@ -5,8 +5,8 @@ public class RegularEnemy : Enemy
     protected override void Start()
     {
         controller = new RegularEnemyController(this);
-        mover = new DefaultMover(this, speed);
-        health = new Health(this, hp);
+        mover = new DefaultMover(this);
+        health = new Health(this);
         walking = new WalkingState(this);
         airborne = new AirborneState(this);
         attack = new Attack(this);

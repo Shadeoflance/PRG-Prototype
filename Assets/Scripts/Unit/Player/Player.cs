@@ -25,19 +25,19 @@ public class Player : Unit
     }
     protected override void Start()
     {
+        stats.hp = 20;
+        stats.speed = 8;
+        stats.damage = 2;
 		controller = new PlayerController(this);
-        jumper = new DefaultJumper(this, jumpForce, jumpHeight, 1);
-        mover = new DefaultMover(this, speed);
+        jumper = new DefaultJumper(this, 1);
+        mover = new DefaultMover(this);
         attack = new Weapon(this);
-        health = new Health(this, hp);
+        health = new Health(this);
         dasher = new DefaultDasher(this);
         slamer = new DefaultSlamer(this);
         currentState = new PlayerWalkingState(this);
         walking = new PlayerWalkingState(this);
         airborne = new PlayerAirborneState(this);
-        AddBuff(new TestBuff(this, 60));
-        AddBuff(new TestBuff(this, 60));
-        AddBuff(new TestBuff(this, 60));
         eventManager.SubscribeHandler("jumpButtonDown", new JumpInvoker());
         eventManager.SubscribeHandler("dashButtonDown", new DashInvoker());
         eventManager.SubscribeHandler("takeDmg", new DamageBoost());
@@ -45,12 +45,11 @@ public class Player : Unit
         base.Start();
         if(god)
         {
-            mover = new Flyer(this, speed);
+            mover = new Flyer(this);
             gravityScale = 0;
             rb.gravityScale = 0;
-            health.maxHealth = 10000;
-            health.currentHealth = 10000;
-            attack.baseDmg = 10;
+            stats.hp = 100;
+            stats.damage = 10;
         }
 	}
 

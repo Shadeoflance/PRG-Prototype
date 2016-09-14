@@ -77,8 +77,8 @@ class CountIndicator : MonoBehaviour
         }
         else if(resource == Resource.hp)
         {
-            if ((int)Player.instance.health.currentHealth != count)
-                ChangeCount((int)Player.instance.health.currentHealth);
+            if ((int)Player.instance.stats.hp != count)
+                ChangeCount((int)Player.instance.stats.hp);
         }
     }
 

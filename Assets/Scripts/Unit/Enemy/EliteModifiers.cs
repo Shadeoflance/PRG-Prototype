@@ -11,8 +11,7 @@ static class EliteModifiers
         modifiers.Add((Enemy e) =>
         {
             e.sr.color = new Color(0.5f, 0, 0.05f);
-            e.health.maxHealth *= 2;
-            e.health.currentHealth = e.health.maxHealth;
+            e.stats.hp *= 2;
         });
         modifiers.Add((Enemy e) =>
         {
@@ -23,7 +22,7 @@ static class EliteModifiers
         modifiers.Add((Enemy e) =>
         {
             e.sr.color = new Color(0.4f, 0.4f, 0.4f);
-            e.attack.baseDmg *= 2;
+            e.stats.damage *= 2;
         });
         modifiers.Add((Enemy e) =>
         {

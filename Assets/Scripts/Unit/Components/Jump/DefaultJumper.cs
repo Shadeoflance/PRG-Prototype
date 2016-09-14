@@ -2,19 +2,17 @@
 
 class DefaultJumper : Jumper
 {
-    public float force;
-    public float maxHeight;
     public int extraJumps;
     int currentJumps;
-    public DefaultJumper(Unit unit, float force, float maxHeight, int extraJumps = 0)
-        : base(unit) 
+    Player player;
+    public DefaultJumper(Player player, int extraJumps = 0)
+        : base(player) 
     {
-        this.force = force;
-        this.maxHeight = maxHeight;
+        this.player = player;
         this.extraJumps = extraJumps;
         currentJumps = extraJumps;
-        unit.eventManager.SubscribeHandler("land", new JumpsRefresher());
-        unit.eventManager.SubscribeHandler("extraJump", new ExtraJumpEffect(unit));
+        player.eventManager.SubscribeHandler("land", new JumpsRefresher());
+        player.eventManager.SubscribeHandler("extraJump", new ExtraJumpEffect(player));
     }
     class JumpUp : ActionListener
     {
@@ -75,9 +73,9 @@ class DefaultJumper : Jumper
         unit.eventManager.InvokeHandlers("jump", null);
         if (cjBefore != currentJumps)
             unit.eventManager.InvokeHandlers("extraJump", null);
-        unit.rb.velocity = new Vector2(unit.rb.velocity.x, force);
+        unit.rb.velocity = new Vector2(unit.rb.velocity.x, player.jumpForce);
         unit.rb.gravityScale = 0;
-        unit.eventManager.SubscribeHandlerWithTimeTrigger("jumpButtonUp", new JumpUp(), maxHeight);
+        unit.eventManager.SubscribeHandlerWithTimeTrigger("jumpButtonUp", new JumpUp(), player.jumpHeight);
     }
     protected override bool CanJump()
     {

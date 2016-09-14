@@ -1,15 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public struct Stats
+{
+    public Stats(float hp, float speed, float damage)
+    {
+        this.speed = speed;
+        this.damage = damage;
+        this.hp = hp;
+    }
+    public float speed, damage, hp;
+}
+
 public class Unit : MonoBehaviour
 {
+    public float hp, damage, speed;
+
     public float gravityScale = 5;
     public IController controller;
     public Rigidbody2D rb;
     public SpriteRenderer sr;
     public Collider2D bot, top;
     public Collider2D sides;
-    public float speed;
     public EventManager eventManager;
     public Jumper jumper;
     public Mover mover;
@@ -17,13 +29,14 @@ public class Unit : MonoBehaviour
     public Attack attack;
     public Health health;
     public int direction = 1;
-    public float damage = 1f, hp = 3;
     protected Material healthBar;
     private Group<Buff> buffs = new Group<Buff>();
     public Vector2 size;
+    public Stats stats;
 
     protected virtual void Awake()
     {
+        stats = new Stats(hp, speed, damage);
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         rb.gravityScale = gravityScale;

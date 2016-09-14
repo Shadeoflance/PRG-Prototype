@@ -7,7 +7,7 @@ class DiggerEnemy : Enemy
     protected override void Start()
     {
         controller = new DiggerController(this);
-        health = new Health(this, hp);
+        health = new Health(this);
         walking = new WalkingState(this);
         airborne = walking;
         currentState = walking;

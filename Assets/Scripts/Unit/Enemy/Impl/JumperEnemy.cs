@@ -8,11 +8,11 @@ class JumperEnemy : Enemy
     {
         controller = new JumperController(this);
         jumper = new EnemyJumper(this);
-        health = new Health(this, hp);
+        health = new Health(this);
         walking = new WalkingState(this);
         airborne = new AirborneState(this);
         currentState = airborne;
-        mover = new DefaultMover(this, speed);
+        mover = new DefaultMover(this);
         attack = new Attack(this);
         base.Start();
     }
