@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class Dasher : IUpdatable
 {
-    public float coolDown = 5;
+    public float coolDown = 7;
     private float currentCoolDown = 0;
     protected Player player;
     public Dasher(Player player)
@@ -14,6 +14,9 @@ public class Dasher : IUpdatable
     public virtual void Dash()
     {
         currentCoolDown = coolDown;
+        ActionParams ap = new ActionParams(player);
+        ap["cd"] = coolDown;
+        player.eventManager.InvokeHandlers("dashStart", ap);
     }
 
     public virtual void Update()
@@ -21,8 +24,6 @@ public class Dasher : IUpdatable
         if (currentCoolDown > 0)
         {
             currentCoolDown -= Time.deltaTime;
-            if (currentCoolDown < 0)
-                currentCoolDown = 0;
         }
     }
 

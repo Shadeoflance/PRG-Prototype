@@ -17,6 +17,7 @@ public class ActionParams
     public ActionParams(Unit unit)
     {
         this.unit = unit;
+        parameters = new Dictionary<string, Object>();
     }
 
     public object this[string index]
@@ -41,6 +42,19 @@ public interface ActionListener
     /// Intercept event, return true if interceptor should be removed from subscribers.
     /// </summary>
     bool Handle(ActionParams ap);
+}
+public class LambdaActionListner : ActionListener
+{
+    public delegate bool DelegateAL(ActionParams ap);
+    DelegateAL d;
+    public LambdaActionListner(DelegateAL d)
+    {
+        this.d = d;
+    }
+    public bool Handle(ActionParams ap)
+    {
+        return d(ap);
+    }
 }
 public class EventManager
 {

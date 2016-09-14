@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class Slamer
 {
-    public float coolDown = 5;
+    public float coolDown = 10;
     private float currentCoolDown = 0;
     protected Player player;
     public Slamer(Player player)
@@ -14,6 +14,9 @@ public class Slamer
     public virtual void Slam()
     {
         currentCoolDown = coolDown;
+        ActionParams ap = new ActionParams(player);
+        ap["cd"] = coolDown;
+        player.eventManager.InvokeHandlers("slamStart", ap);
     }
 
     public virtual void Update()
