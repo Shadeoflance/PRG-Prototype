@@ -101,6 +101,19 @@ public static class ItemPool
                 return false;
             }));
         }));
+
+        items.Add(8, new Bundle("healonkill", () =>
+        {
+            Player.instance.eventManager.SubscribeHandler("kill", new LambdaActionListner((ActionParams ap) =>
+            {
+                if(Random.Range(0f, 1f) < 0.7f)
+                {
+                    Player.instance.stats.hp++;
+                    HealOnKillBlood.Create(Player.instance.transform.position);
+                }
+                return false;
+            }));
+        }));
     }
     class DmgAfterDash : ActionListener
     {

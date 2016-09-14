@@ -24,6 +24,13 @@ public class Health
         if (unit.stats.hp <= 0)
         {
             Die();
+            Unit u = source.GetComponent<Unit>();
+            if (u != null)
+            {
+                ActionParams sourceAp = new ActionParams(u);
+                sourceAp["victim"] = unit;
+                u.eventManager.InvokeHandlers("kill", sourceAp);
+            }
             return;
         }
         int direction = source.transform.position.x < unit.transform.position.x ? 1 : -1;
