@@ -9,7 +9,7 @@ slamFinish
 
 # Weapon/Attack
 shoot
-bulletEnemyHit
+bulletUnitHit
 bulletDestroy
 bulletLevelHit
 takeDmg

@@ -3,6 +3,7 @@
 public class BulletFactory
 {
     Bullet bullet;
+    Sprite sprite;
     Vector2 direction, position;
     Color color = Color.white;
     Unit player;
@@ -15,6 +16,12 @@ public class BulletFactory
     public BulletFactory(Unit player)
     {
         this.player = player;
+    }
+
+    public BulletFactory SetSprite(Sprite sprite)
+    {
+        this.sprite = sprite;
+        return this;
     }
 
     public BulletFactory SetBullet(Bullet bullet)
@@ -82,7 +89,10 @@ public class BulletFactory
         newBullet.dmgMult = dmgMult;
         newBullet.unit = player;
         newBullet.dmgMask = dmgMask;
-        newBullet.GetComponent<SpriteRenderer>().color = color;
+        SpriteRenderer sr = newBullet.GetComponent<SpriteRenderer>();
+        sr.color = color;
+        if (sprite != null)
+            sr.sprite = sprite;
         foreach (var a in modifiers)
             newBullet.modifiers.Add(a.Instantiate());
         return newBullet;

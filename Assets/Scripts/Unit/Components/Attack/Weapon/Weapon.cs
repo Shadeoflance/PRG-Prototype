@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 
-public class Weapon : Attack, IUpdatable
+public class BulletWeapon : Attack, IUpdatable
 {
-    public BulletFactory factory;
+    public BulletFactory bulletFactory;
     public float bps;
     float cd = 0;
 
-    public Weapon(Unit unit, float speed = 10f, float life = 2f, float bps = 2f)
+    public BulletWeapon(Unit unit, float speed = 10f, float life = 2f, float bps = 2f)
         : base(unit)
     {
         this.bps = bps;
-        factory = new BulletFactory(unit)
+        bulletFactory = new BulletFactory(unit)
             .SetBullet(((GameObject)Resources.Load("Bullet")).GetComponent<Bullet>())
             .SetLife(life)
             .SetSpeed(speed)
@@ -25,7 +25,7 @@ public class Weapon : Attack, IUpdatable
         else if (unit.currentState == unit.airborne && vel.y < 0)
             dir = Vector2.down;
         else dir = new Vector2(unit.direction, 0);
-        var b = factory.SetPosition(unit.transform.position.ToV2() + dir * 0.5f)
+        var b = bulletFactory.SetPosition(unit.transform.position.ToV2() + dir * 0.5f)
             .SetDir(dir)
             .Build();
         ActionParams ap = new ActionParams();

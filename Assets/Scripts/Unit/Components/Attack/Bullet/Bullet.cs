@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class Bullet : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class Bullet : MonoBehaviour
         foreach (var a in modifiers)
             a.Modify(this);
         rb.velocity = needVel * speed;
+        transform.Rotate(0, 0, Vector3.Angle(transform.up, rb.velocity));
         if (life != null)
         {
             life -= Time.deltaTime;
@@ -29,11 +31,17 @@ public class Bullet : MonoBehaviour
                 Destroy(gameObject);
         }
     }
+
+    HashSet<Unit> alreadyHit = new HashSet<Unit>();
     void OnTriggerEnter2D(Collider2D collision)
     {
         if ((1 << collision.gameObject.layer & dmgMask) != 0)
         {
             Unit victim = collision.gameObject.GetComponent<Unit>();
+            if (alreadyHit.Contains(victim))
+                return;
+            else
+                alreadyHit.Add(victim);
             ActionParams ap = new ActionParams();
             ap["victim"] = victim;
             ap["bullet"] = this;
@@ -53,8 +61,6 @@ public class Bullet : MonoBehaviour
             {
                 if (collision.gameObject.tag == "Door")
                     collision.GetComponent<Door>().Open();
-                //if (collision.gameObject.tag == "Tile")
-                //    collision.GetComponent<Tile>().BulletHit(this);
             }
             ActionParams ap = new ActionParams();
             ap["other"] = collision.gameObject;

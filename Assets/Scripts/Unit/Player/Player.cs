@@ -31,7 +31,7 @@ public class Player : Unit
 		controller = new PlayerController(this);
         jumper = new DefaultJumper(this, 1);
         mover = new DefaultMover(this);
-        attack = new Weapon(this);
+        attack = new BulletWeapon(this);
         health = new Health(this);
         dasher = new DefaultDasher(this);
         slamer = new DefaultSlamer(this);

@@ -80,7 +80,7 @@ public static class ItemPool
 
         items.Add(5, new Bundle("distancedmg", () =>
             {
-                (Player.instance.attack as Weapon).factory.AddModifier(new DistanceDmg());
+                (Player.instance.attack as BulletWeapon).bulletFactory.AddModifier(new DistanceDmg());
             }
         ));
 
@@ -89,6 +89,17 @@ public static class ItemPool
             Player.instance.mover = new Flyer(Player.instance);
             Player.instance.gravityScale = 0;
             Player.instance.jumper = null;
+        }));
+
+        items.Add(7, new Bundle("piercingshot", () =>
+        {
+            BulletWeapon w = Player.instance.attack as BulletWeapon;
+            w.bulletFactory.SetSprite(Resources.Load<Sprite>("triangle"));
+            Player.instance.eventManager.SubscribeInterceptor("bulletUnitHit", new LambdaActionListner((ActionParams ap) =>
+            {
+                ap.forbid = true;
+                return false;
+            }));
         }));
     }
     class DmgAfterDash : ActionListener
