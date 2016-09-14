@@ -46,8 +46,6 @@ public class Player : Unit
         if(god)
         {
             mover = new Flyer(this);
-            gravityScale = 0;
-            rb.gravityScale = 0;
             stats.hp = 100;
             stats.damage = 10;
         }

@@ -12,7 +12,6 @@ class LevelGenerator
         CreateBoss(map);
         for (int i = 0; i < 3; i++)
             CreateRegularRandom(map);
-        int t = Random.Range(1, 4);
     }
     static void CreateShop(Map map)
     {

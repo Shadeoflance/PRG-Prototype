@@ -4,6 +4,7 @@ class ChestPlaceholder : Tile
 {
     static Prefab chest = new Prefab("Pickups/Chest");
     public float spawnChance = 0.3f;
+    public int id;
     void Start()
     {
         if(Random.Range(0f, 1f) < spawnChance)
@@ -12,6 +13,7 @@ class ChestPlaceholder : Tile
     public void SpawnChest()
     {
         GameObject c = chest.Instantiate();
+        c.GetComponent<Chest>().id = id;
         c.transform.parent = transform.parent.parent;
         c.transform.localPosition = transform.localPosition;
     }
@@ -33,6 +35,7 @@ class ChestPlaceholder : Tile
     {
         Tile t = base.Reinstantiate();
         (t as ChestPlaceholder).spawnChance = spawnChance;
+        (t as ChestPlaceholder).id = id;
         return t;
     }
 }

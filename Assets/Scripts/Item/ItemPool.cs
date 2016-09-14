@@ -18,9 +18,10 @@ public static class ItemPool
     static Dictionary<int, Bundle> items;
     static Bundle extraDmg;
 
-    public static void AssignItem(Item item)
+    public static void AssignItem(Item item, int id = 0)
     {
-        int id = GenerateId();
+        if (id == 0 || !items.ContainsKey(id))
+            id = GenerateId();
         Bundle bundle = items[id];
         item.id = id;
         item.getAction = bundle.action;
@@ -31,7 +32,7 @@ public static class ItemPool
     static int GenerateId()
     {
         if (items.Count == 0)
-            return 0;//extraDmg item id
+            return 1;//extraDmg item id
         List<int> ids = new List<int>();
         ids.AddRange(items.Keys);
         return ids[Random.Range(0, ids.Count)];
@@ -39,7 +40,7 @@ public static class ItemPool
 
     public static void Remove(int id)
     {
-        if (id == 0)
+        if (id == 1)
             return;
         items.Remove(id);
     }
@@ -53,9 +54,9 @@ public static class ItemPool
             Player.instance.attack.dmgUps++;
         }
         );
-        items.Add(0, extraDmg);
+        items.Add(1, extraDmg);
 
-        items.Add(1, new Bundle("extrajump", () =>
+        items.Add(2, new Bundle("extrajump", () =>
             {
                 if (Player.instance.jumper is DefaultJumper)
                 {
@@ -65,23 +66,30 @@ public static class ItemPool
             }
         ));
 
-        items.Add(2, new Bundle("dmgafterdash", () =>
+        items.Add(3, new Bundle("dmgafterdash", () =>
             {
                 Player.instance.eventManager.SubscribeHandler("dashFinish", new DmgAfterDash());
             }
         ));
 
-        items.Add(3, new Bundle("crit", () =>
+        items.Add(4, new Bundle("crit", () =>
             {
                 Player.instance.eventManager.SubscribeInterceptor("shoot", new Crit());
             }
         ));
 
-        items.Add(4, new Bundle("distancedmg", () =>
+        items.Add(5, new Bundle("distancedmg", () =>
             {
                 (Player.instance.attack as Weapon).factory.AddModifier(new DistanceDmg());
             }
         ));
+
+        items.Add(6, new Bundle("fly", () =>
+        {
+            Player.instance.mover = new Flyer(Player.instance);
+            Player.instance.gravityScale = 0;
+            Player.instance.jumper = null;
+        }));
     }
     class DmgAfterDash : ActionListener
     {

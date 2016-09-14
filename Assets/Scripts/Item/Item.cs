@@ -12,12 +12,12 @@ public class Item : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        ItemPool.AssignItem(this);
     }
     void Start()
     {
         StartCoroutine(Lift());
         rb.velocity = Vector2.zero;
+        ItemPool.AssignItem(this, id);
     }
 
     IEnumerator Lift()
@@ -50,8 +50,10 @@ public class Item : MonoBehaviour
 
     static Prefab prefab = new Prefab("Item");
 
-    public static Item Create()
+    public static Item Create(int id = 0)
     {
-        return prefab.Instantiate().GetComponent<Item>();
+        Item i = prefab.Instantiate().GetComponent<Item>();
+        i.id = id;
+        return i;
     }
 }

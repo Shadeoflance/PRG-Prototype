@@ -5,6 +5,8 @@ class Flyer : Mover
     public Flyer(Unit unit)
         : base(unit)
     {
+        unit.gravityScale = 0;
+        unit.rb.gravityScale = 0;
     }
 
     public override void Move(Vector2 dir)
