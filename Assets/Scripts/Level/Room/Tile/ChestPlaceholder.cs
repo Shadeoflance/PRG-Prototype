@@ -3,7 +3,7 @@
 class ChestPlaceholder : Tile
 {
     static Prefab chest = new Prefab("Pickups/Chest");
-    public float spawnChance = 0.3f;
+    public float spawnChance = 0.8f;
     public int id;
     void Start()
     {

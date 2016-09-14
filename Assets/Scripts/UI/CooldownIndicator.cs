@@ -27,7 +27,7 @@ class CooldownIndicator : MonoBehaviour
         while(curCd > 0)
         {
             curCd -= Time.deltaTime;
-            image.rectTransform.offsetMax = new Vector2(image.rectTransform.offsetMax.x, -(1 - curCd / cd) * Screen.height);
+            image.rectTransform.offsetMax = new Vector2(image.rectTransform.offsetMax.x, -Screen.height + (1 - curCd / cd) * Screen.height);
             yield return null;
         }
         image.rectTransform.offsetMax = new Vector2(image.rectTransform.offsetMax.x, -Screen.height);

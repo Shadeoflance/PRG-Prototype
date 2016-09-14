@@ -18,6 +18,14 @@ class Level : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("scene1");
+        }
+    }
+
     void Start()
     {
         map = new Map(7);

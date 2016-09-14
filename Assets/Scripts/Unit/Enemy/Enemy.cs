@@ -74,11 +74,10 @@ public class Enemy : Unit
     }
     class PickupsDrop : ActionListener
     {
-        public int amount = 2;
         public bool Handle(ActionParams ap)
         {
-            Pixel.Drop(amount, ap.unit.transform.position);
-            OrbPickup.Drop(1, ap.unit.transform.position);
+            Pixel.Drop(UnityEngine.Random.Range(0, 4), ap.unit.transform.position);
+            OrbPickup.Drop(UnityEngine.Random.Range(0, 2), ap.unit.transform.position);
             return false;
         }
     }
