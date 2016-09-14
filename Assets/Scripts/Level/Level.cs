@@ -25,7 +25,7 @@ class Level : MonoBehaviour
         map.PostInitialize();
         current = map.spawn;
         current.Enable();
-        map.Reveal();
+        //map.Reveal();
         Player.instance.transform.position = current.transform.position;
         map.UpdateUI();
         CameraScript.instance.RefreshBorders();

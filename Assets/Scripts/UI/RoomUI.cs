@@ -38,7 +38,10 @@ public class RoomUI
         }
         if (!revealed)
         {
-                if (level.current == level.map.GetRelativeTo(room, Vector2.up))
+                if (level.current == level.map.GetRelativeTo(room, Vector2.up) ||
+                level.current == level.map.GetRelativeTo(room, Vector2.down) ||
+                level.current == level.map.GetRelativeTo(room, Vector2.left) ||
+                level.current == level.map.GetRelativeTo(room, Vector2.right))
                 {
                     revealed = true;
                     SetColor(new Color(0.3f, 0.3f, 0.3f));
