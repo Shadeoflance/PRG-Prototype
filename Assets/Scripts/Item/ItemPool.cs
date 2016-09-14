@@ -136,7 +136,7 @@ public static class ItemPool
             }
             float dist = (prev.Value - bullet.transform.position.ToV2()).magnitude;
             bullet.dmgMult += dist / 7;
-            bullet.transform.localScale += new Vector3(dist / 9, dist / 9, 0);
+            bullet.transform.localScale += new Vector3(dist / 18, dist / 18, 0);
             prev = bullet.transform.position.ToV2();
         }
 
