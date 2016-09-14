@@ -18,35 +18,37 @@ class OrbBomb : MonoBehaviour
 
     void Explode()
     {
-        OrbExplosion.Create(transform.position);
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range, LayerMask.GetMask("Player", "Enemy", "Level"));
-        HashSet<Enemy> enemies = new HashSet<Enemy>();
-        bool didPlayer = false;
-        foreach(var a in hits)
+        CreateExplosion(LayerMask.GetMask("Player", "Enemy", "Level"), transform.position, effectiveDmg);
+        Destroy(gameObject);
+    }
+
+    public static void CreateExplosion(int dmgMask, Vector2 position, float dmg = 3, float range = 2)
+    {
+        OrbExplosion.Create(position);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(position, range, dmgMask);
+        HashSet<Unit> units = new HashSet<Unit>();
+        foreach (var a in hits)
         {
-            Enemy e = a.GetComponent<Enemy>();
-            if(e != null)
+            Unit u = a.GetComponent<Unit>();
+            if (u != null)
             {
-                enemies.Add(e);
-                continue;
-            }
-            if(!didPlayer && a.GetComponent<Player>() != null)
-            {
-                didPlayer = true;
-                Player.instance.health.TakeDamage(effectiveDmg, gameObject);
+                units.Add(u);
                 continue;
             }
             Tile t = a.GetComponent<Tile>();
-            if(t != null)
+            if (t != null)
             {
                 t.ExplosionHit();
             }
         }
-        foreach(var e in enemies)
+
+        GameObject source = new GameObject();
+        source.transform.position = position;
+        foreach (var u in units)
         {
-            e.health.TakeDamage(effectiveDmg, gameObject);
+            u.health.TakeDamage(dmg, source);
         }
-        Destroy(gameObject);
+        Destroy(source);
     }
 
     static Prefab prefab = new Prefab("Pickups/OrbBomb");

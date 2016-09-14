@@ -16,7 +16,6 @@ struct Bundle
 public static class ItemPool
 {
     static Dictionary<int, Bundle> items;
-    static Bundle extraDmg;
 
     public static void AssignItem(Item item, int id = 0)
     {
@@ -49,12 +48,10 @@ public static class ItemPool
     {
         items = new Dictionary<int, Bundle>();
 
-        extraDmg = new Bundle("extradmg", () =>
+        items.Add(1, new Bundle("extradmg", () =>
         {
             Player.instance.attack.dmgUps++;
-        }
-        );
-        items.Add(1, extraDmg);
+        }));
 
         items.Add(2, new Bundle("extrajump", () =>
             {
@@ -111,6 +108,15 @@ public static class ItemPool
                     Player.instance.stats.hp++;
                     HealOnKillBlood.Create(Player.instance.transform.position);
                 }
+                return false;
+            }));
+        }));
+
+        items.Add(9, new Bundle("enemyexplode", () =>
+        {
+            Player.instance.eventManager.SubscribeHandler("kill", new LambdaActionListner((ActionParams ap) =>
+            {
+                OrbBomb.CreateExplosion(LayerMask.GetMask("Enemy", "Level"), (ap["victim"] as Unit).transform.position);
                 return false;
             }));
         }));
