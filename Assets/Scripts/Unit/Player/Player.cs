@@ -9,6 +9,7 @@ public class Player : Unit
     public Dasher dasher;
     public Slamer slamer;
     public BoxCollider2D main;
+    public Transform gun;
     public int pixels = 0;
     public int orbs = 0;
     public float jumpForce, jumpHeight;
@@ -69,6 +70,28 @@ public class Player : Unit
         base.Update();
         dasher.Update();
         slamer.Update();
+
+
+        Vector2 dir, vel = controller.NeedVel();
+        if (vel.y > 0)
+        {
+            dir = Vector2.up;
+            gun.transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
+        }
+        else if (currentState == airborne && vel.y < 0)
+        {
+            dir = Vector2.down;
+            gun.transform.rotation = Quaternion.AngleAxis(270, Vector3.forward);
+        }
+        else
+        {
+            dir = new Vector2(direction, 0);
+            if(direction == -1)
+                gun.transform.rotation = Quaternion.AngleAxis(180, Vector3.forward);
+            else gun.transform.rotation = Quaternion.AngleAxis(0, Vector3.forward);
+        }
+        //gun.transform.Rotate(0, 0, Vector3.Angle(gun.transform.right, dir));
+        
     }
 
     public override void AddBuff(Buff b)

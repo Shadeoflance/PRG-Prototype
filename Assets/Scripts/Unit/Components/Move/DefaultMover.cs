@@ -11,7 +11,7 @@ class DefaultMover : Mover
     {
         unit.rb.velocity = Utils.TrimX(unit.rb.velocity);
         unit.rb.velocity += Utils.TrimY(dir) * unit.stats.speed;
-        if (dir.magnitude > 0)
+        if (dir.x != 0)
         {
             unit.direction = dir.x > 0 ? 1 : -1;
         }
