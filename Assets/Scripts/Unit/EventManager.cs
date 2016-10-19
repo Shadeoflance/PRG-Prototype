@@ -14,10 +14,13 @@ public class ActionParams
     {
         parameters = new Dictionary<string, Object>();
     }
-    public ActionParams(Unit unit)
+    public ActionParams(Unit unit) : this()
     {
         this.unit = unit;
-        parameters = new Dictionary<string, Object>();
+    }
+    public ActionParams(string key, object value) : this()
+    {
+        parameters[key] = value;
     }
 
     public object this[string index]

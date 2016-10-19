@@ -12,7 +12,7 @@ public class Room : MonoBehaviour
     [System.NonSerialized]
     public Tiles tiles;
     public Transform enemies;
-    public bool isHostile = true;
+    public bool generateEnemies = true;
     public bool FlyingPref = false;
     public RoomUI roomUI;
 
@@ -31,9 +31,8 @@ public class Room : MonoBehaviour
     {
         CreateDoors();
         CreateWalls();
-        if (isHostile)
-            InitEnemies();
-        if (isHostile && enemiesAlive.Count > 0)
+        InitEnemies();
+        if (enemiesAlive.Count > 0)
             DisableDoors();
     }
 
@@ -85,6 +84,8 @@ public class Room : MonoBehaviour
         {
             enemiesAlive.Add(a.GetComponent<Enemy>());
         }
+        if (!generateEnemies)
+            return;
         if (FlyingPref)
         {
             GenerateEnemies("FlyingEnemy", Random.Range(1, 4), false);

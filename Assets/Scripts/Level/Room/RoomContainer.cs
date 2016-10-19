@@ -42,4 +42,14 @@ class RoomContainer
     {
         return Object.Instantiate(bosses[Random.Range(0, bosses.Count)]).GetComponent<Room>();
     }
+
+    public static List<Room> GetTutorial()
+    {
+        List<Room> rooms = new List<Room>();
+        foreach(var a in Resources.LoadAll<GameObject>("Level/Rooms/Tutorial"))
+        {
+            rooms.Add(Object.Instantiate(a).GetComponent<Room>());
+        }
+        return rooms;
+    }
 }

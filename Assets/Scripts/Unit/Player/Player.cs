@@ -26,9 +26,9 @@ public class Player : Unit
     }
     protected override void Start()
     {
-        stats.hp = 20;
-        stats.speed = 8;
-        stats.damage = 2;
+        stats.hp = hp;
+        stats.speed = speed;
+        stats.damage = damage;
 		controller = new PlayerController(this);
         jumper = new DefaultJumper(this, 1);
         mover = new DefaultMover(this);
@@ -68,8 +68,10 @@ public class Player : Unit
     protected override void Update()
     {
         base.Update();
-        dasher.Update();
-        slamer.Update();
+        if(dasher != null)
+            dasher.Update();
+        if(slamer != null)
+            slamer.Update();
 
 
         Vector2 dir, vel = controller.NeedVel();

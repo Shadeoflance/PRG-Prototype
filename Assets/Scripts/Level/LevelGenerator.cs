@@ -3,8 +3,13 @@ using System.Collections.Generic;
 
 class LevelGenerator
 {
-    public static void Generate(Map map)
+    public static void Generate(Map map, bool tutorial = false)
     {
+        if(tutorial)
+        {
+            GenerateTutorial(map);
+            return;
+        }
         map[map.size / 2, map.size / 2] = RoomContainer.GetSpawnInstance();
         CreateRegularFar(map);
         CreateRegularFar(map);
@@ -13,6 +18,7 @@ class LevelGenerator
         for (int i = 0; i < 3; i++)
             CreateRegularRandom(map);
     }
+
     static void CreateShop(Map map)
     {
         Vector2 v = RandOnCircle(Utils.CoinInt(), map);
@@ -133,5 +139,18 @@ class LevelGenerator
     static Vector2 RandDir()
     {
         return Map.dirs[Random.Range(0, 4)];
+    }
+
+    static void GenerateTutorial(Map map)
+    {
+        List<Room> rooms = RoomContainer.GetTutorial();
+        int x = 0, y = map.size / 2;
+        map[x, y] = rooms[0];
+        map[++x, y] = rooms[1];
+        map[x, ++y] = rooms[2];
+        map[++x, y] = rooms[3];
+        map[++x, y] = rooms[4];
+        map[x, --y] = rooms[5];
+        map[++x, y] = rooms[6];
     }
 }

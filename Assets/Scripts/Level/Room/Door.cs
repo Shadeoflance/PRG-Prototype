@@ -57,6 +57,9 @@ public class Door : MonoBehaviour
         if (disabled)
             return;
         if (open && collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            Close();
             room.DoorTouch(this);
+        }
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Enemy : Unit
 {
+    public bool stationary = false;
     protected override void Awake()
     {
         base.Awake();
@@ -14,7 +15,9 @@ public class Enemy : Unit
         eventManager.SubscribeHandler("takeDmg", new DmgPaint());
         eventManager.SubscribeHandler("die", new RoomDieInfo());
         eventManager.SubscribeHandler("die", new PickupsDrop());
-        SetModifier();
+        if (stationary)
+            mover = null;
+        else SetModifier();
         base.Start();
     }
 

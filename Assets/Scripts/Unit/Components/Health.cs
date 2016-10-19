@@ -44,9 +44,8 @@ public class Health
         unit.eventManager.InvokeInterceptors("die", ap);
         if (ap.forbid)
             return;
-        unit.eventManager.InvokeHandlers("die", null);
-        //GameObject.Destroy(unit.gameObject);
         unit.gameObject.SetActive(false);
+        unit.eventManager.InvokeHandlers("die", null);
     }
 }
 

@@ -11,7 +11,7 @@ class Spawn : Room
     }
     protected override void Start()
     {
-        isHostile = false;
+        generateEnemies = false;
         base.Start();
     }
 }

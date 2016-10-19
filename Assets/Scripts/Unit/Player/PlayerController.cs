@@ -38,6 +38,9 @@ public class PlayerController : IController
         if (Input.GetButtonDown("Dash"))
             player.eventManager.InvokeHandlers("dashButtonDown", null);
         if (Input.GetButtonDown("Bomb"))
+        {
+            player.eventManager.InvokeInterceptors("bombButtonDown", null);
             player.eventManager.InvokeHandlers("bombButtonDown", null);
+        }
 	}
 }
